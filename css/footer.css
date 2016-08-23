@@ -1,0 +1,23 @@
+.content-footer{
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    margin: 0;
+    height: 52px;
+    background-color: #fff;
+    font-family: 微软雅黑;
+    border-top: 1px solid #e42121;
+}
+/*.content-footer div{*/
+    /*padding:5px 0*/
+/*}*/
+.content-footer img{
+    width: 34px;
+}
+.content-footer p{
+    margin: -2px 0 0;
+    color: #6e6d6d;
+}
+.content-footer .iconfont{
+    font-size: 24px;
+}

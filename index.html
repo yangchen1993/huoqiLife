@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>火气生活</title>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <style>
+        @font-face {
+            font-family: 'iconfont';
+            src: url('//at.alicdn.com/t/font_1471939903_2144563.eot'); /* IE9*/
+            src: url('//at.alicdn.com/t/font_1471939903_2144563.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('//at.alicdn.com/t/font_1471939903_2144563.woff') format('woff'), /* chrome、firefox */ url('//at.alicdn.com/t/font_1471939903_2144563.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/ url('//at.alicdn.com/t/font_1471939903_2144563.svg#iconfont') format('svg'); /* iOS 4.1- */
+        }
+
+        .iconfont {
+            font-family: "iconfont";
+            font-size: 16px;
+            font-style: normal;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .router {
+            max-width: 640px;
+            min-width: 320px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+
+<div ui-view="" class="router"></div>
+
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="bower_components/angular/angular.min.js"></script>
+<script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
+<script src="bower_components/crypto-js/crypto-js.js"></script>
+<script src="bower_components/underscore/underscore-min.js"></script>
+<script src="js/router.js"></script>
+<script src="js/myController.js"></script>
+</body>
+</html>

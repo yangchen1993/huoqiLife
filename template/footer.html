@@ -1,0 +1,26 @@
+<link rel="stylesheet" href="./css/footer.css">
+<div class="content-footer row">
+    <div class="col-xs-3 text-center">
+        <i class="iconfont" style="color: #e42121">&#xe600;</i>
+        <p style="color: #e42121">首页</p>
+    </div>
+    <div class="col-xs-3 text-center">
+        <i class="iconfont">&#xe606;</i>
+        <p>分类</p>
+    </div>
+    <div class="col-xs-3 text-center">
+        <i class="iconfont">&#xe602;</i>
+        <p>小店</p>
+    </div>
+    <div class="col-xs-3 text-center">
+        <i class="iconfont">&#xe607;</i>
+        <p>我的</p>
+    </div>
+</div>
+<script>
+    $('.content-footer>div').click(function(){
+        $(this).siblings().children().css('color','#6e6d6d');
+        $(this).find('p').css('color','#e42121');
+        $(this).find('i').css('color','#e42121')
+    })
+</script>

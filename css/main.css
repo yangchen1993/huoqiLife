@@ -1,0 +1,67 @@
+.content {
+    font-family: 微软雅黑;
+}
+
+.banner {
+    margin: 15px 0 0;
+
+}
+.banner .iconfont{
+    font-size: 46px;
+}
+.banner p {
+    margin: 15px 0;
+    font-size: 16px;
+}
+
+.lines {
+    height: 8px;
+    background-color: #e4e1e2;
+}
+
+.content1{
+    margin-bottom: 52px;
+}
+
+.content1 > p {
+    margin: 10px 15px;
+}
+
+.content1 img {
+    width: 100%;
+}
+
+.content1_panel {
+    position: relative;
+    margin-top: 6px;
+}
+
+.words_panel {
+    width: 300px;
+    position: absolute;
+    top: 50%;
+    margin-top: -74px;
+    left:50%;
+    margin-left: -150px;
+}
+
+.words_panel > img {
+
+}
+
+.tag_info{
+    position: absolute;
+    top: 50%;
+    margin-top: -35px;
+    left:50%;
+    margin-left: -72px;
+    color: #fff;
+}
+
+.tag_info p{
+    margin-bottom: 5px;
+}
+.carousel-indicators li{
+    width: 8px !important;
+    height: 8px !important;
+}
