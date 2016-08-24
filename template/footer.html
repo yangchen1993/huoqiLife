@@ -18,9 +18,12 @@
     </div>
 </div>
 <script>
-    $('.content-footer>div').click(function(){
-        $(this).siblings().children().css('color','#6e6d6d');
-        $(this).find('p').css('color','#e42121');
-        $(this).find('i').css('color','#e42121')
-    })
+    $(document).ready(function(){
+        $('.content-footer>div').click(function(){
+            $(this).siblings().children().css('color','#6e6d6d');
+            $(this).find('p').css('color','#e42121');
+            $(this).find('i').css('color','#e42121')
+        })
+    });
+
 </script>
