@@ -1,29 +1,42 @@
 <link rel="stylesheet" href="./css/footer.css">
 <div class="content-footer row">
-    <div class="col-xs-3 text-center">
-        <i class="iconfont" style="color: #e42121">&#xe600;</i>
-        <p style="color: #e42121">首页</p>
+    <div class="col-xs-3 text-center" ui-sref="main">
+        <i class="iconfont">&#xe600;</i>
+        <p>首页</p>
     </div>
-    <div class="col-xs-3 text-center">
+    <div class="col-xs-3 text-center" ui-sref="category">
         <i class="iconfont">&#xe606;</i>
         <p>分类</p>
     </div>
-    <div class="col-xs-3 text-center">
-        <i class="iconfont">&#xe602;</i>
+    <div class="col-xs-3 text-center" ui-sref="shop">
+        <i class="iconfont">&#xe611;</i>
         <p>小店</p>
     </div>
-    <div class="col-xs-3 text-center">
+    <div class="col-xs-3 text-center" ui-sref="personal">
         <i class="iconfont">&#xe607;</i>
         <p>我的</p>
     </div>
 </div>
 <script>
     $(document).ready(function(){
+        var index = _.indexOf(location.href,'#');
+        var tag = location.href.substring(index+2)
+        console.log(tag);
+        if(!tag.indexOf('main')){
+            $('.content-footer>div:nth-child(1)').children().css('color','#e42121');
+        }
+        else if(!tag.indexOf('category')){
+            $('.content-footer>div:nth-child(2)').children().css('color','#e42121');
+        }
+        else if(!tag.indexOf('shop')){
+            $('.content-footer>div:nth-child(3)').children(3).css('color','#e42121');
+        }
+        else if(!tag.indexOf('personal')){
+            $('.content-footer>div:nth-child(4)').children().css('color','#e42121');
+        }
         $('.content-footer>div').click(function(){
             $(this).siblings().children().css('color','#6e6d6d');
-            $(this).find('p').css('color','#e42121');
-            $(this).find('i').css('color','#e42121')
+            $(this).children().css('color','#e42121');
         })
     });
-
 </script>

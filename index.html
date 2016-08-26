@@ -8,9 +8,13 @@
     <style>
         @font-face {
             font-family: 'iconfont';
-            src: url('//at.alicdn.com/t/font_1472003223_8512678.eot'); /* IE9*/
-            src: url('//at.alicdn.com/t/font_1472003223_8512678.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('//at.alicdn.com/t/font_1472003223_8512678.woff') format('woff'), /* chrome、firefox */ url('//at.alicdn.com/t/font_1472003223_8512678.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/ url('//at.alicdn.com/t/font_1472003223_8512678.svg#iconfont') format('svg'); /* iOS 4.1- */
+            src: url('//at.alicdn.com/t/font_1472088953_1059222.eot'); /* IE9*/
+            src: url('//at.alicdn.com/t/font_1472088953_1059222.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+            url('//at.alicdn.com/t/font_1472088953_1059222.woff') format('woff'), /* chrome、firefox */
+            url('//at.alicdn.com/t/font_1472088953_1059222.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+            url('//at.alicdn.com/t/font_1472088953_1059222.svg#iconfont') format('svg'); /* iOS 4.1- */
         }
+
 
         .iconfont {
             font-family: "iconfont";
@@ -33,6 +37,8 @@
 <body>
 
 <div ui-view="" class="router"></div>
+
+<div ng-include="'template/footer.html'"></div>
 
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
