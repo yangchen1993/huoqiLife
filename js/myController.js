@@ -18,44 +18,43 @@ myController.controller('mainController',['$scope',function($scope){
     });
 }]);
 
-myController.controller('categoryController',['$scope',function($scope){
-    $scope.top1 = "./img/category/top1.png";
-    $scope.top2 = "./img/category/top2_c.png";
-    $scope.top3 = "./img/category/top3_c.png";
-    $scope.top4 = "./img/category/top4_c.png";
-    
+myController.controller('shopController',['$scope',function($scope){
     $('.top_nav div').click(function(){
         $(this).css({'color': '#e42121'}).siblings().css({'color': '#fff'})
     });
 
     $scope.nav_self = function(index){
         if(index == 1){
-            $scope.top1 = "./img/category/top1.png";
-            $scope.top2 = "./img/category/top2_c.png";
-            $scope.top3 = "./img/category/top3_c.png";
-            $scope.top4 = "./img/category/top4_c.png";
             $('.hk_div').animate({'margin-left':'0'})
         }
         else if(index == 2){
-            $scope.top2 = "./img/category/top2.png";
-            $scope.top1 = "./img/category/top1_c.png";
-            $scope.top3 = "./img/category/top3_c.png";
-            $scope.top4 = "./img/category/top4_c.png";
-            $('.hk_div').animate({'margin-left':'25%'})
+            $('.hk_div').animate({'margin-left':'33.33%'})
         }
         else if(index == 3){
-            $scope.top3 = "./img/category/top3.png";
-            $scope.top2 = "./img/category/top2_c.png";
-            $scope.top1 = "./img/category/top1_c.png";
-            $scope.top4 = "./img/category/top4_c.png";
-            $('.hk_div').animate({'margin-left':'50%'})
+            $('.hk_div').animate({'margin-left':'66.66%'})
         }
-        else if(index == 4){
-            $scope.top4 = "./img/category/top4.png";
-            $scope.top2 = "./img/category/top2_c.png";
-            $scope.top3 = "./img/category/top3_c.png";
-            $scope.top1 = "./img/category/top1_c.png";
-            $('.hk_div').animate({'margin-left':'75%'})
+    }
+}]);
+
+myController.controller('orderController',['$scope',function($scope){
+    $('.nav_self div').click(function(){
+        $(this).css({'color': '#e42121'}).siblings().css({'color': '#222'})
+    })
+    $scope.move_hk = function(i){
+        if(i == 1){
+            $('.div_hk').animate({'margin-left':'2%'})
+        }
+        if(i == 2){
+            $('.div_hk').animate({'margin-left':'22%'})
+        }
+        if(i == 3){
+            $('.div_hk').animate({'margin-left':'42%'})
+        }
+        if(i == 4){
+            $('.div_hk').animate({'margin-left':'62%'})
+        }
+        if(i == 5){
+            $('.div_hk').animate({'margin-left':'82%'})
         }
     }
 }]);
@@ -64,6 +63,3 @@ myController.controller('personalController',['$scope',function($scope){
 
 }]);
 
-myController.controller('shopController',['$scope',function($scope){
-
-}]);

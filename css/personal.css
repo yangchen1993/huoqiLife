@@ -30,9 +30,11 @@ html{
     left: 50%;
     margin-left: -50px;
 }
+
+
 .content1{
-    background-color: #e5e4e4;
-    padding-top: 6px;
+    /*background-color: #e5e4e4;*/
+    /*padding-top: 6px;*/
 }
 .content1_tel{
     background-color: #fff;
@@ -61,4 +63,40 @@ html{
 .content1_operation p{
     margin: 10px 0 0;
     color: #5b5b5b;
+}
+
+
+.content1_op{
+    position: relative;
+    height: 50px;
+    /*line-height: 50px;*/
+    padding:0 20px;
+    background-color: #fff;
+    border-bottom: 1px solid #e4e1e1;
+}
+.content1_op i:nth-child(1){
+    font-size: 26px;
+    position: absolute;
+    top:50%;
+    margin-top: -13px;
+    line-height: 1;
+}
+.content1_op i:nth-child(3){
+    font-size: 20px;
+    line-height: 1;
+    color: #c2c2c2;
+    margin-top: 14px;
+}
+.content1_op span{
+    position: absolute;
+    top: 50%;
+    left: 55px;
+    line-height: 1;
+    margin-top: -8px;
+    font-size: 16px;
+    color: #222;
+}
+.cut_line{
+    height: 10px;
+    background-color: #e4e1e1;
 }
