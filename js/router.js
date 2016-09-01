@@ -33,4 +33,16 @@ myApp.config(function ($stateProvider,$urlRouterProvider) {
             templateUrl:'template/personal.html',
             controller:'personalController'
         })
+
+        .state('join',{
+            url:'/join',
+            templateUrl:'template/business/join.html',
+            controller:'joinController'
+        })
+        .state('business_info',{
+            url:'/business_info',
+            templateUrl:'template/business/business_info.html',
+            controller:'business_infoController'
+        })
+
 });
