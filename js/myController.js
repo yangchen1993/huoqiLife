@@ -60,47 +60,7 @@ myController.controller('orderController',['$scope',function($scope){
 }]);
 
 myController.controller('personalController',['$scope',function($scope){
-    var map = new AMap.Map('container',{
-        resizeEnable:true
-    });
-    $scope.location_shop = function () {
-        geocoder($scope.myShop);
-    };
-    function geocoder(myShop) {
-        var geocoder = new AMap.Geocoder({
-            // city: "028", //城市，默认：“全国”
-            radius: 3000 //范围，默认：500
-        });
-        //地理编码,返回地理编码结果
-        geocoder.getLocation(myShop, function(status, result) {
-            if (status === 'complete' && result.info === 'OK') {
-                geocoder_CallBack(result);
-            }
-        });
-    }
-    //地理编码返回结果展示
-    function geocoder_CallBack(data) {
-        var geocode = data.geocodes;
-            addMarker(geocode[0]);
-        map.setFitView();
-    }
-    function addMarker(d) {
-        console.log(d.location.getLng()+"-"+d.location.getLat())
-        map.clearMap();
-        var marker = new AMap.Marker({
-            map: map,
-            position: [ d.location.getLng(),  d.location.getLat()]
-        });
 
-        var infoWindow = new AMap.InfoWindow({
-            content: d.formattedAddress,
-            offset: {x: 0, y: -30}
-        });
-        // console.log(infoWindow)
-        // marker.on("mouseover", function(e) {
-            infoWindow.open(map, marker.getPosition());
-        // });
-    }
 }]);
 
 

@@ -44,5 +44,10 @@ myApp.config(function ($stateProvider,$urlRouterProvider) {
             templateUrl:'template/business/business_info.html',
             controller:'business_infoController'
         })
+        .state('business_user',{
+            url:'/business_user',
+            templateUrl:'template/business/business_user.html',
+            controller:'business_userController'
+        })
 
 });
