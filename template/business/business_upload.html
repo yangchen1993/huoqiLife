@@ -1,0 +1,108 @@
+<link rel="stylesheet" href="./css/business/upload.css">
+<div class="content">
+    <div class="info_panel">
+        <div class="info_panel1">
+            <span>商品名称</span>
+            <input type="text" ng-model="goods.name">
+        </div>
+        <div class="info_panel1">
+            <span>商品分类</span>
+            <span style="margin-left: 15px">{{goods.type}}</span>
+            <!--<input type="text" ng-model="">-->
+            <div class="pull-right dropdown">
+                <i class="iconfont arrow_down dropdown-toggle" id="goods_type" data-toggle="dropdown">&#xe621;</i>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="goods_type">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="goods_type_choice('液化气','kg')">液化气</a>
+                    </li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1"
+                                               ng-click="goods_type_choice('桶装水','L')">桶装水</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1"
+                                               ng-click="goods_type_choice('灶具','套')">灶具</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="goods_type_choice('其他')">其他</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="info_panel1" ng-show="spec_self == 1">
+            <span>商品规格</span>
+            <input type="text" ng-model="goods.specNum">
+            <div class="pull-right dropdown">
+                <span>{{goods.spec}}</span>
+                <i class="iconfont arrow_down dropdown-toggle" id="goods_spec" data-toggle="dropdown"
+                   ng-show="spec_show">&#xe621;</i>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="goods_spec">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="goods.spec = '套'">套</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="goods.spec = '件'">件</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="info_panel1" ng-show="spec_self == 2">
+            <span>请输入商品规格单位</span>
+            <input type="text" style="width: 100px" ng-model="goods.spec">
+        </div>
+        <div class="info_panel1">
+            <span>商品现价</span>
+            <input type="text" ng-model="goods.price">
+        </div>
+        <!--<div class="cut_line"></div>-->
+        <!--<div class="info_panel1 pay_way" style="border: 0">-->
+            <!--<p>请选择支付方式</p>-->
+            <!--<div>-->
+                <!--<i class="iconfont" style="color: #e42121">&#xe615;</i>微信支付-->
+            <!--</div>-->
+            <!--<div>-->
+                <!--<i class="iconfont">&#xe615;</i>货到付款-->
+            <!--</div>-->
+            <!--<div>-->
+                <!--<i class="iconfont">&#xe615;</i>支付定金20%，尾款到付-->
+            <!--</div>-->
+        <!--</div>-->
+        <div class="cut_line"></div>
+        <div class="info_panel1 img_panel" style="border: 0">
+            <p>上传商品展示图片</p>
+            <div class="row" id="aaa">
+                <div class="col-xs-4">
+                    <img src="./img/business/goods_default_img.png" id="preview0" class="previews"
+                         onclick="start_upload(0)">
+                </div>
+                <div class="col-xs-4" style="display: none">
+                    <img src="./img/business/goods_default_img.png" id="preview1" class="previews"
+                         onclick="start_upload(1)">
+                </div>
+                <div class="col-xs-4" style="display: none">
+                    <img src="./img/business/goods_default_img.png" id="preview2" class="previews"
+                         onclick="start_upload(2)">
+                </div>
+            </div>
+        </div>
+        <div class="cut_line"></div>
+    </div>
+    <div class="info_panel1" style="border: 0">
+        <span>商品描述</span>
+        </br>
+        <textarea class="desc_goods" ng-model="goods.desc">
+        </textarea>
+    </div>
+
+    <div class="submit_btn">
+        <button class="btn btn-danger btn-block" ng-click="submit(goods)">确认上传</button>
+    </div>
+</div>
+
+<input type="file" id="files0" style="display: none">
+<input type="file" id="files1" style="display: none">
+<input type="file" id="files2" style="display: none">
+
+<script>
+    function start_upload(n) {
+        $('#files' + n).click();
+        $('#files' + n).change(function () {
+            var file = $(this)[0].files[0];
+            var URL = window.URL || window.webkitURL;
+            var imgURL = URL.createObjectURL(file);
+            console.log(imgURL);
+            $('#preview' + n).attr('src', imgURL);
+            $('#preview' + (n+1)).parent().css('display','block');
+        })
+    }
+</script>

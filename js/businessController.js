@@ -1,25 +1,38 @@
 /**
  * Created by YCC on 2016/9/1.
  */
-myController.controller('joinController',['$scope','$http',function($scope,$http){
+myController.controller('business_joinController',['$scope','$http','$interval',function($scope,$http,$interval){
+    // $http.get("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc27342194c0b6057&redirect_uri=http://hq.nongjiaotx.cn/wx/user&response_type=code&scope=snsapi_userinfo&state=111#wechat_redirect").success(function(data){
+    //     alert(data+"success");
+    // })
+    //     .error(function(data){
+    //         alert(data+"failed");
+    //     });
+    // location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc27342194c0b6057&redirect_uri=http://hq.nongjiaotx.cn/wx/user&response_type=code&scope=snsapi_userinfo&state=111#wechat_redirect";
+    // window.history.back();
 
-    // location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc27342194c0b6057&redirect_uri=http://hq.nongjiatx.cn/wx/userDetail&response_type=code&scope=snsapi_userinfo&state=111#wechat_redirect";
-
-    // location.href = "http://www.baidu.com";
-
-    $http.get(window.API.BUSINESS.RUN_OPENID).success(function(){
-
-
-    });
-
-    // $http.get("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc27342194c0b6057&redirect_uri=139.196.238.215:8081/wx/userDetail&response_type=code&scope=snsapi_userinfo&state=111#wechat_redirect").success(function(data){
-    //     console.log(data);
-    // });
-
+    $scope.Vcode = "获取验证码";
     $scope.get_sms = function(){
+        if(!$scope.tel){
+            alert("请输入手机号")
+        }
         console.log({'cellPhone':$scope.tel});
         $http.post(window.API.BUSINESS.GET_SMS,{'cellPhone':$scope.tel}).success(function(data){
             console.log(data);
+            if(data.status == 200){
+                var s = 60;
+                var timer = $interval(function(){
+                    $scope.Vcode_disabled = true;
+                    $scope.Vcode = s+"s后可重发";
+                    console.log(s);
+                    if(s == 0){
+                        $interval.cancel(timer);
+                        $scope.Vcode_disabled = false;
+                        $scope.Vcode = "获取验证码";
+                    }
+                    s--;
+                },1000);
+            }
         })
     };
     $scope.submit = function(){
@@ -30,8 +43,7 @@ myController.controller('joinController',['$scope','$http',function($scope,$http
         $http.post(window.API.BUSINESS.JOIN,data_).success(function(data){
             console.log(data);
             if(data.status == 200){
-                alert("验证成功");
-                location.href = "#/business_info"
+                location.href = "#/business_info?tel="+$scope.tel;
             }
         })
             .error(function(data){
@@ -41,6 +53,14 @@ myController.controller('joinController',['$scope','$http',function($scope,$http
 }]);
 
 myController.controller('business_infoController',['$scope','$http',function($scope,$http){
+    var tel = location.href.indexOf("?tel");
+    if(tel != -1){
+        var tel_num = location.href.substring(tel+5);
+        $scope.shop = {
+            "phone":tel_num
+        };
+    }
+
     $('.license_panel div i').click(function(){
         if($(this).css('color') == "rgb(204, 203, 203)"){
             $(this).css('color','#e42121')
@@ -48,13 +68,22 @@ myController.controller('business_infoController',['$scope','$http',function($sc
         else{
             $(this).css('color','#cccbcb')
         }
+
+        if($('#gas').css('color') == 'rgb(228, 33, 33)'){
+            $('#license_img').css('display','block');
+        }
+        else{
+            $('#license_img').css('display','none');
+        }
     });
     $('.protocol i').click(function(){
         if($(this).css('color') == "rgb(228, 33, 33)"){
-            $(this).css('color','#cccbcb')
+            $(this).css('color','#cccbcb');
+            $('#a').attr("disabled",true);
         }
         else{
-            $(this).css('color','#e42121')
+            $(this).css('color','#e42121');
+            $('#a').attr("disabled",false);
         }
     });
 
@@ -84,7 +113,7 @@ myController.controller('business_infoController',['$scope','$http',function($sc
         map.setFitView();
     }
     function addMarker(d) {
-        console.log(d.location.getLng()+"-"+d.location.getLat())
+        console.log(d.location.getLng()+"-"+d.location.getLat());
         map.clearMap();
         var marker = new AMap.Marker({
             map: map,
@@ -99,38 +128,115 @@ myController.controller('business_infoController',['$scope','$http',function($sc
         infoWindow.open(map, marker.getPosition());
     }
 
+    $('#license_file').change(function(){
+        $('.upload_zhizhao').css('text-align','right');
+        var files = $(this)[0].files[0];
+        var URL = window.URL || window.webkitURL;
+        var imgURL = URL.createObjectURL(files);
+        console.log(imgURL);
+        $('.upload_zhizhao').find('span').remove();
+        $('.upload_zhizhao').css('background-color','#fff');
+        $('#preview').attr('src',imgURL);
+        $('#preview').css('display','inline');
+
+    });
+
+
     $scope.submit = function(shop){
-        var files = $('#license_file')[0].files[0];
-        var checkBoxs = angular.element('.license_panel i');
-        var list = [];
-        var latLng = [lat,lng];
-        console.log(latLng);
-        angular.forEach(checkBoxs,function(v,k){
-            console.log($(v).css('color'));
-            if($(v).css('color') == 'rgb(228, 33, 33)'){
-                console.log($(v).attr('name'));
-                list.push($(v).attr('name'))
-            }
-        });
-        console.log(list);
+        if(shop.name && $scope.myShop){
+            var files = $('#license_file')[0].files[0];
+            console.log(files)
+            var checkBoxs = angular.element('.license_panel i');
+            var list = [];
+            var latLng = [lat,lng];
+            console.log(latLng);
+            angular.forEach(checkBoxs,function(v,k){
+                console.log($(v).css('color'));
+                if($(v).css('color') == 'rgb(228, 33, 33)'){
+                    console.log($(v).attr('name'));
+                    list.push($(v).attr('name'))
+                }
+            });
+            console.log(list);
+
+            var data_ = new FormData();
+            data_.append('name',shop.name);
+            data_.append('phone',shop.phone);
+            data_.append('tel',shop.tel);
+            data_.append('type',list);
+            data_.append('picture',files);
+            data_.append('longitude',lat);
+            data_.append('latitude',lng);
+            console.log(data_);
+            $http.post(window.API.BUSINESS.INFO,data_,{"headers": {"Content-Type": undefined}}).success(function(data){
+                console.log(data);
+                if(data.status == 200){
+                    alert("入驻成功");
+                }
+            })
+        }
+        else{
+            alert("请完善必填信息")
+        }
+
+    };
+}]);
+
+myController.controller('business_uploadController',['$scope','$http',function($scope,$http){
+    $scope.goods = {
+        type:"液化气",
+        spec:"kg"
+    };
+    $scope.spec_self = 1;
+    $scope.goods_type_choice = function(type,spec){
+        if(type == "其他"){
+            $scope.spec_self = 2;
+        }
+        else{
+            $scope.spec_self = 1;
+        }
+
+        $scope.goods = {
+            type:type,
+            spec:spec
+        };
+        if(type == "灶具"){
+            $scope.spec_show = true
+        }
+        else{
+            $scope.spec_show = false
+        }
+    };
+
+    $('.pay_way div i').click(function() {
+        $(this).css('color','#e42121').parent().siblings().find('i').css('color','#cccbcb')
+    });
+
+    $scope.submit = function(goods){
+        console.log(goods);
+
+        var file0 = $('#files0')[0].files[0];
+        var file1 = $('#files1')[0].files[0];
+        var file2 = $('#files2')[0].files[0];
+        // var imgs = [file0,file1,file2];
 
         var data_ = new FormData();
-        data_.append('name',shop.name);
-        data_.append('phone',shop.phone);
-        data_.append('tel',shop.tel);
-        data_.append('type',list);
-        data_.append('picture',files);
-        data_.append('longitude',lat);
-        data_.append('latitude',lng);
-        console.log(data_);
-        $http.post(window.API.BUSINESS.INFO,data_,{"headers": {"Content-Type": undefined}}).success(function(data){
+        data_.append('name',goods.name);
+        data_.append('category',goods.type);
+        data_.append('weight',goods.specNum);
+        data_.append('weightUnit',goods.spec);
+        data_.append('price',goods.price);
+        data_.append('describe',goods.desc);
+        data_.append('imgs',file0);
+        data_.append('imgs',file1);
+        data_.append('imgs',file2);
+        $http.post(window.API.BUSINESS.UPLOAD,data_,{"headers": {"Content-Type": undefined}}).success(function(data){
             console.log(data);
-            if(data.status == 200){
-                alert("创建成功");
-
-            }
         })
-    };
+            .error(function(data){
+                console.log(data);
+            })
+    }
 }]);
 
 myController.controller('business_userController',['$scope','$http',function($scope,$http){

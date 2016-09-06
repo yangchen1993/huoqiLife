@@ -2,7 +2,7 @@
 <div class="content">
     <div class="business_info">
         <div class="row" style="padding: 15px 10px">
-            <span class="col-xs-3">店铺名称</span>
+            <span class="col-xs-3">店铺名称<span style="color:#e42121">*</span></span>
             <div class="col-xs-7">
                 <input type="text" ng-model="shop.name">
             </div>
@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="row" style="padding: 15px 10px">
-            <span class="col-xs-3">固定电话</span>
+            <span class="col-xs-3">座机号码</span>
             <div class="col-xs-7">
             <input type="text" ng-model="shop.tel">
                 </div>
@@ -23,7 +23,7 @@
             <span class="col-xs-3 license_words">营业范围</span>
             <div class="col-md-9 col-sm-7 license_panel">
                 <div>
-                    <i class="iconfont" name="液化气">&#xe615;</i>
+                    <i class="iconfont" name="液化气" id="gas">&#xe615;</i>
                     <span>液化气</span>
                 </div>
 
@@ -43,15 +43,15 @@
 
             </div>
         </div>
-        <div class="row">
+        <div class="row" id="license_img" style="display: none">
             <span class="col-xs-3" style="margin-top: 10px">营业执照</span>
             <div class="upload_zhizhao pull-right" onclick="javascript:$('#license_file').click()">
-                <!--<img src="./img/12.jpg" height="100%">-->
+                <img src="" height="100%" id="preview" style="display: none">
                 <span>上传文件</span>
             </div>
         </div>
         <div class="row" style="border: 0">
-            <span class="col-xs-3" style="margin-top: 7px">店铺地址</span>
+            <span class="col-xs-3" style="margin-top: 7px">店铺地址<span style="color:#e42121">*</span></span>
             <input type="text" style="margin-top: 7px" ng-model="myShop">
             <div class="location pull-right" ng-click="location_shop()"><i class="iconfont" style="color: #fff">&#xe601;</i>定位</div>
         </div>
@@ -61,7 +61,7 @@
     <p class="map_desc">*请务必精准定位，方便买家查找</p>
 
     <div class="protocol">
-        <i class="iconfont">&#xe615;</i>入驻同意用户《免责协议》
+        <i class="iconfont" ng-click="isDisable()">&#xe615;</i>入驻同意用户《免责协议》
     </div>
     <div class="submit_btn">
         <button class="btn btn-danger btn-block" ng-click="submit(shop)">确认</button>

@@ -1,0 +1,60 @@
+.content-footer{
+    display: none;
+}
+.content{
+    font-family: 微软雅黑;
+}
+.info_panel1{
+    padding:15px;
+    border-bottom: 1px solid #e4e1e1;
+}
+.info_panel input{
+    width:200px;
+    margin-left: 15px;
+    border: 0;
+}
+.pay_way div{
+    display: inline-block;
+    margin-left: 38px;
+}
+.info_panel1 i{
+    color:#cccbcb;
+    font-size: 24px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+.cut_line{
+    height: 10px;
+    background-color: #e4e1e1;
+}
+
+.arrow_down{
+    font-size: 18px !important;
+    margin-right: 0 !important;
+}
+.previews{
+    max-width: 100%;
+    height: 100%
+}
+.img_panel div{
+    padding: 0 5px;
+    height: 80px;
+    text-align: center;
+}
+.desc_goods{
+    margin-top: 15px;
+    width: 100%;
+    height: 120px;
+    resize: none;
+}
+.submit_btn{
+    margin-top: 40px;
+    padding:15px;
+    border-top:1px solid #e4e1e1;
+}
+.submit_btn button{
+    font-size: 16px;
+    border-color: #e42121;
+    background-color: #e42121;
+
+}

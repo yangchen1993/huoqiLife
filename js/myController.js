@@ -18,7 +18,25 @@ myController.controller('mainController',['$scope',function($scope){
     });
 }]);
 
-myController.controller('shopController',['$scope',function($scope){
+// myController.controller('shopController',['$scope',function($scope){
+//     $('.top_nav div').click(function(){
+//         $(this).css({'color': '#e42121'}).siblings().css({'color': '#fff'})
+//     });
+//
+//     $scope.nav_self = function(index){
+//         if(index == 1){
+//             $('.hk_div').animate({'margin-left':'0'})
+//         }
+//         else if(index == 2){
+//             $('.hk_div').animate({'margin-left':'33.33%'})
+//         }
+//         else if(index == 3){
+//             $('.hk_div').animate({'margin-left':'66.66%'})
+//         }
+//     }
+// }]);
+
+myController.controller('riderController',['$scope',function($scope){
     $('.top_nav div').click(function(){
         $(this).css({'color': '#e42121'}).siblings().css({'color': '#fff'})
     });
