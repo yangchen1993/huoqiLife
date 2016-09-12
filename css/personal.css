@@ -1,7 +1,7 @@
-html{
-    height: 100%;
-    background-color: #e5e4e4;
-}
+/*html{*/
+    /*height: 100%;*/
+    /*background-color: #e5e4e4;*/
+/*}*/
 /*body{
      margin-bottom: 200px;
  }*/
@@ -9,13 +9,13 @@ html{
     font-family: 微软雅黑;
 }
 .personal_info{
-    height: 200px;
-    background: url('../img/test3.png') no-repeat;
+    height: 180px;
+    background: url('../img/personal/user_backImg.png') no-repeat;
     position: relative;
 }
 .personal_info img{
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
     border-radius: 50%;
 }
 .personal_info p{
@@ -26,9 +26,9 @@ html{
 .personal_info1{
     position: absolute;
     top:50%;
-    margin-top: -66px;
+    margin-top: -63px;
     left: 50%;
-    margin-left: -50px;
+    margin-left: -47px;
 }
 .personal_info1 div{
     display: inline-block;
@@ -73,35 +73,35 @@ html{
 
 .content1_op{
     position: relative;
-    height: 50px;
+    height: 45px;
     /*line-height: 50px;*/
     padding:0 10px;
     background-color: #fff;
     border-bottom: 1px solid #e4e1e1;
 }
 .content1_op i:nth-child(1){
-    font-size: 26px;
+    font-size: 22px;
     position: absolute;
     top:50%;
-    margin-top: -13px;
+    margin-top: -11px;
     line-height: 1;
 }
 .content1_op i:nth-child(3){
-    font-size: 20px;
+    /*font-size: 20px;*/
     line-height: 1;
     color: #c2c2c2;
-    margin-top: 14px;
+    margin-top: 17px;
 }
 .content1_op span{
     position: absolute;
     top: 50%;
-    left: 46px;
+    left: 40px;
     line-height: 1;
     margin-top: -8px;
     font-size: 16px;
     color: #222;
 }
 .cut_line{
-    height: 10px;
+    height: 6px;
     background-color: #e4e1e1;
 }

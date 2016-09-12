@@ -1,0 +1,64 @@
+<link rel="stylesheet" href="./css/new_address.css">
+<div class="content">
+    <div class="business_info">
+        <div class="row" style="padding: 15px 10px">
+            <span class="col-xs-3">收件人</span>
+            <div class="col-xs-7">
+                <input type="text" ng-model="address.ContactName">
+            </div>
+        </div>
+        <div class="row" style="padding: 15px 10px">
+            <span class="col-xs-3">联系电话</span>
+            <div class="col-xs-7">
+                <input type="text" ng-model="address.mobile">
+            </div>
+        </div>
+        <div class="row" style="padding: 15px 10px">
+            <span class="col-xs-3">收货省份</span>
+            <span>{{myProvince}}</span>
+            <div class="pull-right dropdown">
+                <i class="iconfont arrow_down dropdown-toggle" data-toggle="dropdown">&#xe621;</i>
+                <ul class="dropdown-menu" role="menu" style="height: 200px;overflow: scroll">
+                    <li role="presentation" ng-repeat="v in province"><a role="menuitem" tabindex="-1" ng-click="select_province(v.name,v.code)">{{v.name}}</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row" style="padding: 15px 10px">
+            <span class="col-xs-3">收货城市</span>
+            <span>{{myCity}}</span>
+            <div class="pull-right dropdown">
+                <i class="iconfont arrow_down dropdown-toggle" data-toggle="dropdown">&#xe621;</i>
+                <ul class="dropdown-menu" role="menu" style="height: 200px;overflow: scroll">
+                    <li role="presentation" ng-repeat="v in city"><a role="menuitem" tabindex="-1" ng-click="select_city(v.name,v.code)">{{v.name}}</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row" style="padding: 15px 10px">
+            <span class="col-xs-3">收获区县</span>
+            <span>{{myArea}}</span>
+            <div class="pull-right dropdown">
+                <i class="iconfont arrow_down dropdown-toggle" data-toggle="dropdown">&#xe621;</i>
+                <ul class="dropdown-menu" role="menu" style="height: 200px;overflow: scroll">
+                    <li role="presentation" ng-repeat="v in area"><a role="menuitem" tabindex="-1" ng-click="select_area(v.name)">{{v.name}}</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row" style="padding: 15px 10px">
+            <span class="col-xs-3">详细地址</span>
+            <div class="col-xs-7">
+                <input type="text" ng-model="address.address">
+            </div>
+        </div>
+        <p class="cut_line"></p>
+        <div class="row" style="padding: 12px 10px">
+            <i class="iconfont default">&#xe615;</i>
+            <span style="width: auto;">设为默认地址</span>
+        </div>
+    </div>
+
+    <div class="submit_btn">
+        <button class="btn btn-danger btn-block" ng-click="submit(address)">保存地址</button>
+    </div>
+</div>
+
+

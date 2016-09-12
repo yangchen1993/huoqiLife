@@ -1,27 +1,22 @@
 /**
  * Created by YCC on 2016/8/19.
  */
-var myApp = angular.module('myApp',['ui.router','myController']);
+var myApp = angular.module('myApp',['ui.router','ngCookies','myController']);
 
 myApp.config(function ($stateProvider,$urlRouterProvider) {
     $urlRouterProvider.when('','/main');
 
     $stateProvider
-        // .state('login',{
-        //     url:'/login',
-        //     templateUrl:'template/login.html',
-        //     controller:'loginController'
-        // })
         .state('main',{
             url:'/main',
             templateUrl:'template/main.html',
             controller:'mainController'
         })
-        // .state('shop',{
-        //     url:'/shop',
-        //     templateUrl:'template/rider.html',
-        //     controller:'shopController'
-        // })
+        .state('shop',{
+            url:'/shop',
+            templateUrl:'template/shop.html',
+            controller:'shopController'
+        })
         .state('rider',{
             url:'/rider',
             templateUrl:'template/rider.html',
@@ -38,6 +33,15 @@ myApp.config(function ($stateProvider,$urlRouterProvider) {
             templateUrl:'template/personal.html',
             controller:'personalController'
         })
+        .state('new_address',{
+            url:'/new_address',
+            templateUrl:'template/new_address.html',
+            controller:'new_addressController'
+        })
+
+
+
+
 
         .state('business_user',{
             url:'/business_user',

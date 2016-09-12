@@ -1,44 +1,53 @@
 /**
  * Created by YCC on 2016/9/1.
  */
-myController.controller('business_joinController',['$scope','$http','$interval',function($scope,$http,$interval){
-    // $http.get("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc27342194c0b6057&redirect_uri=http://hq.nongjiaotx.cn/wx/user&response_type=code&scope=snsapi_userinfo&state=111#wechat_redirect").success(function(data){
-    //     alert(data+"success");
-    // })
-    //     .error(function(data){
-    //         alert(data+"failed");
-    //     });
-    // location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc27342194c0b6057&redirect_uri=http://hq.nongjiaotx.cn/wx/user&response_type=code&scope=snsapi_userinfo&state=111#wechat_redirect";
-    // window.history.back();
+myController.controller('business_joinController',['$scope','$http','$cookieStore','$interval',function($scope,$http,$cookieStore,$interval){
+
+    var url = location.href;
+    var index = url.indexOf("?tag");
+    var openId = get_param(url,"openId");
+
+    $cookieStore.put('openId',openId);
+
+    if(index == -1){
+        location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc27342194c0b6057&redirect_uri=http%3a%2f%2fhq.nongjiaotx.cn%2fwx%2fuser&response_type=code&scope=snsapi_userinfo&state=business_join#wechat_redirect";
+    }
 
     $scope.Vcode = "获取验证码";
     $scope.get_sms = function(){
         if(!$scope.tel){
             alert("请输入手机号")
         }
-        console.log({'cellPhone':$scope.tel});
-        $http.post(window.API.BUSINESS.GET_SMS,{'cellPhone':$scope.tel}).success(function(data){
-            console.log(data);
-            if(data.status == 200){
-                var s = 60;
-                var timer = $interval(function(){
-                    $scope.Vcode_disabled = true;
-                    $scope.Vcode = s+"s后可重发";
-                    console.log(s);
-                    if(s == 0){
-                        $interval.cancel(timer);
-                        $scope.Vcode_disabled = false;
-                        $scope.Vcode = "获取验证码";
-                    }
-                    s--;
-                },1000);
-            }
-        })
+        else{
+            var data_ = {
+                'cellPhone':$scope.tel,
+                'openId':openId
+            };
+            $http.post(window.API.BUSINESS.GET_SMS,data_).success(function(data){
+                console.log(data);
+                if(data.status == 200){
+                    var s = 90;
+                    var timer = $interval(function(){
+                        $scope.Vcode_disabled = true;
+                        $scope.Vcode = s+"s后可重发";
+                        console.log(s);
+                        if(s == 0){
+                            $interval.cancel(timer);
+                            $scope.Vcode_disabled = false;
+                            $scope.Vcode = "获取验证码";
+                        }
+                        s--;
+                    },1000);
+                }
+            })
+        }
     };
+
     $scope.submit = function(){
         var data_ = {
             'cellPhone': $scope.tel,
-            'code':$scope.sms
+            'code':$scope.sms,
+            'openId':$cookieStore.get('openId')
         };
         $http.post(window.API.BUSINESS.JOIN,data_).success(function(data){
             console.log(data);
@@ -52,7 +61,7 @@ myController.controller('business_joinController',['$scope','$http','$interval',
     }
 }]);
 
-myController.controller('business_infoController',['$scope','$http',function($scope,$http){
+myController.controller('business_infoController',['$scope','$http','$cookieStore',function($scope,$http,$cookieStore){
     var tel = location.href.indexOf("?tel");
     if(tel != -1){
         var tel_num = location.href.substring(tel+5);
@@ -87,7 +96,7 @@ myController.controller('business_infoController',['$scope','$http',function($sc
         }
     });
 
-    var lat,lng;
+    var lat,lng,address;
     var map = new AMap.Map('container',{
         resizeEnable:true
     });
@@ -113,7 +122,7 @@ myController.controller('business_infoController',['$scope','$http',function($sc
         map.setFitView();
     }
     function addMarker(d) {
-        console.log(d.location.getLng()+"-"+d.location.getLat());
+        console.log(d);
         map.clearMap();
         var marker = new AMap.Marker({
             map: map,
@@ -121,6 +130,7 @@ myController.controller('business_infoController',['$scope','$http',function($sc
         });
         lat = d.location.getLat();
         lng = d.location.getLng();
+        address = d.formattedAddress;
         var infoWindow = new AMap.InfoWindow({
             content: d.formattedAddress,
             offset: {x: 0, y: -30}
@@ -141,11 +151,10 @@ myController.controller('business_infoController',['$scope','$http',function($sc
 
     });
 
-
     $scope.submit = function(shop){
         if(shop.name && $scope.myShop){
             var files = $('#license_file')[0].files[0];
-            console.log(files)
+            console.log(files);
             var checkBoxs = angular.element('.license_panel i');
             var list = [];
             var latLng = [lat,lng];
@@ -165,13 +174,16 @@ myController.controller('business_infoController',['$scope','$http',function($sc
             data_.append('tel',shop.tel);
             data_.append('type',list);
             data_.append('picture',files);
-            data_.append('longitude',lat);
-            data_.append('latitude',lng);
+            data_.append('longitude',lng);
+            data_.append('latitude',lat);
+            data_.append('address',address);
+            data_.append('openId',$cookieStore.get('openId'));
             console.log(data_);
             $http.post(window.API.BUSINESS.INFO,data_,{"headers": {"Content-Type": undefined}}).success(function(data){
                 console.log(data);
                 if(data.status == 200){
                     alert("入驻成功");
+                    location.href = "#/business_user";
                 }
             })
         }
@@ -182,7 +194,7 @@ myController.controller('business_infoController',['$scope','$http',function($sc
     };
 }]);
 
-myController.controller('business_uploadController',['$scope','$http',function($scope,$http){
+myController.controller('business_uploadController',['$scope','$http','$cookieStore',function($scope,$http,$cookieStore){
     $scope.goods = {
         type:"液化气",
         spec:"kg"
@@ -214,11 +226,9 @@ myController.controller('business_uploadController',['$scope','$http',function($
 
     $scope.submit = function(goods){
         console.log(goods);
-
         var file0 = $('#files0')[0].files[0];
         var file1 = $('#files1')[0].files[0];
         var file2 = $('#files2')[0].files[0];
-        // var imgs = [file0,file1,file2];
 
         var data_ = new FormData();
         data_.append('name',goods.name);
@@ -230,8 +240,11 @@ myController.controller('business_uploadController',['$scope','$http',function($
         data_.append('imgs',file0);
         data_.append('imgs',file1);
         data_.append('imgs',file2);
+        data_.append('openId',$cookieStore.get('openId'));
         $http.post(window.API.BUSINESS.UPLOAD,data_,{"headers": {"Content-Type": undefined}}).success(function(data){
             console.log(data);
+            alert("商品上传成功");
+            location.href = "#/business_user?openId="+$cookieStore.get('openId');
         })
             .error(function(data){
                 console.log(data);
@@ -239,6 +252,12 @@ myController.controller('business_uploadController',['$scope','$http',function($
     }
 }]);
 
-myController.controller('business_userController',['$scope','$http',function($scope,$http){
-
+myController.controller('business_userController',['$scope','$http','$cookieStore',function($scope,$http,$cookieStore){
+    var openId = get_param(location.href,"openId");
+    $cookieStore.put('openId',openId);
+    console.log(openId);
+    $http.post(window.API.BUYER.GET_SHOP_DETAILS,{'openId':openId}).success(function(data){
+        console.log(data);
+        $scope.userInfo = data;
+    })
 }]);

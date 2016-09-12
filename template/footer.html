@@ -4,13 +4,13 @@
         <i class="iconfont">&#xe600;</i>
         <p>首页</p>
     </div>
+    <div class="col-xs-3 text-center" ui-sref="rider">
+        <i class="iconfont">&#xe623;</i>
+        <p>农家乐</p>
+    </div>
     <div class="col-xs-3 text-center" ui-sref="order">
         <i class="iconfont">&#xe616;</i>
         <p>订单</p>
-    </div>
-    <div class="col-xs-3 text-center" ui-sref="rider">
-        <i class="iconfont">&#xe60d;</i>
-        <p>骑手</p>
     </div>
     <div class="col-xs-3 text-center" ui-sref="personal">
         <i class="iconfont">&#xe607;</i>
@@ -20,15 +20,15 @@
 <script>
     $(document).ready(function(){
         var index = _.indexOf(location.href,'#');
-        var tag = location.href.substring(index+2)
+        var tag = location.href.substring(index+2);
         console.log(tag);
         if(!tag.indexOf('main')){
             $('.content-footer>div:nth-child(1)').children().css('color','#e42121');
         }
-        else if(!tag.indexOf('category')){
+        else if(!tag.indexOf('rider')){
             $('.content-footer>div:nth-child(2)').children().css('color','#e42121');
         }
-        else if(!tag.indexOf('shop')){
+        else if(!tag.indexOf('order')){
             $('.content-footer>div:nth-child(3)').children(3).css('color','#e42121');
         }
         else if(!tag.indexOf('personal')){

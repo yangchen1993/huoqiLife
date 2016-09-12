@@ -49,70 +49,16 @@
     <div class="content1">
         <p><i class="iconfont" style="color:#e42220;margin-top: -5px">&#xe601;</i>距离您最近</p>
 
-        <div class="content1_panel">
-            <img src="./img/test1.jpg">
+        <div class="content1_panel" ng-repeat="v in results" ng-click="surf_shop(v.openId)">
+            <img ng-src="./img/main/{{v.shopImg}}">
             <div class="shadow_panel"></div>
             <div class="words_panel">
-                <img src="./img/banner1-panel.png">
                 <div class="tag_info">
-                    <p>火气生活液化气罐压缩罐</p>
-                    <p>规格-500g</p>
-                    <p>价格-666.00元</p>
-                    <p>店铺电话-15487854546</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="content1_panel">
-            <img src="./img/test.jpg">
-            <div class="shadow_panel"></div>
-            <div class="words_panel">
-                <img src="./img/banner1-panel.png">
-                <div class="tag_info">
-                    <p>火气生活液化气罐压缩罐</p>
-                    <p>规格-500g</p>
-                    <p>价格-666.00元</p>
-                    <p>店铺电话-15487854546</p>
+                    <p>{{v.name}}</p>
+                    <p>{{v.address}}</p>
+                    <p>{{v.phone}}</p>
                 </div>
             </div>
         </div>
     </div>
-    <!--<div ng-include="'template/footer.html'"></div>-->
 </div>
-
-<script>
-    function getLocation()
-    {
-        if (navigator.geolocation)
-        {
-            navigator.geolocation.getCurrentPosition(showPosition,showError);
-        }
-        else{
-            console.log("Geolocation is not supported by this browser.")
-        }
-    }
-    function showPosition(position)
-    {
-        alert(position.coords.latitude+"--"+position.coords.longitude)
-    }
-    function showError(error)
-    {
-        console.log("error")
-        switch(error.code)
-        {
-            case error.PERMISSION_DENIED:
-                console.log("User denied the request for Geolocation.")
-                break;
-            case error.POSITION_UNAVAILABLE:
-                console.log("Location information is unavailable.")
-                break;
-            case error.TIMEOUT:
-                console.log("The request to get user location timed out.")
-                break;
-            case error.UNKNOWN_ERROR:
-                console.log("An unknown error occurred.")
-                break;
-        }
-    }
-    getLocation();
-</script>

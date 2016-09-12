@@ -7,7 +7,7 @@
         </div>
         <div class="info_panel1">
             <span>商品分类</span>
-            <span style="margin-left: 15px">{{goods.type}}</span>
+            <span style="margin-left: 15px;color:#555">{{goods.type}}</span>
             <!--<input type="text" ng-model="">-->
             <div class="pull-right dropdown">
                 <i class="iconfont arrow_down dropdown-toggle" id="goods_type" data-toggle="dropdown">&#xe621;</i>
@@ -23,7 +23,7 @@
                 </ul>
             </div>
         </div>
-        <div class="info_panel1" ng-show="spec_self == 1">
+        <div class="info_panel1">
             <span>商品规格</span>
             <input type="text" ng-model="goods.specNum">
             <div class="pull-right dropdown">
@@ -59,7 +59,7 @@
         <!--</div>-->
         <div class="cut_line"></div>
         <div class="info_panel1 img_panel" style="border: 0">
-            <p>上传商品展示图片</p>
+            <p style="color: #555">上传商品展示图片</p>
             <div class="row" id="aaa">
                 <div class="col-xs-4">
                     <img src="./img/business/goods_default_img.png" id="preview0" class="previews"
@@ -78,7 +78,7 @@
         <div class="cut_line"></div>
     </div>
     <div class="info_panel1" style="border: 0">
-        <span>商品描述</span>
+        <span style="color: #555">商品描述</span>
         </br>
         <textarea class="desc_goods" ng-model="goods.desc">
         </textarea>

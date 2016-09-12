@@ -7,11 +7,13 @@
 .info_panel1{
     padding:15px;
     border-bottom: 1px solid #e4e1e1;
+    color:#888
 }
 .info_panel input{
     width:200px;
     margin-left: 15px;
     border: 0;
+    color:#555
 }
 .pay_way div{
     display: inline-block;
@@ -48,7 +50,7 @@
     resize: none;
 }
 .submit_btn{
-    margin-top: 40px;
+    margin-top: 30px;
     padding:15px;
     border-top:1px solid #e4e1e1;
 }
@@ -56,5 +58,4 @@
     font-size: 16px;
     border-color: #e42121;
     background-color: #e42121;
-
 }
