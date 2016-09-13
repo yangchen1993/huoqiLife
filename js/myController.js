@@ -133,7 +133,26 @@ myController.controller('shopController',['$scope','$http',function($scope,$http
         }
         console.log($scope.goods);
         $scope.shop = data;
+    });
+
+    $scope.surf_shopDetails = function(id){
+        location.href = '#/shop_details?id='+id
+    }
+}]);
+myController.controller('shop_detailsController',['$scope','$http',function($scope,$http){
+
+    var id = get_param(location.href,"id");
+
+    $http.post(window.API.BUYER.GET_GOODS_DETAILS,{id:id}).success(function(data){
+        console.log(data);
+        $scope.results = data;
+        $scope.results.img = data.img.substring(data.img.indexOf('img'));
     })
+    console.log($scope.results);
+
+    $scope.run_shop = function(openId){
+        location.href = '#/shop?openId='+openId
+    }
 }]);
 
 myController.controller('riderController',['$scope',function($scope){
@@ -181,9 +200,56 @@ myController.controller('personalController',['$scope',function($scope){
 
 }]);
 
-myController.controller('new_addressController',['$scope','$http',function($scope,$http){
+myController.controller('new_addressController',['$scope','$http','$rootScope',function($scope,$http,$rootScope){
+    $scope.$on('$destroy',function(){
+       $rootScope.myAddress = "";
+    });
+
+    //修改地址
+    if($rootScope.myAddress){
+        var address_id = $rootScope.myAddress.id;
+        $scope.address = $rootScope.myAddress;
+        $scope.myProvince = $rootScope.myAddress.proName;
+        $scope.myCity = $rootScope.myAddress.cityName;
+        $scope.myArea = $rootScope.myAddress.countyName;
+        if($rootScope.myAddress.isDef){
+            $('.default').css('color','#e42121');
+        }
+        $scope.submit = function(data){
+            var data_ = angular.copy(data);
+            data_.id = address_id;
+            data_.isDef = $rootScope.myAddress.isDef;
+            data_.proName = $scope.myProvince;
+            data_.cityName = $scope.myCity;
+            data_.countyName = $scope.myArea;
+            console.log(data_);
+            $http.post(window.API.BUYER.UPDATE_ADDRESS,data_).success(function(data){
+                console.log(data);
+                alert(data.message);
+            })
+        }
+    }
+
+    else{
+        //新建地址
+        $scope.submit = function(data){
+            var data_ = angular.copy(data);
+            data_.openId = "oEQyzs4zzfJFZKHUWOA5BrD8Ssh0";
+            data_.isDef = isDef;
+            data_.proName = $scope.myProvince;
+            data_.cityName = $scope.myCity;
+            data_.countyName = $scope.myArea;
+            console.log(data_);
+            $http.post(window.API.BUYER.NEW_ADDRESS,data_).success(function(data){
+                console.log(data);
+                alert(data.message);
+            })
+        }
+
+    }
+
     $http.get(window.API.BUYER.GET_ADDRESS).success(function(data){
-        console.log(data);
+        // console.log(data);
         $scope.province = data
     });
 
@@ -207,7 +273,7 @@ myController.controller('new_addressController',['$scope','$http',function($scop
         $scope.myArea = name;
     };
 
-    var isDef = true;
+    var isDef;
     $('.default').click(function(){
         if($(this).css('color') == "rgb(204, 203, 203)"){
             $(this).css('color','#e42121');
@@ -219,19 +285,32 @@ myController.controller('new_addressController',['$scope','$http',function($scop
         }
     });
 
-    $scope.submit = function(data){
-        var data_ = angular.copy(data);
-        data_.openId = "oEQyzs4zzfJFZKHUWOA5BrD8Ssh0";
-        data_.isDef = isDef;
-        data_.proName = $scope.myProvince;
-        data_.cityName = $scope.myCity;
-        data_.countyName = $scope.myArea;
-        console.log(data_);
-        $http.post(window.API.BUYER.NEW_ADDRESS,data_).success(function(data){
-            console.log(data);
-            alert(data.message);
+}]);
+
+myController.controller('address_manageController',['$scope','$http','$rootScope',function($scope,$http,$rootScope){
+    $http.post(window.API.BUYER.GET_ADDRESS_LIST,{openId:"oEQyzs4zzfJFZKHUWOA5BrD8Ssh0"}).success(function(data){
+        // console.log(data);
+        $scope.results = data;
+    });
+
+    $scope.serf_newAddress = function(){
+        location.href = '#/new_address';
+        $scope.$on('$destroy',function(){
+
         })
-    }
+    };
+
+    $scope.serf_updateAddress = function(data){
+        location.href = '#/new_address';
+        $rootScope.myAddress = data;
+    };
+
+    $scope.delete_address = function(id){
+        $http.post(window.API.BUYER.DELETE_ADDRESS,{id:id}).success(function(data){
+            console.log(data);
+            alert(data.message)
+        })
+    };
 }]);
 
 

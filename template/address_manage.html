@@ -1,0 +1,19 @@
+<link rel="stylesheet" href="./css/address_manage.css">
+<div class="content">
+    <img src="./img/personal/address_line.png" style="vertical-align: top">
+
+    <div class="address_panel">
+        <div ng-repeat="v in results">
+            <p><span>{{v.contactName}}</span><span style="margin-left: 20px">{{v.mobile}}</span></p>
+            <p class="address_words"><span style="color:#e42121;margin-right: 5px;font-weight: bold" ng-show="v.isDef">[默认]</span><span ng-bind="v.proName+v.cityName+v.countyName+v.address"></span></p>
+            <div class="operation">
+                <i class="iconfont" ng-click="serf_updateAddress(v)">&#xe62f;</i>
+                <i class="iconfont" ng-click="delete_address(v.id)">&#xe62e;</i>
+            </div>
+        </div>
+    </div>
+
+    <div class="submit_btn">
+        <button class="btn btn-danger btn-block" ng-click="serf_newAddress()">新增地址</button>
+    </div>
+</div>

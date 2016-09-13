@@ -17,6 +17,11 @@ myApp.config(function ($stateProvider,$urlRouterProvider) {
             templateUrl:'template/shop.html',
             controller:'shopController'
         })
+        .state('shop_details',{
+            url:'/shop_details',
+            templateUrl:'template/shop_details.html',
+            controller:'shop_detailsController'
+        })
         .state('rider',{
             url:'/rider',
             templateUrl:'template/rider.html',
@@ -37,6 +42,11 @@ myApp.config(function ($stateProvider,$urlRouterProvider) {
             url:'/new_address',
             templateUrl:'template/new_address.html',
             controller:'new_addressController'
+        })
+        .state('address_manage',{
+            url:'/address_manage',
+            templateUrl:'template/address_manage.html',
+            controller:'address_manageController'
         })
 
 

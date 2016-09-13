@@ -29,8 +29,11 @@
 .default{
     font-size: 22px;
     vertical-align: middle;
-    color:#e42121;
+    color:#cccbcb;
     line-height:1;
+}
+.dropdown i{
+    color:#cccbcb
 }
 
 .submit_btn{

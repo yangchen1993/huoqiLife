@@ -1,0 +1,61 @@
+@media screen and (max-width: 330px){
+    .address_words{
+        max-width: 220px !important;
+    }
+}
+.content{
+    font-family: 微软雅黑;
+}
+.content-footer{
+    display: none;
+}
+.address_panel>div{
+    border-bottom: 1px solid #e4e1e1;
+    padding:10px;
+    position: relative;
+    color: #222;
+}
+.address_panel>div:nth-child(1){
+    margin-top: -13px;
+}
+.address_panel p{
+    margin:0;
+}
+.address_panel p:nth-child(1){
+    font-size: 16px;
+}
+.operation{
+    position: absolute;
+    top:50%;
+    margin-top:-12px;
+    right:10px;
+    font-size: 24px;
+    line-height: 1;
+}
+.operation i{
+    font-size: 22px;
+    color: #888;
+}
+.operation i:nth-child(1){
+    margin-right: 10px;
+}
+.address_words{
+    max-width: 300px;
+    margin-top: 5px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+}
+
+.submit_btn{
+    width:100%;
+    position: fixed;
+    bottom: 0;
+    padding:15px;
+    border-top:1px solid #e4e1e1;
+}
+.submit_btn button{
+    font-size: 16px;
+    border-color: #e42121;
+    background-color: #e42121;
+}

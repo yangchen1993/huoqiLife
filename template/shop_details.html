@@ -1,0 +1,36 @@
+<link rel="stylesheet" href="./css/shop_details.css">
+<div class="content">
+    <div class="img_panel">
+        <img ng-src="http://139.196.238.215:9900/{{results.img}}" width="100px">
+    </div>
+
+    <div class="goods_info">
+        <p class="goods_name">{{results.name}}</p>
+        <p><span class="goods_price">¥{{results.price}}</span><span class="goods_spec">产品规格{{results.weight+results.weightUnit}}</span></p>
+        <a ng-href="tel:{{results.business.phone}}"><div class="call">
+            <i class="iconfont">&#xe614;</i>
+            联系卖家
+        </div></a>
+    </div>
+    <div class="cut_line"></div>
+    <div class="goods_info1">
+        <p class="shop_name">{{results.business.name}}</p>
+        <p class="fanwei"><i class="iconfont">&#xe613;</i>营业范围包括{{results.business.type}}</p>
+        <p class="address"><i class="iconfont">&#xe601;</i>{{results.business.address}}</p>
+        <div class="run_shop" ng-click="run_shop(results.business.openId)">
+            <i class="iconfont">&#xe602;</i>
+            进入店铺
+        </div>
+    </div>
+    <div class="cut_line"></div>
+    <div class="goods_details">
+        <p class="name">商品详情</p>
+        <div style="border-top:1px solid #e42121;margin: 5px 0"></div>
+        <div>{{results.describe}}</div>
+    </div>
+
+
+    <div class="submit_btn">
+        <button class="btn btn-danger btn-block">立即购买</button>
+    </div>
+</div>

@@ -23,9 +23,17 @@ window.API = {
 
         "GET_SHOP_DETAILS":[window.HOST,"business/detail"].join(""),    //买家获取店铺详情
 
-        "GET_ADDRESS":[window.HOST,'area/list'].join(""),      //获取用户收货地址
+        "GET_GOODS_DETAILS":[window.HOST,'goods/detail'].join(""),      //买家获取商品详情
 
-        "NEW_ADDRESS":[window.HOST,'address/add'].join("")      //新增收货地址
+        "GET_ADDRESS":[window.HOST,'area/list'].join(""),      //获取省市区
+
+        "NEW_ADDRESS":[window.HOST,'address/add'].join(""),      //新增收货地址
+
+        "UPDATE_ADDRESS":[window.HOST,'address/update'].join(""),      //修改收货地址
+
+        "DELETE_ADDRESS":[window.HOST,'address/delete'].join(""),      //删除收货地址
+
+        "GET_ADDRESS_LIST":[window.HOST,'address/list'].join("")      //获取收货地址列表
     }
 };
 

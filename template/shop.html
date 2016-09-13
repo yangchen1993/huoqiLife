@@ -3,7 +3,7 @@
     <div class="top">
         <div class="top_content">
             <div class="head_img">
-                <img src="./img/test1.jpg" ng-src="{{shop.member.img}}">
+                <img ng-src="{{shop.member.img}}">
                 <img src="./img/shop_backImg1.png">
             </div>
             <div class="head_desc">
@@ -18,7 +18,7 @@
 
     <div class="row goods_panel" style="margin: 0">
         <div class="col-xs-6" ng-repeat="v in goods">
-            <div>
+            <div ng-click="surf_shopDetails(v.id)">
                 <img height="200px" ng-src="http://139.196.238.215:9900/{{v.img}}" style="max-width: 100%">
                 <p>{{v.name}}</p>
                 <div class="price_panel"><span>¥{{v.price}}</span><button class="btn btn-danger pull-right btn-self" disabled="disabled">立即购买</button></div>
