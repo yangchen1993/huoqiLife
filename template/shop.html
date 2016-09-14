@@ -18,10 +18,10 @@
 
     <div class="row goods_panel" style="margin: 0">
         <div class="col-xs-6" ng-repeat="v in goods">
-            <div ng-click="surf_shopDetails(v.id)">
-                <img height="200px" ng-src="http://139.196.238.215:9900/{{v.img}}" style="max-width: 100%">
+            <div>
+                <img height="200px" ng-src="http://139.196.238.215:9900/{{v.img}}" style="max-width: 100%" ng-click="surf_shopDetails(v.id)">
                 <p>{{v.name}}</p>
-                <div class="price_panel"><span>¥{{v.price}}</span><button class="btn btn-danger pull-right btn-self" disabled="disabled">立即购买</button></div>
+                <div class="price_panel"><span>¥{{v.price}}</span><button class="btn btn-danger pull-right btn-self" ng-click="surf_orderConfirm(v.id)">立即购买</button></div>
             </div>
         </div>
         <!--<div class="col-xs-6">-->

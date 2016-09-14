@@ -32,7 +32,11 @@ myApp.config(function ($stateProvider,$urlRouterProvider) {
             templateUrl:'template/order.html',
             controller:'orderController'
         })
-
+        .state('order_confirm',{
+            url:'/order_confirm',
+            templateUrl:'template/order_confirm.html',
+            controller:'order_confirmController'
+        })
         .state('personal',{
             url:'/personal',
             templateUrl:'template/personal.html',

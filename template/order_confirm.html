@@ -1,0 +1,57 @@
+<link rel="stylesheet" href="./css/order_confirm.css">
+<div class="content">
+    <img src="./img/personal/address_line.png" style="vertical-align: top">
+    <div class="address_panel" ui-sref="address_manage">
+        <p style="color: #222"><span ng-bind="default_address.contactName"></span><span ng-bind="default_address.mobile" style="margin-left: 10px"></span></p>
+        <p style="color: #222"><i class="iconfont" style="color: #e42121">&#xe601;</i>{{default_address.proName+default_address.cityName+default_address.countyName+default_address.address}}</p>
+        <p style="color: #e42121">(请仔细确认收货信息是否有误，保证收货成功)</p>
+        <i><i class="iconfont arrow_right">&#xe611;</i></i>
+    </div>
+    <div class="cut_line"></div>
+    <div class="time_panel">
+        <div>
+            <span>送达时间</span>
+            <div class="time_select pull-right">
+                <span>xxxx</span>
+                <i class="iconfont" style="color: #cccbcb">&#xe611;</i>
+           </div>
+        </div>
+    </div>
+    <div class="cut_line"></div>
+    <div class="pay_panel">
+        <div><span>微信支付</span><i class="iconfont pull-right">&#xe615;</i></div>
+    </div>
+    <div class="cut_line"></div>
+    <div class="remarks_panel">
+        <span>备注</span>
+        <input type="text" placeholder="订单备注（30字以内）" maxlength="30" ng-model="remark">
+    </div>
+    <div class="cut_line"></div>
+    <div>
+        <p class="shop_name"><i class="iconfont" style="margin-right: 5px">&#xe602;</i>{{goods.business.name}}</p>
+        <div class="goods_info_panel">
+            <img class="goods_img" ng-src="http://139.196.238.215:9900/{{goods.img}}">
+            <div class="goods_info">
+                <p style="color: #222">{{goods.name}}</p>
+                <p style="color: #888">商品规格{{goods.weight+goods.weightUnit}}</p>
+                <div class="num_panel">
+                    <div ng-click="goods_num(0)">-</div>
+                    <div>{{num}}</div>
+                    <div ng-click="goods_num(1)">+</div>
+                </div>
+                <p class="goods_price">¥{{goods.price}}</p>
+            </div>
+        </div>
+    </div>
+    <!--<div class="freight_panel">-->
+        <!--<span>运费金额</span>-->
+        <!--<span class="pull-right">¥0</span>-->
+    <!--</div>-->
+    <div class="amount_panel">
+        <span style="color: #222">共{{num}}件商品</span><span style="margin-left: 10px;color:#222">合计：</span><span style="color: #e42121">¥{{goods.price}}</span>
+    </div>
+
+    <div class="submit_btn">
+        <button class="btn btn-danger btn-block" ng-click="confirm_order()">确认下单</button>
+    </div>
+</div>

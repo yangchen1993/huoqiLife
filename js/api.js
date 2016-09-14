@@ -33,7 +33,9 @@ window.API = {
 
         "DELETE_ADDRESS":[window.HOST,'address/delete'].join(""),      //删除收货地址
 
-        "GET_ADDRESS_LIST":[window.HOST,'address/list'].join("")      //获取收货地址列表
+        "GET_ADDRESS_LIST":[window.HOST,'address/list'].join(""),      //获取收货地址列表
+
+        "ADD_ORDER":[window.HOST,'order/add'].join("")       //增加订单
     }
 };
 

@@ -1,9 +1,9 @@
 /**
  * Created by YCC on 2016/8/23.
  */
-var myController = angular.module('myController',[]);
+var myController = angular.module('myController', []);
 
-myController.controller('mainController',['$scope','$http','$cookieStore',function($scope,$http,$cookieStore){
+myController.controller('mainController', ['$scope', '$http', '$cookieStore', function ($scope, $http, $cookieStore) {
 
     // var url = location.href;
     // var index = url.indexOf("?tag");
@@ -18,86 +18,83 @@ myController.controller('mainController',['$scope','$http','$cookieStore',functi
     $('#myCarousel').carousel({
         interval: 3000
     });
-    $('.circle_logo').click(function(){
-        $('#circle_logo1').css('color','#e3c820');
-        $('#circle_logo2').css('color','#36bcf4');
-        $('#circle_logo3').css('color','#f5672a');
-        $('#circle_logo4').css('color','#a0d021');
-        $('.circle_logo').css('border','0');
-        $(this).find('i').css('color','#e42220');
-        $(this).css('border','1px solid #e22220');
+    $('.circle_logo').click(function () {
+        $('#circle_logo1').css('color', '#e3c820');
+        $('#circle_logo2').css('color', '#36bcf4');
+        $('#circle_logo3').css('color', '#f5672a');
+        $('#circle_logo4').css('color', '#a0d021');
+        $('.circle_logo').css('border', '0');
+        $(this).find('i').css('color', '#e42220');
+        $(this).css('border', '1px solid #e22220');
         var type = $(this).siblings('p')[0].innerText;
         console.log(type);
         get_shopList(type);
     });
 
 
-    function get_shopList(type){
+    function get_shopList(type) {
         var img_index = 1;
-        if(type == '液化气'){
+        if (type == '液化气') {
             img_index = 1
         }
-        else if(type == '桶装水'){
+        else if (type == '桶装水') {
             img_index = 2
         }
-        else if(type == '桶装水'){
+        else if (type == '桶装水') {
             img_index = 3
         }
-        else{
+        else {
             img_index = 4
         }
 
         /*获取当前地理位置*/
-        var lat,lng;
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition, showError);
-            }
-            else {
-                console.log("Geolocation is not supported by this browser.")
-            }
-        function showPosition(position)
-        {
+        var lat, lng;
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+        }
+        else {
+            console.log("Geolocation is not supported by this browser.")
+        }
+        function showPosition(position) {
             lat = position.coords.latitude;
             lng = position.coords.longitude;
             var data_ = {
-                'lng':lng,
-                'lat':lat,
-                'type':type
+                'lng': lng,
+                'lat': lat,
+                'type': type
             };
 
             /*请求附近商家*/
-            $http.post(window.API.BUYER.NEAR_BY,data_).success(function(data){
+            $http.post(window.API.BUYER.NEAR_BY, data_).success(function (data) {
                 console.log(data);
                 $scope.results = data;
-                for(var i=0;i<data.length;i++){
-                    var s = Math.floor(Math.random()*3)+1;
+                for (var i = 0; i < data.length; i++) {
+                    var s = Math.floor(Math.random() * 3) + 1;
                     console.log(s);
-                    $scope.results[i].shopImg = img_index+'-'+s+'.jpg';
+                    $scope.results[i].shopImg = img_index + '-' + s + '.jpg';
                 }
             });
         }
-        function showError(error)
-        {
-            switch(error.code)
-            {
+
+        function showError(error) {
+            switch (error.code) {
                 case error.PERMISSION_DENIED:
                     console.log("User denied the request for Geolocation.");
                     break;
-                case error.POSITION_UNAVAILABLE:
-                {
+                case error.POSITION_UNAVAILABLE: {
                     var data_ = {
-                        'lng':104.0635,
-                        'lat':30.5488,
-                        'type':type
+                        'lng': 104.0635,
+                        'lat': 30.5488,
+                        'type': type
                     };
                     /*请求附近商家*/
-                    $http.post(window.API.BUYER.NEAR_BY,data_).success(function(data){
+                    $http.post(window.API.BUYER.NEAR_BY, data_).success(function (data) {
                         console.log(data);
                         $scope.results = data;
-                        for(var i=0;i<data.length;i++){
-                            var s = Math.floor(Math.random()*3)+1;
+                        for (var i = 0; i < data.length; i++) {
+                            var s = Math.floor(Math.random() * 3) + 1;
                             console.log(s);
-                            $scope.results[i].shopImg = img_index+'-'+s+'.jpg';
+                            $scope.results[i].shopImg = img_index + '-' + s + '.jpg';
                         }
                         console.log($scope.results)
                     });
@@ -114,125 +111,186 @@ myController.controller('mainController',['$scope','$http','$cookieStore',functi
             }
         }
     }
+
     get_shopList("液化气");
 
 
-    $scope.surf_shop = function(openId){
-        location.href = "#/shop?openId="+openId;
+    $scope.surf_shop = function (openId) {
+        location.href = "#/shop?openId=" + openId;
     }
 }]);
 
-myController.controller('shopController',['$scope','$http',function($scope,$http){
+myController.controller('shopController', ['$scope', '$http', function ($scope, $http) {
 
-    var openId = get_param(location.href,"openId");
-    $http.post(window.API.BUYER.GET_SHOP_DETAILS,{'openId':openId}).success(function(data){
+    var openId = get_param(location.href, "openId");
+    $http.post(window.API.BUYER.GET_SHOP_DETAILS, {'openId': openId}).success(function (data) {
         console.log(data);
         $scope.goods = data.goods;
-        for(var i=0;i<data.goods.length;i++){
+        for (var i = 0; i < data.goods.length; i++) {
             $scope.goods[i].img = data.goods[i].img.substring(data.goods[i].img.indexOf("img"));
         }
         console.log($scope.goods);
         $scope.shop = data;
     });
 
-    $scope.surf_shopDetails = function(id){
-        location.href = '#/shop_details?id='+id
+    $scope.surf_shopDetails = function (id) {
+        location.href = '#/shop_details?id=' + id
+    };
+    $scope.surf_orderConfirm = function (id) {
+        location.href = '#/order_confirm?id=' + id
     }
 }]);
-myController.controller('shop_detailsController',['$scope','$http',function($scope,$http){
+myController.controller('shop_detailsController', ['$scope', '$http', function ($scope, $http) {
 
-    var id = get_param(location.href,"id");
+    var id = get_param(location.href, "id");
 
-    $http.post(window.API.BUYER.GET_GOODS_DETAILS,{id:id}).success(function(data){
+    $http.post(window.API.BUYER.GET_GOODS_DETAILS, {id: id}).success(function (data) {
         console.log(data);
         $scope.results = data;
         $scope.results.img = data.img.substring(data.img.indexOf('img'));
-    })
+    });
     console.log($scope.results);
 
-    $scope.run_shop = function(openId){
-        location.href = '#/shop?openId='+openId
+    $scope.run_shop = function (openId) {
+        location.href = '#/shop?openId=' + openId
     }
 }]);
 
-myController.controller('riderController',['$scope',function($scope){
-    $('.top_nav div').click(function(){
+myController.controller('riderController', ['$scope', function ($scope) {
+    $('.top_nav div').click(function () {
         $(this).css({'color': '#e42121'}).siblings().css({'color': '#fff'})
     });
 
-    $scope.nav_self = function(index){
-        if(index == 1){
-            $('.hk_div').animate({'margin-left':'0'})
+    $scope.nav_self = function (index) {
+        if (index == 1) {
+            $('.hk_div').animate({'margin-left': '0'})
         }
-        else if(index == 2){
-            $('.hk_div').animate({'margin-left':'33.33%'})
+        else if (index == 2) {
+            $('.hk_div').animate({'margin-left': '33.33%'})
         }
-        else if(index == 3){
-            $('.hk_div').animate({'margin-left':'66.66%'})
+        else if (index == 3) {
+            $('.hk_div').animate({'margin-left': '66.66%'})
         }
     }
 }]);
 
-myController.controller('orderController',['$scope',function($scope){
-    $('.nav_self div').click(function(){
+myController.controller('orderController', ['$scope', function ($scope) {
+    $('.nav_self div').click(function () {
         $(this).css({'color': '#e42121'}).siblings().css({'color': '#222'})
     });
-    $scope.move_hk = function(i){
-        if(i == 1){
-            $('.div_hk').animate({'margin-left':'2%'})
+    $scope.move_hk = function (i) {
+        if (i == 1) {
+            $('.div_hk').animate({'margin-left': '2%'})
         }
-        if(i == 2){
-            $('.div_hk').animate({'margin-left':'22%'})
+        if (i == 2) {
+            $('.div_hk').animate({'margin-left': '22%'})
         }
-        if(i == 3){
-            $('.div_hk').animate({'margin-left':'42%'})
+        if (i == 3) {
+            $('.div_hk').animate({'margin-left': '42%'})
         }
-        if(i == 4){
-            $('.div_hk').animate({'margin-left':'62%'})
+        if (i == 4) {
+            $('.div_hk').animate({'margin-left': '62%'})
         }
-        if(i == 5){
-            $('.div_hk').animate({'margin-left':'82%'})
+        if (i == 5) {
+            $('.div_hk').animate({'margin-left': '82%'})
         }
     }
 }]);
 
-myController.controller('personalController',['$scope',function($scope){
+myController.controller('order_confirmController', ['$scope', '$http', '$cookieStore', function ($scope, $http, $cookieStore) {
+    var id = get_param(location.href, "id");
+
+    $http.post(window.API.BUYER.GET_ADDRESS_LIST, {openId: "oEQyzs4zzfJFZKHUWOA5BrD8Ssh0"}).success(function (data) {
+        console.log(data);
+        // $scope.results = data;
+        $scope.default_address = _.where(data, {isDef: true})[0];
+        console.log($scope.default_address)
+    });
+    var onePrice = 0;
+    $http.post(window.API.BUYER.GET_GOODS_DETAILS, {id: id}).success(function (data) {
+        console.log(data);
+        $scope.goods = data;
+        $scope.goods.img = data.img.substring(data.img.indexOf('img'));
+        onePrice = $scope.goods.price;
+        console.log($scope.goods);
+    });
+    $scope.num = 1;
+    $scope.goods_num = function (tag) {
+        if (tag == 1) {
+            $scope.num++;
+            $scope.goods.price = $scope.goods.price + onePrice;
+        }
+        if ($scope.num > 1) {
+            if (tag == 0){
+                $scope.num--;
+                $scope.goods.price = $scope.goods.price - onePrice;
+            }
+        }
+    };
+
+    $scope.confirm_order = function () {
+        var data_ = {
+            totalAmount:$scope.goods.price,
+            initiator:'oEQyzs4zzfJFZKHUWOA5BrD8Ssh0',   // 用户openId
+            accepter:$scope.goods.business.openId,   //商家openId
+            addressId:$scope.default_address.id,
+            remark:$scope.remark,
+            shipmentsDate:'今天 11:00-13:00',
+            orderList:{
+                name:$scope.goods.name,
+                price:onePrice,
+                quantity:$scope.num
+            }
+        };
+        $http.post(window.API.BUYER.ADD_ORDER,data_).success(function(data){
+            console.log(data);
+        })
+    }
+}]);
+
+myController.controller('personalController', ['$scope', function ($scope) {
 
 }]);
 
-myController.controller('new_addressController',['$scope','$http','$rootScope',function($scope,$http,$rootScope){
-    $scope.$on('$destroy',function(){
-       $rootScope.myAddress = "";
+myController.controller('new_addressController', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
+    $scope.$on('$destroy', function () {
+        $rootScope.myAddress = "";
     });
 
     //修改地址
-    if($rootScope.myAddress){
+    if ($rootScope.myAddress) {
         var address_id = $rootScope.myAddress.id;
         $scope.address = $rootScope.myAddress;
         $scope.myProvince = $rootScope.myAddress.proName;
         $scope.myCity = $rootScope.myAddress.cityName;
         $scope.myArea = $rootScope.myAddress.countyName;
-        if($rootScope.myAddress.isDef){
-            $('.default').css('color','#e42121');
+        if ($rootScope.myAddress.isDef) {
+            $('.default').css('color', '#e42121');
         }
-        $scope.submit = function(data){
+        $scope.submit = function (data) {
+
             var data_ = angular.copy(data);
             data_.id = address_id;
-            data_.isDef = $rootScope.myAddress.isDef;
+            if ($('.default').css('color') == "rgb(204, 203, 203)") {
+                data_.isDef = false
+            }
+            else {
+                data_.isDef = true
+            }
             data_.proName = $scope.myProvince;
             data_.cityName = $scope.myCity;
             data_.countyName = $scope.myArea;
             console.log(data_);
-            $http.post(window.API.BUYER.UPDATE_ADDRESS,data_).success(function(data){
+            $http.post(window.API.BUYER.UPDATE_ADDRESS, data_).success(function (data) {
                 console.log(data);
                 alert(data.message);
             })
         }
     }
 
-    else{
+    else {
         //新建地址
-        $scope.submit = function(data){
+        $scope.submit = function (data) {
             var data_ = angular.copy(data);
             data_.openId = "oEQyzs4zzfJFZKHUWOA5BrD8Ssh0";
             data_.isDef = isDef;
@@ -240,7 +298,7 @@ myController.controller('new_addressController',['$scope','$http','$rootScope',f
             data_.cityName = $scope.myCity;
             data_.countyName = $scope.myArea;
             console.log(data_);
-            $http.post(window.API.BUYER.NEW_ADDRESS,data_).success(function(data){
+            $http.post(window.API.BUYER.NEW_ADDRESS, data_).success(function (data) {
                 console.log(data);
                 alert(data.message);
             })
@@ -248,65 +306,65 @@ myController.controller('new_addressController',['$scope','$http','$rootScope',f
 
     }
 
-    $http.get(window.API.BUYER.GET_ADDRESS).success(function(data){
+    $http.get(window.API.BUYER.GET_ADDRESS).success(function (data) {
         // console.log(data);
         $scope.province = data
     });
 
-    $scope.select_province = function(name,code){
+    $scope.select_province = function (name, code) {
         $scope.myProvince = name;
-        $http.post(window.API.BUYER.GET_ADDRESS,{'code':code}).success(function(data){
+        $http.post(window.API.BUYER.GET_ADDRESS, {'code': code}).success(function (data) {
             console.log(data);
             $scope.city = data
         })
     };
 
-    $scope.select_city = function(name,code){
+    $scope.select_city = function (name, code) {
         $scope.myCity = name;
-        $http.post(window.API.BUYER.GET_ADDRESS,{'code':code}).success(function(data){
+        $http.post(window.API.BUYER.GET_ADDRESS, {'code': code}).success(function (data) {
             console.log(data);
             $scope.area = data
         })
     };
 
-    $scope.select_area = function(name){
+    $scope.select_area = function (name) {
         $scope.myArea = name;
     };
 
     var isDef;
-    $('.default').click(function(){
-        if($(this).css('color') == "rgb(204, 203, 203)"){
-            $(this).css('color','#e42121');
+    $('.default').click(function () {
+        if ($(this).css('color') == "rgb(204, 203, 203)") {
+            $(this).css('color', '#e42121');
             isDef = true
         }
-        else{
-            $(this).css('color','#cccbcb');
+        else {
+            $(this).css('color', '#cccbcb');
             isDef = false
         }
     });
 
 }]);
 
-myController.controller('address_manageController',['$scope','$http','$rootScope',function($scope,$http,$rootScope){
-    $http.post(window.API.BUYER.GET_ADDRESS_LIST,{openId:"oEQyzs4zzfJFZKHUWOA5BrD8Ssh0"}).success(function(data){
+myController.controller('address_manageController', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
+    $http.post(window.API.BUYER.GET_ADDRESS_LIST, {openId: "oEQyzs4zzfJFZKHUWOA5BrD8Ssh0"}).success(function (data) {
         // console.log(data);
         $scope.results = data;
     });
 
-    $scope.serf_newAddress = function(){
+    $scope.serf_newAddress = function () {
         location.href = '#/new_address';
-        $scope.$on('$destroy',function(){
+        $scope.$on('$destroy', function () {
 
         })
     };
 
-    $scope.serf_updateAddress = function(data){
+    $scope.serf_updateAddress = function (data) {
         location.href = '#/new_address';
         $rootScope.myAddress = data;
     };
 
-    $scope.delete_address = function(id){
-        $http.post(window.API.BUYER.DELETE_ADDRESS,{id:id}).success(function(data){
+    $scope.delete_address = function (id) {
+        $http.post(window.API.BUYER.DELETE_ADDRESS, {id: id}).success(function (data) {
             console.log(data);
             alert(data.message)
         })
