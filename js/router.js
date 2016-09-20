@@ -4,6 +4,8 @@
 var myApp = angular.module('myApp',['ui.router','ngCookies','myController']);
 
 myApp.config(function ($stateProvider,$urlRouterProvider) {
+
+
     $urlRouterProvider.when('','/main');
 
     $stateProvider
@@ -36,6 +38,11 @@ myApp.config(function ($stateProvider,$urlRouterProvider) {
             url:'/order_confirm',
             templateUrl:'template/order_confirm.html',
             controller:'order_confirmController'
+        })
+        .state('order_details',{
+            url:'/order_details',
+            templateUrl:'template/order_details.html',
+            controller:'order_detailsController'
         })
         .state('personal',{
             url:'/personal',
@@ -76,6 +83,6 @@ myApp.config(function ($stateProvider,$urlRouterProvider) {
             url:'/business_upload',
             templateUrl:'template/business/business_upload.html',
             controller:'business_uploadController'
-        })
+        });
 
 });

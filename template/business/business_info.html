@@ -10,7 +10,7 @@
         <div class="row" style="padding: 15px 10px">
             <span class="col-xs-3">联系电话</span>
             <div class="col-xs-7">
-               <input type="text" ng-model="shop.phone">
+               <input type="text" ng-model="shop.phone" maxlength="11">
             </div>
         </div>
         <div class="row" style="padding: 15px 10px">
@@ -23,21 +23,21 @@
             <span class="col-xs-3 license_words">营业范围</span>
             <div class="col-md-9 col-sm-7 license_panel">
                 <div>
-                    <i class="iconfont" name="液化气" id="gas">&#xe615;</i>
+                    <i class="iconfont" name="BS01" id="gas">&#xe615;</i>
                     <span>液化气</span>
                 </div>
 
                 <div>
-                    <i class="iconfont" name="桶装水">&#xe615;</i>
+                    <i class="iconfont" name="BS02">&#xe615;</i>
                     <span>桶装水</span>
                 </div>
 
                 <div>
-                    <i class="iconfont" name="灶具">&#xe615;</i>
+                    <i class="iconfont" name="BS03">&#xe615;</i>
                     <span>灶具</span>
                 </div>
                 <div>
-                    <i class="iconfont" name="其他">&#xe615;</i>
+                    <i class="iconfont" name="BS04">&#xe615;</i>
                     <span>其他</span>
                 </div>
 
@@ -61,7 +61,7 @@
     <p class="map_desc">*请务必精准定位，方便买家查找</p>
 
     <div class="protocol">
-        <i class="iconfont" ng-click="isDisable()">&#xe615;</i>入驻同意用户<span style="color:#e42121">《商家协议》</span>
+        <i class="iconfont" ng-click="isDisable()">&#xe615;</i>入驻即为同意<span style="color:#e42121">《火气生活商家协议》</span>
     </div>
     <div class="submit_btn">
         <button class="btn btn-danger btn-block" ng-click="submit(shop)" id="a">确认</button>

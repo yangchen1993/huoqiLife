@@ -1,19 +1,19 @@
-/**
+﻿/**
  * Created by YCC on 2016/8/23.
  */
 var myController = angular.module('myController', []);
 
 myController.controller('mainController', ['$scope', '$http', '$cookieStore', function ($scope, $http, $cookieStore) {
 
-    // var url = location.href;
-    // var index = url.indexOf("?tag");
-    // var openId = get_param(url,"openId");
-    //
-    // $cookieStore.put('openId',openId);
-    //
-    // if(index == -1){
-    //     location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc27342194c0b6057&redirect_uri=http%3a%2f%2fhq.nongjiaotx.cn%2fwx%2fuser&response_type=code&scope=snsapi_userinfo&state=main#wechat_redirect";
-    // }
+    var url = location.href;
+    var index = url.indexOf("?tag");
+    var openId = get_param(url,"openId");
+    $cookieStore.put('openId',openId);
+    if(index == -1){
+        location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx662afd2f4b80d490&redirect_uri=http%3a%2f%2fhq.nongjiaotx.cn%2fwx%2fuser&response_type=code&scope=snsapi_userinfo&state=main#wechat_redirect";
+    }
+
+
 
     $('#myCarousel').carousel({
         interval: 3000
@@ -26,21 +26,20 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
         $('.circle_logo').css('border', '0');
         $(this).find('i').css('color', '#e42220');
         $(this).css('border', '1px solid #e22220');
-        var type = $(this).siblings('p')[0].innerText;
+        var type = $(this).siblings('span')[0].innerText;
         console.log(type);
         get_shopList(type);
     });
 
-
     function get_shopList(type) {
         var img_index = 1;
-        if (type == '液化气') {
+        if (type == 'BS01') {
             img_index = 1
         }
-        else if (type == '桶装水') {
+        else if (type == 'BS02') {
             img_index = 2
         }
-        else if (type == '桶装水') {
+        else if (type == 'BS03') {
             img_index = 3
         }
         else {
@@ -78,9 +77,27 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
 
         function showError(error) {
             switch (error.code) {
-                case error.PERMISSION_DENIED:
-                    console.log("User denied the request for Geolocation.");
+                case error.PERMISSION_DENIED:{
+                    var data_ = {
+                        'lng': 104.0635,
+                        'lat': 30.5488,
+                        'type': type
+                    };
+                    /*请求附近商家*/
+                    $http.post(window.API.BUYER.NEAR_BY, data_).success(function (data) {
+                        console.log(data);
+                        $scope.results = data;
+                        for (var i = 0; i < data.length; i++) {
+                            var s = Math.floor(Math.random() * 3) + 1;
+                            console.log(s);
+                            $scope.results[i].shopImg = img_index + '-' + s + '.jpg';
+                        }
+                        console.log($scope.results)
+                    });
+                    // console.log("User denied the request for Geolocation.");
                     break;
+                }
+
                 case error.POSITION_UNAVAILABLE: {
                     var data_ = {
                         'lng': 104.0635,
@@ -112,8 +129,7 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
         }
     }
 
-    get_shopList("液化气");
-
+    get_shopList("BS01");
 
     $scope.surf_shop = function (openId) {
         location.href = "#/shop?openId=" + openId;
@@ -121,14 +137,11 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
 }]);
 
 myController.controller('shopController', ['$scope', '$http', function ($scope, $http) {
-
     var openId = get_param(location.href, "openId");
+
     $http.post(window.API.BUYER.GET_SHOP_DETAILS, {'openId': openId}).success(function (data) {
         console.log(data);
         $scope.goods = data.goods;
-        for (var i = 0; i < data.goods.length; i++) {
-            $scope.goods[i].img = data.goods[i].img.substring(data.goods[i].img.indexOf("img"));
-        }
         console.log($scope.goods);
         $scope.shop = data;
     });
@@ -136,6 +149,7 @@ myController.controller('shopController', ['$scope', '$http', function ($scope, 
     $scope.surf_shopDetails = function (id) {
         location.href = '#/shop_details?id=' + id
     };
+
     $scope.surf_orderConfirm = function (id) {
         location.href = '#/order_confirm?id=' + id
     }
@@ -147,12 +161,15 @@ myController.controller('shop_detailsController', ['$scope', '$http', function (
     $http.post(window.API.BUYER.GET_GOODS_DETAILS, {id: id}).success(function (data) {
         console.log(data);
         $scope.results = data;
-        $scope.results.img = data.img.substring(data.img.indexOf('img'));
     });
     console.log($scope.results);
 
     $scope.run_shop = function (openId) {
         location.href = '#/shop?openId=' + openId
+    };
+
+    $scope.surf_orderConfirm = function () {
+        location.href = '#/order_confirm?id=' + id
     }
 }]);
 
@@ -174,43 +191,107 @@ myController.controller('riderController', ['$scope', function ($scope) {
     }
 }]);
 
-myController.controller('orderController', ['$scope', function ($scope) {
+myController.controller('orderController', ['$scope','$http','$cookieStore',function ($scope,$http,$cookieStore) {
+    var openId = $cookieStore.get('openId');
+    var myopenId = "orjMgxOka1VtwtVleqI51lFr9-K0";
     $('.nav_self div').click(function () {
         $(this).css({'color': '#e42121'}).siblings().css({'color': '#222'})
     });
-    $scope.move_hk = function (i) {
-        if (i == 1) {
-            $('.div_hk').animate({'margin-left': '2%'})
+    $scope.move_hk = function (i,status) {
+        $('.div_hk').animate({'margin-left': ((i-1)*20+2)+'%'});
+        get_orderInfo_by_state(status);
+    };
+
+    function get_orderInfo_by_state(state){
+        var data_ = {
+            opt: state,
+            openId:openId,
+            role:'ORDERS_INITIATOR_ID'
+        };
+
+        $http.post(window.API.BUYER.ORDER_LIST,data_).success(function (data) {
+            _.map(data,function(v){
+                var time = new Date(v.createTime);
+                return v.createTime = time.getFullYear()+'-'+(time.getMonth()+1)+'-'+time.getDate()
+            });
+            $scope.results = data;
+            console.log(data);
+        })
+    }
+    get_orderInfo_by_state('OT01');
+
+
+
+    $scope.order_cancel = function(id){
+        if(confirm('是否取消订单')){
+            $http.post(window.API.BUYER.ORDER_CANCEL,{id:id}).success(function (data) {
+                console.log(data);
+                alert(data.message)
+            })
         }
-        if (i == 2) {
-            $('.div_hk').animate({'margin-left': '22%'})
-        }
-        if (i == 3) {
-            $('.div_hk').animate({'margin-left': '42%'})
-        }
-        if (i == 4) {
-            $('.div_hk').animate({'margin-left': '62%'})
-        }
-        if (i == 5) {
-            $('.div_hk').animate({'margin-left': '82%'})
-        }
+    };
+
+    var wx_pay;
+    $scope.pay = function (id) {
+	console.log(id)
+        $http.post(window.API.BUYER.PAY_ORDER,{id:id}).success(function(data){
+            console.log(data);
+            wx_pay = JSON.parse(data.result);
+            console.log(wx_pay);
+            if (typeof WeixinJSBridge == "undefined"){
+                if( document.addEventListener ){
+                    document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+                }else if (document.attachEvent){
+                    document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+                    document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+                }
+            }else{
+                onBridgeReady();
+            }
+        });
+    };
+    function onBridgeReady(){
+        WeixinJSBridge.invoke(
+            'getBrandWCPayRequest', {
+                "appId": wx_pay.appId,     //公众号名称，由商户传入
+                "timeStamp": wx_pay.timeStamp,         //时间戳，自1970年以来的秒数
+                "nonceStr" : wx_pay.nonceStr, //随机串
+                "package" : wx_pay.package,
+                "signType" : wx_pay.signType,         //微信签名方式：
+                "paySign" : wx_pay.paySign //微信签名
+            },
+            function(res){
+                if(res.err_msg == "get_brand_wcpay_request：ok" ) {
+
+                }     // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
+            }
+        );
     }
 }]);
 
-myController.controller('order_confirmController', ['$scope', '$http', '$cookieStore', function ($scope, $http, $cookieStore) {
+myController.controller('order_confirmController', ['$scope', '$http', '$cookieStore','$rootScope', function ($scope, $http, $cookieStore,$rootScope) {
     var id = get_param(location.href, "id");
 
-    $http.post(window.API.BUYER.GET_ADDRESS_LIST, {openId: "oEQyzs4zzfJFZKHUWOA5BrD8Ssh0"}).success(function (data) {
-        console.log(data);
-        // $scope.results = data;
-        $scope.default_address = _.where(data, {isDef: true})[0];
-        console.log($scope.default_address)
-    });
+    var openId = $cookieStore.get('openId');
+
+    var myopenId = "orjMgxOka1VtwtVleqI51lFr9-K0";
+
+    var tag = location.href.indexOf('form_addressManage');
+
+    if(tag == -1){
+        $http.post(window.API.BUYER.GET_ADDRESS_LIST, {openId: openId}).success(function (data) {
+            console.log(data);
+            $scope.default_address = _.where(data, {isDef: true})[0];
+            console.log($scope.default_address)
+        });
+    }
+    else{
+        $scope.default_address = $rootScope.select_address;
+    }
     var onePrice = 0;
     $http.post(window.API.BUYER.GET_GOODS_DETAILS, {id: id}).success(function (data) {
         console.log(data);
         $scope.goods = data;
-        $scope.goods.img = data.img.substring(data.img.indexOf('img'));
         onePrice = $scope.goods.price;
         console.log($scope.goods);
     });
@@ -228,34 +309,116 @@ myController.controller('order_confirmController', ['$scope', '$http', '$cookieS
         }
     };
 
+
+
     $scope.confirm_order = function () {
         var data_ = {
             totalAmount:$scope.goods.price,
-            initiator:'oEQyzs4zzfJFZKHUWOA5BrD8Ssh0',   // 用户openId
+            initiator:openId,   // 用户openId
             accepter:$scope.goods.business.openId,   //商家openId
             addressId:$scope.default_address.id,
             remark:$scope.remark,
-            shipmentsDate:'今天 11:00-13:00',
+            shipmentsDate:'立即送达',
             orderList:{
                 name:$scope.goods.name,
                 price:onePrice,
-                quantity:$scope.num
+                quantity:$scope.num,
+                orderImg:$scope.goods.img
             }
         };
         $http.post(window.API.BUYER.ADD_ORDER,data_).success(function(data){
-            console.log(data);
-        })
+            alert(data.message);
+            wx_pay = JSON.parse(data.result);
+            console.log(wx_pay);
+            if (typeof WeixinJSBridge == "undefined"){
+                if( document.addEventListener ){
+                    document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+                }else if (document.attachEvent){
+                    document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+                    document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+                }
+            }else{
+                onBridgeReady();
+            }
+        });
+    };
+
+    var wx_pay;
+    function onBridgeReady(){
+        WeixinJSBridge.invoke(
+            'getBrandWCPayRequest', {
+                "appId": wx_pay.appId,     //公众号名称，由商户传入
+                "timeStamp": wx_pay.timeStamp,         //时间戳，自1970年以来的秒数
+                "nonceStr" : wx_pay.nonceStr, //随机串
+                "package" : wx_pay.package,
+                "signType" : wx_pay.signType,         //微信签名方式：
+                "paySign" : wx_pay.paySign //微信签名
+            },
+
+            function(res){
+                if(res.err_msg == "get_brand_wcpay_request：ok" ) {
+
+                }     // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
+            }
+        );
+    }
+    $scope.surf_addressManage = function(){
+        location.href = '#/address_manage?id='+id;
     }
 }]);
 
-myController.controller('personalController', ['$scope', function ($scope) {
+myController.controller('order_detailsController', ['$scope','$http','$cookieStore',function ($scope,$http,$cookieStore) {
+    var openId = $cookieStore.get('openId');
+    var myopenId = "orjMgxOka1VtwtVleqI51lFr9-K0";
+    $('.nav_self div').click(function () {
+        $(this).css({'color': '#e42121'}).siblings().css({'color': '#222'})
+    });
+    $scope.move_hk = function (i,status) {
+        $('.div_hk').animate({'margin-left': ((i-1)*20+2)+'%'});
+        get_orderInfo_by_state(status);
+    };
+
+    function get_orderInfo_by_state(state){
+        var data_ = {
+            opt: state,
+            openId:openId,
+            role:'ORDERS_INITIATOR_ID'
+        };
+
+        $http.post(window.API.BUYER.ORDER_LIST,data_).success(function (data) {
+            _.map(data,function(v){
+                var time = new Date(v.createTime);
+                return v.createTime = time.getFullYear()+'-'+(time.getMonth()+1)+'-'+time.getDate()
+            });
+            $scope.results = data;
+            console.log(data);
+        })
+    }
+
+    get_orderInfo_by_state('OT01');
 
 }]);
 
-myController.controller('new_addressController', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
+myController.controller('personalController', ['$scope','$http','$cookieStore',function ($scope,$http,$cookieStore) {
+    var openId = $cookieStore.get('openId');
+
+    var myopenId = "orjMgxOka1VtwtVleqI51lFr9-K0";
+
+    $http.post(window.API.BUYER.GET_ADDRESS_LIST, {openId: openId}).success(function (data) {
+        $scope.user = data[0].member;
+    });
+
+}]);
+
+
+myController.controller('new_addressController', ['$scope', '$http', '$rootScope','$cookieStore', function ($scope, $http, $rootScope,$cookieStore) {
     $scope.$on('$destroy', function () {
         $rootScope.myAddress = "";
     });
+
+    var openId = $cookieStore.get('openId');
+
+    var myopenId = "orjMgxOka1VtwtVleqI51lFr9-K0";
 
     //修改地址
     if ($rootScope.myAddress) {
@@ -271,7 +434,8 @@ myController.controller('new_addressController', ['$scope', '$http', '$rootScope
 
             var data_ = angular.copy(data);
             data_.id = address_id;
-            if ($('.default').css('color') == "rgb(204, 203, 203)") {
+
+            if($('.default').css('color') == "rgb(204, 203, 203)") {
                 data_.isDef = false
             }
             else {
@@ -281,10 +445,16 @@ myController.controller('new_addressController', ['$scope', '$http', '$rootScope
             data_.cityName = $scope.myCity;
             data_.countyName = $scope.myArea;
             console.log(data_);
-            $http.post(window.API.BUYER.UPDATE_ADDRESS, data_).success(function (data) {
-                console.log(data);
-                alert(data.message);
-            })
+            if(data_.contactName || data_.mobile || data_.proName || data_.proName ||data_.cityName ||data_.countyName || data_.address){
+                alert("请完善地址信息")
+            }
+            else{
+                $http.post(window.API.BUYER.UPDATE_ADDRESS, data_).success(function (data) {
+                    console.log(data);
+                    alert(data.message);
+                    location.href = '#/address_manage';
+                })
+            }
         }
     }
 
@@ -292,18 +462,23 @@ myController.controller('new_addressController', ['$scope', '$http', '$rootScope
         //新建地址
         $scope.submit = function (data) {
             var data_ = angular.copy(data);
-            data_.openId = "oEQyzs4zzfJFZKHUWOA5BrD8Ssh0";
+            data_.openId = openId;
             data_.isDef = isDef;
             data_.proName = $scope.myProvince;
             data_.cityName = $scope.myCity;
             data_.countyName = $scope.myArea;
             console.log(data_);
-            $http.post(window.API.BUYER.NEW_ADDRESS, data_).success(function (data) {
-                console.log(data);
-                alert(data.message);
-            })
+            if(data_.contactName && data_.mobile && data_.proName &&data_.cityName &&data_.countyName && data_.address){
+                $http.post(window.API.BUYER.NEW_ADDRESS, data_).success(function (data) {
+                    console.log(data);
+                    alert(data.message);
+                    location.href = '#/address_manage';
+                })
+            }
+            else{
+                alert("请完善地址信息")
+            }
         }
-
     }
 
     $http.get(window.API.BUYER.GET_ADDRESS).success(function (data) {
@@ -332,6 +507,7 @@ myController.controller('new_addressController', ['$scope', '$http', '$rootScope
     };
 
     var isDef;
+
     $('.default').click(function () {
         if ($(this).css('color') == "rgb(204, 203, 203)") {
             $(this).css('color', '#e42121');
@@ -345,11 +521,27 @@ myController.controller('new_addressController', ['$scope', '$http', '$rootScope
 
 }]);
 
-myController.controller('address_manageController', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
-    $http.post(window.API.BUYER.GET_ADDRESS_LIST, {openId: "oEQyzs4zzfJFZKHUWOA5BrD8Ssh0"}).success(function (data) {
-        // console.log(data);
-        $scope.results = data;
-    });
+myController.controller('address_manageController', ['$scope', '$http', '$rootScope','$cookieStore', function ($scope, $http, $rootScope,$cookieStore) {
+    var openId = $cookieStore.get('openId');
+
+    var myopenId = "orjMgxOka1VtwtVleqI51lFr9-K0";
+
+    var index = location.href.indexOf('id');
+    var id = location.href.substring(index+3);
+        $http.post(window.API.BUYER.GET_ADDRESS_LIST, {openId: openId}).success(function (data) {
+            // console.log(data);
+            $scope.results = data;
+        });
+
+    $scope.surf_orderConfirm = function(data){
+        if(index == -1){
+
+        }
+        else{
+            location.href = '#/order_confirm?form_addressManage&id='+id;
+            $rootScope.select_address = data;
+        }
+    };
 
     $scope.serf_newAddress = function () {
         location.href = '#/new_address';
@@ -366,7 +558,8 @@ myController.controller('address_manageController', ['$scope', '$http', '$rootSc
     $scope.delete_address = function (id) {
         $http.post(window.API.BUYER.DELETE_ADDRESS, {id: id}).success(function (data) {
             console.log(data);
-            alert(data.message)
+            alert(data.message);
+            location.reload();
         })
     };
 }]);

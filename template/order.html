@@ -1,89 +1,49 @@
 <link rel="stylesheet" href="./css/order.css">
 <div class="content">
     <div class="nav_self">
-        <div ng-click="move_hk(1)" style="color: #e42121">待付款</div>
-        <div ng-click="move_hk(2)">待接单</div>
-        <div ng-click="move_hk(3)">已接单</div>
-        <div ng-click="move_hk(4)">配送中</div>
-        <div ng-click="move_hk(5)" style="border: 0">已结束</div>
+        <div ng-click="move_hk(1,'OT01')" style="color: #e42121">待付款</div>
+        <div ng-click="move_hk(2,'OT02')">待接单</div>
+        <div ng-click="move_hk(3,'OT03')">已接单</div>
+        <div ng-click="move_hk(4,'OT04')">配送中</div>
+        <div ng-click="move_hk(5,'OT')" style="border: 0">已结束</div>
     </div>
     <div class="div_hk"></div>
     <div class="cut_line"></div>
 
     <div class="content1">
-        <div class="order_panel">
+        <div class="order_panel" ng-repeat="v in results">
             <div class="order_title">
-                <span>订单编号：4352452452</span>
-                <span class="pull-right">2016-05-21</span>
+                <span>订单编号：{{v.no}}</span>
+                <span class="pull-right">{{v.createTime}}</span>
             </div>
             <div class="order_info">
-                <img height="100%">
+                <img height="100%" ng-src="http://139.196.238.215:9900/img/goods/{{v.orderList[0].orderImg}}">
                 <div class="shop_words">
-                    <p>发vs的发啊啊啊啊啊啊啊</p>
-                    <p>购买数量：3</p>
-                    <p>¥33.5</p>
+                    <p>{{v.orderList[0].name}}</p>
+                    <p>购买数量：{{v.orderList[0].quantity}}</p>
+                    <p>¥{{v.orderList[0].price}}</p>
                 </div>
                 <i class="iconfont pull-right" style="margin-top: 32px">&#xe611;</i>
             </div>
             <div style="background: url('./img/bolang.png')" class="order_op">
-                <span>待接单</span>
-                <div style="display: inline-block" class="pull-right">
-                    <div class="btn-self" style="color: #e42121">再次购买</div>
-                    <div class="btn-self" style="color: #fff;background-color: #e42121">取消订单</div>
+                <span ng-show="v.status == 'OT00'">订单取消</span>
+                <span ng-show="v.status == 'OT01'">待付款</span>
+                <span ng-show="v.status == 'OT02'">待接单</span>
+                <span ng-show="v.status == 'OT03'">已接单</span>
+                <span ng-show="v.status == 'OT04'">配送中</span>
+                <span ng-show="v.status == 'OT05'">已完成</span>
+                <div style="display: inline-block" class="pull-right" ng-show="v.status == 'OT01'">
+                    <div class="btn-self" style="color: #e42121" ng-click="pay(v.id)">去支付</div>
+                    <div class="btn-self" style="color: #fff;background-color: #e42121" ng-click="order_cancel(v.id)">取消订单</div>
+                </div>
+                <div style="display: inline-block" class="pull-right" ng-show="v.status == 'OT02'">
+                    <div class="btn-self" style="color: #e42121">订单详情</div>
+                    <div class="btn-self" style="color: #fff;background-color: #e42121" ng-click="order_cancel(v.id)">取消订单</div>
                 </div>
                 <!--<div class="btn-self pull-right" style="color: #fff;background-color: #e42121">取消订单</div>-->
                 <!--<div class="btn-self pull-right" style="color: #e42121;margin-right: 10px">再次购买</div>-->
             </div>
-        </div>
-        <div class="cut_line"></div>
-        <div class="order_panel">
-            <div class="order_title">
-                <span>订单编号：4352452452</span>
-                <span class="pull-right">2016-05-21</span>
-            </div>
-            <div class="order_info">
-                <img src="./img/test3.png" height="100%">
-                <div class="shop_words">
-                    <p>发vs的发啊啊啊啊啊啊啊</p>
-                    <p>购买数量：3</p>
-                    <p>¥33.5</p>
-                </div>
-                <i class="iconfont pull-right" style="margin-top: 32px;color">&#xe611;</i>
-            </div>
-            <div style="background: url('./img/bolang.png')" class="order_op">
-                <span>待接单</span>
-                <div style="display: inline-block" class="pull-right">
-                    <div class="btn-self" style="color: #e42121">再次购买</div>
-                    <div class="btn-self" style="color: #fff;background-color: #e42121">取消订单</div>
-                </div>
-                <!--<div class="btn-self pull-right" style="color: #fff;background-color: #e42121">取消订单</div>-->
-                <!--<div class="btn-self pull-right" style="color: #e42121;margin-right: 10px">再次购买</div>-->
-            </div>
-        </div>
-        <div class="cut_line"></div>
-        <div class="order_panel">
-            <div class="order_title">
-                <span>订单编号：4352452452</span>
-                <span class="pull-right">2016-05-21</span>
-            </div>
-            <div class="order_info">
-                <img src="./img/test3.png" height="100%">
-                <div class="shop_words">
-                    <p>发vs的发</p>
-                    <p>购买数量：3</p>
-                    <p>¥33.5</p>
-                </div>
-                <i class="iconfont pull-right" style="margin-top: 32px">&#xe611;</i>
-            </div>
-            <div style="background: url('./img/bolang.png')" class="order_op">
-                <span>待接单</span>
-                <div style="display: inline-block" class="pull-right">
-                    <div class="btn-self" style="color: #e42121">再次购买</div>
-                    <div class="btn-self" style="color: #fff;background-color: #e42121">取消订单</div>
-                </div>
-                <!--<div class="btn-self pull-right" style="color: #fff;background-color: #e42121">取消订单</div>-->
-                <!--<div class="btn-self pull-right" style="color: #e42121;margin-right: 10px">再次购买</div>-->
-            </div>
+            <div class="cut_line"></div>
         </div>
     </div>
     <div style="height: 60px;background-color: #e4e1e1;"></div>

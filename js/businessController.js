@@ -10,7 +10,7 @@ myController.controller('business_joinController',['$scope','$http','$cookieStor
     $cookieStore.put('openId',openId);
 
     if(index == -1){
-        location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxc27342194c0b6057&redirect_uri=http%3a%2f%2fhq.nongjiaotx.cn%2fwx%2fuser&response_type=code&scope=snsapi_userinfo&state=business_join#wechat_redirect";
+        location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx662afd2f4b80d490&redirect_uri=http%3a%2f%2fhq.nongjiaotx.cn%2fwx%2fuser&response_type=code&scope=snsapi_userinfo&state=business_join#wechat_redirect";
     }
 
     $scope.Vcode = "获取验证码";
@@ -179,18 +179,33 @@ myController.controller('business_infoController',['$scope','$http','$cookieStor
             data_.append('address',address);
             data_.append('openId',$cookieStore.get('openId'));
             console.log(data_);
-            $http.post(window.API.BUSINESS.INFO,data_,{"headers": {"Content-Type": undefined}}).success(function(data){
-                console.log(data);
-                if(data.status == 200){
-                    alert("入驻成功");
-                    location.href = "#/business_user";
+            if($('#gas').css('color') == 'rgb(228, 33, 33)'){
+                if(files){
+                    $http.post(window.API.BUSINESS.INFO,data_,{"headers": {"Content-Type": undefined}}).success(function(data){
+                        console.log(data);
+                        if(data.status == 200){
+                            alert("入驻成功");
+                            location.href = "#/business_user";
+                        }
+                    })
                 }
-            })
+                else{
+                    alert('请上传营业执照');
+                }
+            }
+            else{
+                $http.post(window.API.BUSINESS.INFO,data_,{"headers": {"Content-Type": undefined}}).success(function(data){
+                    console.log(data);
+                    if(data.status == 200){
+                        alert("入驻成功");
+                        location.href = "#/business_user";
+                    }
+                })
+            }
         }
         else{
             alert("请完善必填信息")
         }
-
     };
 }]);
 

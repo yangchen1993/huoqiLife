@@ -1,9 +1,9 @@
 <link rel="stylesheet" href="./css/address_manage.css">
 <div class="content">
-    <img src="./img/personal/address_line.png" style="vertical-align: top">
+    <img src="./img/personal/address_line.png" style="vertical-align: top;width: 100%">
 
     <div class="address_panel">
-        <div ng-repeat="v in results">
+        <div ng-repeat="v in results" ng-click="surf_orderConfirm(v)">
             <p><span>{{v.contactName}}</span><span style="margin-left: 20px">{{v.mobile}}</span></p>
             <p class="address_words"><span style="color:#e42121;margin-right: 5px;font-weight: bold" ng-show="v.isDef">[默认]</span><span ng-bind="v.proName+v.cityName+v.countyName+v.address"></span></p>
             <div class="operation">

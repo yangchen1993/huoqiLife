@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="./css/shop_details.css">
 <div class="content">
     <div class="img_panel">
-        <img ng-src="http://139.196.238.215:9900/{{results.img}}" width="100px">
+        <img ng-src="http://139.196.238.215:9900/img/goods/{{results.img}}" width="100%">
     </div>
 
     <div class="goods_info">
@@ -31,6 +31,6 @@
 
 
     <div class="submit_btn">
-        <button class="btn btn-danger btn-block">立即购买</button>
+        <button class="btn btn-danger btn-block" ng-click="surf_orderConfirm()">立即购买</button>
     </div>
 </div>
