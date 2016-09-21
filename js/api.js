@@ -19,6 +19,8 @@ window.API = {
     },
 
     "BUYER":{
+        "GET_USER_INFO":[window.HOST,'order/memb'].join(""),    //获取用户基本信息
+
         "NEAR_BY":[window.HOST,"business/nearBy"].join(""),     //买家获取附近店铺
 
         "GET_SHOP_DETAILS":[window.HOST,"business/detail"].join(""),    //买家获取店铺详情
@@ -41,7 +43,11 @@ window.API = {
 
         "ORDER_CANCEL":[window.HOST,'order/cancel'].join(""),      //取消订单
 
-        "PAY_ORDER":[window.HOST,'order/pay'].join("")        //订单支付
+        "ORDER_UPDATE":[window.HOST,'order/update'].join(""),      //更新订单状态
+
+        "PAY_ORDER":[window.HOST,'order/pay'].join(""),        //订单支付
+
+        "ORDER_DETAILS":[window.HOST,'order/detail'].join("")     //订单详情
     }
 };
 
@@ -66,3 +72,5 @@ var get_param = function (href, paraName) {
 
     return result;
 };
+
+var my_openId = 'orjMgxOka1VtwtVleqI51lFr9-K0';

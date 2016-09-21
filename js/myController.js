@@ -13,8 +13,6 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
         location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx662afd2f4b80d490&redirect_uri=http%3a%2f%2fhq.nongjiaotx.cn%2fwx%2fuser&response_type=code&scope=snsapi_userinfo&state=main#wechat_redirect";
     }
 
-
-
     $('#myCarousel').carousel({
         interval: 3000
     });
@@ -58,8 +56,8 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
             lat = position.coords.latitude;
             lng = position.coords.longitude;
             var data_ = {
-                'lng': lng,
-                'lat': lat,
+                'lng': 104.0635,
+                'lat': 30.5488,
                 'type': type
             };
 
@@ -220,7 +218,16 @@ myController.controller('orderController', ['$scope','$http','$cookieStore',func
     }
     get_orderInfo_by_state('OT01');
 
-
+    $scope.order_update = function(id,status){
+        var data_ = {
+            id:id,
+            status:status
+        };
+        $http.post(window.API.BUYER.ORDER_UPDATE,data_).success(function(data){
+            console.log(data);
+            alert(data.message);
+        })
+    };
 
     $scope.order_cancel = function(id){
         if(confirm('是否取消订单')){
@@ -231,9 +238,13 @@ myController.controller('orderController', ['$scope','$http','$cookieStore',func
         }
     };
 
+    $scope.surf_orderDetails = function (id) {
+        location.href = "#/order_details?id="+id;
+    };
+
     var wx_pay;
     $scope.pay = function (id) {
-	console.log(id)
+	console.log(id);
         $http.post(window.API.BUYER.PAY_ORDER,{id:id}).success(function(data){
             console.log(data);
             wx_pay = JSON.parse(data.result);
@@ -274,8 +285,6 @@ myController.controller('order_confirmController', ['$scope', '$http', '$cookieS
 
     var openId = $cookieStore.get('openId');
 
-    var myopenId = "orjMgxOka1VtwtVleqI51lFr9-K0";
-
     var tag = location.href.indexOf('form_addressManage');
 
     if(tag == -1){
@@ -314,7 +323,7 @@ myController.controller('order_confirmController', ['$scope', '$http', '$cookieS
     $scope.confirm_order = function () {
         var data_ = {
             totalAmount:$scope.goods.price,
-            initiator:openId,   // 用户openId
+            initiator:my_openId,   // 用户openId
             accepter:$scope.goods.business.openId,   //商家openId
             addressId:$scope.default_address.id,
             remark:$scope.remark,
@@ -324,7 +333,8 @@ myController.controller('order_confirmController', ['$scope', '$http', '$cookieS
                 price:onePrice,
                 quantity:$scope.num,
                 orderImg:$scope.goods.img
-            }
+            },
+            goodId:$scope.goods.id
         };
         $http.post(window.API.BUYER.ADD_ORDER,data_).success(function(data){
             alert(data.message);
@@ -368,35 +378,47 @@ myController.controller('order_confirmController', ['$scope', '$http', '$cookieS
 }]);
 
 myController.controller('order_detailsController', ['$scope','$http','$cookieStore',function ($scope,$http,$cookieStore) {
-    var openId = $cookieStore.get('openId');
-    var myopenId = "orjMgxOka1VtwtVleqI51lFr9-K0";
-    $('.nav_self div').click(function () {
-        $(this).css({'color': '#e42121'}).siblings().css({'color': '#222'})
-    });
-    $scope.move_hk = function (i,status) {
-        $('.div_hk').animate({'margin-left': ((i-1)*20+2)+'%'});
-        get_orderInfo_by_state(status);
-    };
+    var id = get_param(location.href,'id');
+    // var openId = $cookieStore.get('openId');
+    // var myopenId = "orjMgxOka1VtwtVleqI51lFr9-K0";
+    // $('.nav_self div').click(function () {
+    //     $(this).css({'color': '#e42121'}).siblings().css({'color': '#222'})
+    // });
+    // $scope.move_hk = function (i,status) {
+    //     $('.div_hk').animate({'margin-left': ((i-1)*20+2)+'%'});
+    //     get_orderInfo_by_state(status);
+    // };
+    //
+    // function get_orderInfo_by_state(state){
+    //     var data_ = {
+    //         opt: state,
+    //         openId:openId,
+    //         role:'ORDERS_INITIATOR_ID'
+    //     };
+    //
+    //     $http.post(window.API.BUYER.ORDER_LIST,data_).success(function (data) {
+    //         _.map(data,function(v){
+    //             var time = new Date(v.createTime);
+    //             return v.createTime = time.getFullYear()+'-'+(time.getMonth()+1)+'-'+time.getDate()
+    //         });
+    //         $scope.results = data;
+    //         console.log(data);
+    //     })
+    // }
+    //
+    // get_orderInfo_by_state('OT01');
 
-    function get_orderInfo_by_state(state){
-        var data_ = {
-            opt: state,
-            openId:openId,
-            role:'ORDERS_INITIATOR_ID'
-        };
+    setTimeout(function () {
+        console.log($('.logo_panel').width())
+        $('.logo_panel>div').css({'height':$('.logo_panel>div').width()})
 
-        $http.post(window.API.BUYER.ORDER_LIST,data_).success(function (data) {
-            _.map(data,function(v){
-                var time = new Date(v.createTime);
-                return v.createTime = time.getFullYear()+'-'+(time.getMonth()+1)+'-'+time.getDate()
-            });
-            $scope.results = data;
-            console.log(data);
-        })
-    }
+        $('.line_panel').css('margin-top',$('.logo_panel>div').width()/2)
+    },10);
 
-    get_orderInfo_by_state('OT01');
-
+    $http.post(window.API.BUYER.ORDER_DETAILS,{id:id}).success(function (data) {
+        console.log(data);
+        $scope.results = data;
+    })
 }]);
 
 myController.controller('personalController', ['$scope','$http','$cookieStore',function ($scope,$http,$cookieStore) {
@@ -404,8 +426,9 @@ myController.controller('personalController', ['$scope','$http','$cookieStore',f
 
     var myopenId = "orjMgxOka1VtwtVleqI51lFr9-K0";
 
-    $http.post(window.API.BUYER.GET_ADDRESS_LIST, {openId: openId}).success(function (data) {
-        $scope.user = data[0].member;
+    $http.post(window.API.BUYER.GET_USER_INFO, {openId: openId}).success(function (data) {
+        console.log(data);
+        $scope.user = data;
     });
 
 }]);
@@ -445,15 +468,15 @@ myController.controller('new_addressController', ['$scope', '$http', '$rootScope
             data_.cityName = $scope.myCity;
             data_.countyName = $scope.myArea;
             console.log(data_);
-            if(data_.contactName || data_.mobile || data_.proName || data_.proName ||data_.cityName ||data_.countyName || data_.address){
-                alert("请完善地址信息")
-            }
-            else{
+            if(data_.contactName!="" && data_.contactName && data_.mobile!="" && data_.mobile && data_.proName!="" && data_.proName &&data_.cityName!="" &&data_.cityName &&data_.countyName!="" &&data_.countyName && data_.address!="" && data_.address){
                 $http.post(window.API.BUYER.UPDATE_ADDRESS, data_).success(function (data) {
                     console.log(data);
                     alert(data.message);
                     location.href = '#/address_manage';
                 })
+            }
+            else{
+                alert("请完善地址信息")
             }
         }
     }
@@ -468,7 +491,7 @@ myController.controller('new_addressController', ['$scope', '$http', '$rootScope
             data_.cityName = $scope.myCity;
             data_.countyName = $scope.myArea;
             console.log(data_);
-            if(data_.contactName && data_.mobile && data_.proName &&data_.cityName &&data_.countyName && data_.address){
+            if(data_.contactName!="" && data_.contactName && data_.mobile!="" && data_.mobile && data_.proName!="" && data_.proName &&data_.cityName!="" &&data_.cityName &&data_.countyName!="" &&data_.countyName && data_.address!="" && data_.address){
                 $http.post(window.API.BUYER.NEW_ADDRESS, data_).success(function (data) {
                     console.log(data);
                     alert(data.message);

@@ -83,6 +83,12 @@ myApp.config(function ($stateProvider,$urlRouterProvider) {
             url:'/business_upload',
             templateUrl:'template/business/business_upload.html',
             controller:'business_uploadController'
+        })
+        .state('business_order',{
+            url:'/business_order',
+            templateUrl:'template/business/business_order.html',
+            controller:'business_orderController'
         });
+
 
 });

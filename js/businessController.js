@@ -247,7 +247,18 @@ myController.controller('business_uploadController',['$scope','$http','$cookieSt
 
         var data_ = new FormData();
         data_.append('name',goods.name);
-        data_.append('category',goods.type);
+        if(goods.type == '液化气'){
+            data_.append('category','GC01');
+        }
+        else if(goods.type == '桶装水'){
+            data_.append('category','GC02');
+        }
+        else if(goods.type == '灶具'){
+            data_.append('category','GC03');
+        }
+        else{
+            data_.append('category','GC99');
+        }
         data_.append('weight',goods.specNum);
         data_.append('weightUnit',goods.spec);
         data_.append('price',goods.price);
@@ -270,9 +281,48 @@ myController.controller('business_uploadController',['$scope','$http','$cookieSt
 myController.controller('business_userController',['$scope','$http','$cookieStore',function($scope,$http,$cookieStore){
     var openId = get_param(location.href,"openId");
     $cookieStore.put('openId',openId);
-    console.log(openId);
     $http.post(window.API.BUYER.GET_SHOP_DETAILS,{'openId':openId}).success(function(data){
         console.log(data);
         $scope.userInfo = data;
     })
+}]);
+
+myController.controller('business_orderController',['$scope','$http','$cookieStore',function($scope,$http,$cookieStore){
+    var openId = $cookieStore.get('openId');
+    $('.nav_self div').click(function () {
+        $(this).css({'color': '#e42121'}).siblings().css({'color': '#222'})
+    });
+    $scope.move_hk = function (i,status) {
+        $('.div_hk').animate({'margin-left': ((i-1)*25+3)+'%'});
+        get_orderInfo_by_state(status);
+    };
+
+    function get_orderInfo_by_state(state){
+        var data_ = {
+            opt: state,
+            openId:openId,
+            role:'ORDERS_INITIATOR_ID'
+        };
+
+        $http.post(window.API.BUYER.ORDER_LIST,data_).success(function (data) {
+            _.map(data,function(v){
+                var time = new Date(v.createTime);
+                return v.createTime = time.getFullYear()+'-'+(time.getMonth()+1)+'-'+time.getDate()
+            });
+            $scope.results = data;
+            console.log(data);
+        })
+    }
+    get_orderInfo_by_state('OT02');
+
+    $scope.order_update = function(id,status){
+        var data_ = {
+            id:id,
+            status:status
+        };
+        $http.post(window.API.BUYER.ORDER_UPDATE,data_).success(function(data){
+            console.log(data);
+            alert(data.message);
+        })
+    }
 }]);
