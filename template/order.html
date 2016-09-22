@@ -38,14 +38,20 @@
                 </div>
                 <div style="display: inline-block" class="pull-right" ng-show="v.status == 'OT02'">
                     <div class="btn-self" style="color: #e42121" ng-click="surf_orderDetails(v.id)">订单详情</div>
-                    <div class="btn-self" style="color: #fff;background-color: #e42121" ng-click="order_cancel(v.id)">取消订单</div>
+                    <div class="btn-self" style="color: #fff;background-color: #e42121" ng-click="order_refund(v.id,v.wxOrderId,v.wxRefuseId,v.totalAmount)">取消订单</div>
+                </div>
+                <div style="display: inline-block" class="pull-right" ng-show="v.status == 'OT03'">
+                    <div class="btn-self" style="color: #e42121" ng-click="surf_orderDetails(v.id)">订单详情</div>
+                    <div class="btn-self" style="color: #fff;background-color: #e42121" ng-click="surf_orderConfirm(v.productId)">再次购买</div>
                 </div>
                 <div style="display: inline-block" class="pull-right" ng-show="v.status == 'OT04'">
                     <div class="btn-self" style="color: #e42121" ng-click="surf_orderDetails(v.id)">订单详情</div>
                     <div class="btn-self" style="color: #fff;background-color: #e42121" ng-click="order_update(v.id,'OT05')">确认收货</div>
                 </div>
-                <!--<div class="btn-self pull-right" style="color: #fff;background-color: #e42121">取消订单</div>-->
-                <!--<div class="btn-self pull-right" style="color: #e42121;margin-right: 10px">再次购买</div>-->
+                <div style="display: inline-block" class="pull-right" ng-show="v.status == 'OT05' || v.status == 'OT00'">
+                    <div class="btn-self" style="color: #e42121" ng-click="surf_orderDetails(v.id)">订单详情</div>
+                    <div class="btn-self" style="color: #fff;background-color: #e42121" ng-click="surf_orderConfirm(v.productId)">再次购买</div>
+                </div>
             </div>
             <div class="cut_line"></div>
         </div>

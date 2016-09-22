@@ -2,16 +2,9 @@
  * Created by YCC on 2016/9/1.
  */
 myController.controller('business_joinController',['$scope','$http','$cookieStore','$interval',function($scope,$http,$cookieStore,$interval){
-
     var url = location.href;
-    var index = url.indexOf("?tag");
     var openId = get_param(url,"openId");
-
     $cookieStore.put('openId',openId);
-
-    if(index == -1){
-        location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx662afd2f4b80d490&redirect_uri=http%3a%2f%2fhq.nongjiaotx.cn%2fwx%2fuser&response_type=code&scope=snsapi_userinfo&state=business_join#wechat_redirect";
-    }
 
     $scope.Vcode = "获取验证码";
     $scope.get_sms = function(){
@@ -244,7 +237,6 @@ myController.controller('business_uploadController',['$scope','$http','$cookieSt
         var file0 = $('#files0')[0].files[0];
         var file1 = $('#files1')[0].files[0];
         var file2 = $('#files2')[0].files[0];
-
         var data_ = new FormData();
         data_.append('name',goods.name);
         if(goods.type == '液化气'){
@@ -303,7 +295,6 @@ myController.controller('business_orderController',['$scope','$http','$cookieSto
             openId:openId,
             role:'ORDERS_INITIATOR_ID'
         };
-
         $http.post(window.API.BUYER.ORDER_LIST,data_).success(function (data) {
             _.map(data,function(v){
                 var time = new Date(v.createTime);
@@ -313,6 +304,7 @@ myController.controller('business_orderController',['$scope','$http','$cookieSto
             console.log(data);
         })
     }
+
     get_orderInfo_by_state('OT02');
 
     $scope.order_update = function(id,status){

@@ -1,14 +1,14 @@
 <link rel="stylesheet" href="./css/order_details.css">
 <div class="content">
     <div class="top_status">
-        <p>订单状态：配送中</p>
+        <p>订单状态：<span ng-bind="results.STATUS | status_name"></span></p>
         <div class="status_tag">
             <div class="logo_panel">
                 <div ng-class="{'status':results.STATUS=='OT01'||results.STATUS=='OT02'||results.STATUS=='OT03'||results.STATUS=='OT04'||results.STATUS=='OT05'}">
                     <i class="iconfont">&#xe62c;</i>
                 </div>
                 <p ng-class="{'status_p':results.STATUS=='OT01'||results.STATUS=='OT02'||results.STATUS=='OT03'||results.STATUS=='OT04'||results.STATUS=='OT05'}">已提交</p>
-                <p>{{results.obtime}}</p>
+                <p ng-bind="results.obtime | status_date"></p>
             </div>
             <div class="line_panel">
                 <div ng-class="{'status_l':results.STATUS=='OT02'||results.STATUS=='OT03'||results.STATUS=='OT04'||results.STATUS=='OT05'}"></div>
@@ -18,7 +18,7 @@
                     <i class="iconfont">&#xe626;</i>
                 </div>
                 <p ng-class="{'status_p':results.STATUS=='OT02'||results.STATUS=='OT03'||results.STATUS=='OT04'||results.STATUS=='OT05'}">已付款</p>
-                <p>{{results.untime}}</p>
+                <p ng-bind="results.untime | status_date"></p>
             </div>
             <div class="line_panel">
                 <div ng-class="{'status_l':results.STATUS=='OT03'||results.STATUS=='OT04'||results.STATUS=='OT05'}"></div>
@@ -28,7 +28,7 @@
                     <i class="iconfont">&#xe62a;</i>
                 </div>
                 <p ng-class="{'status_p':results.STATUS=='OT03'||results.STATUS=='OT04'||results.STATUS=='OT05'}">已接单</p>
-                <p>{{results.protime}}</p>
+                <p ng-bind="results.protime | status_date"></p>
             </div>
             <div class="line_panel">
                 <div ng-class="{'status_l':results.STATUS=='OT04'||results.STATUS=='OT05'}"></div>
@@ -38,7 +38,7 @@
                     <i class="iconfont">&#xe61c;</i>
                 </div>
                 <p ng-class="{'status_p':results.STATUS=='OT04'||results.STATUS=='OT05'}">配送中</p>
-                <p>{{results.distime}}</p>
+                <p ng-bind="results.distime | status_date"></p>
             </div>
             <div class="line_panel">
                 <div ng-class="{'status_l':results.STATUS=='OT05'}"></div>
@@ -48,7 +48,7 @@
                     <i class="iconfont">&#xe62b;</i>
                 </div>
                 <p ng-class="{'status_p':results.STATUS=='OT05'}">已结束</p>
-                <p>{{results.sutime}}</p>
+                <p ng-bind="results.sutime | status_date"></p>
             </div>
         </div>
     </div>
@@ -89,7 +89,7 @@
         <div><span>微信支付</span></div>
     </div>
     <div class="remarks_panel">
-        <span>备注{{results.remark}}</span>
+        <span>备注<span style="margin-left: 10px">{{results.remark}}</span></span>
     </div>
     <div class="amount_panel">
         <span style="color: #222">共{{results.quantity}}件商品</span><span

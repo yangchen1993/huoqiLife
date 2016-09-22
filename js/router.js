@@ -1,7 +1,7 @@
 /**
  * Created by YCC on 2016/8/19.
  */
-var myApp = angular.module('myApp',['ui.router','ngCookies','myController']);
+var myApp = angular.module('myApp',['ui.router','ngCookies','myController','myFilter']);
 
 myApp.config(function ($stateProvider,$urlRouterProvider) {
 

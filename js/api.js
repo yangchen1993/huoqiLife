@@ -1,8 +1,8 @@
 /**
  * Created by YCC on 2016/9/1.
  */
-// window.HOST = "http://192.168.1.92:8080/";
-window.HOST = "http://hq.nongjiaotx.cn/";
+window.HOST = "http://192.168.1.92:8080/";
+// window.HOST = "http://hq.nongjiaotx.cn/";
 
 window.API = {
     "BUSINESS":{
@@ -47,7 +47,11 @@ window.API = {
 
         "PAY_ORDER":[window.HOST,'order/pay'].join(""),        //订单支付
 
-        "ORDER_DETAILS":[window.HOST,'order/detail'].join("")     //订单详情
+        "ORDER_DETAILS":[window.HOST,'order/detail'].join(""),     //订单详情
+
+        "ORDERINFO_BY_ID":[window.HOST,'order/with/id'].join(""),      //获取已购买订单详情
+
+        "ORDER_REFUND":[window.HOST,'order/refund'].join("")            //退款
     }
 };
 
