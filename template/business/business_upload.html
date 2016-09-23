@@ -98,6 +98,7 @@
         $('#files' + n).click();
         $('#files' + n).change(function () {
             var file = $(this)[0].files[0];
+            console.log(parseInt(file.size/1024));
             var URL = window.URL || window.webkitURL;
             var imgURL = URL.createObjectURL(file);
             console.log(imgURL);

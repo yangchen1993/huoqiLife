@@ -9,6 +9,25 @@
     }
 }
 
+@media screen and (max-width: 341px) {
+    .words_panel {
+        margin-top: -60px !important;
+        margin-left: -125px !important;
+        background-size: 250px 120px !important;
+        width: 250px !important;
+        height: 120px !important;
+    }
+
+    .tag_info {
+        margin-top: 35px !important;
+    }
+    .show_addr_panel{
+        padding: 0 10px !important;
+    }
+}
+
+
+
 .content {
     font-family: 微软雅黑;
 }
@@ -87,16 +106,23 @@
 }
 
 .tag_info {
-    margin-top:50px;
+    margin-top:57px;
     color: #fff;
     text-align: center;
 }
 
 .tag_info p {
     margin-bottom: 5px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .carousel-indicators li {
     width: 8px !important;
     height: 8px !important;
+}
+
+.show_addr_panel{
+    padding: 0 20px;
 }

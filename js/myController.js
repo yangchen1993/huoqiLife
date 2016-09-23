@@ -6,7 +6,9 @@ var myController = angular.module('myController', []);
 myController.controller('mainController', ['$scope', '$http', '$cookieStore', function ($scope, $http, $cookieStore) {
     var url = location.href;
     var openId = get_param(url, "openId");
-    $cookieStore.put('openId', openId);
+    if(openId != ""){
+        $cookieStore.put('openId', openId);
+    }
 
     $('#myCarousel').carousel({
         interval: 3000
@@ -51,8 +53,8 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
             lat = position.coords.latitude;
             lng = position.coords.longitude;
             var data_ = {
-                'lng': lng,
-                'lat': lat,
+                'lng': 104.0635,
+                'lat': 30.5488,
                 'type': type
             };
 
@@ -92,23 +94,23 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
                 }
 
                 case error.POSITION_UNAVAILABLE: {
-                    // var data_ = {
-                    //     'lng': 104.0635,
-                    //     'lat': 30.5488,
-                    //     'type': type
-                    // };
-                    // /*请求附近商家*/
-                    // $http.post(window.API.BUYER.NEAR_BY, data_).success(function (data) {
-                    //     console.log(data);
-                    //     $scope.results = data;
-                    //     for (var i = 0; i < data.length; i++) {
-                    //         var s = Math.floor(Math.random() * 3) + 1;
-                    //         console.log(s);
-                    //         $scope.results[i].shopImg = img_index + '-' + s + '.jpg';
-                    //     }
-                    //     console.log($scope.results)
-                    // });
-                    alert("Location information is unavailable.");
+                    var data_ = {
+                        'lng': 104.0635,
+                        'lat': 30.5488,
+                        'type': type
+                    };
+                    /*请求附近商家*/
+                    $http.post(window.API.BUYER.NEAR_BY, data_).success(function (data) {
+                        console.log(data);
+                        $scope.results = data;
+                        for (var i = 0; i < data.length; i++) {
+                            var s = Math.floor(Math.random() * 3) + 1;
+                            console.log(s);
+                            $scope.results[i].shopImg = img_index + '-' + s + '.jpg';
+                        }
+                        console.log($scope.results)
+                    });
+                    // alert("Location information is unavailable.");
                     break;
                 }
 
@@ -184,6 +186,7 @@ myController.controller('riderController', ['$scope', function ($scope) {
 
 myController.controller('orderController', ['$scope', '$http', '$cookieStore', function ($scope, $http, $cookieStore) {
     var openId = $cookieStore.get('openId');
+    console.log(openId);
     $('.nav_self div').click(function () {
         $(this).css({'color': '#e42121'}).siblings().css({'color': '#222'})
     });
@@ -211,27 +214,25 @@ myController.controller('orderController', ['$scope', '$http', '$cookieStore', f
 
     get_orderInfo_by_state('OT01');
 
-    $scope.order_update = function (id, status) {
-        var data_ = {
-            id: id,
-            status: status
-        };
-        $http.post(window.API.BUYER.ORDER_UPDATE, data_).success(function (data) {
+    $scope.order_update = function (id,status) {
+        $http.post(window.API.BUYER.ORDER_GET_CONFIRM, {id:id}).success(function (data) {
             console.log(data);
             alert(data.message);
+            get_orderInfo_by_state(status);
         })
     };
 
-    $scope.order_cancel = function (id) {
+    $scope.order_cancel = function (id,status) {
         if (confirm('是否取消订单')) {
             $http.post(window.API.BUYER.ORDER_CANCEL, {id: id}).success(function (data) {
                 console.log(data);
-                alert(data.message)
+                alert(data.message);
+                get_orderInfo_by_state(status);
             })
         }
     };
 
-    $scope.order_refund = function (orderId,id, id1, money) {
+    $scope.order_refund = function (orderId,id, id1, money,status) {
         var data_ = {
             id:orderId,
             wxOrderId: id,
@@ -241,6 +242,7 @@ myController.controller('orderController', ['$scope', '$http', '$cookieStore', f
         $http.post(window.API.BUYER.ORDER_REFUND, data_).success(function (data) {
             console.log(data);
             alert(data.message);
+            get_orderInfo_by_state(status);
         })
     };
 
@@ -253,7 +255,7 @@ myController.controller('orderController', ['$scope', '$http', '$cookieStore', f
     };
 
     var wx_pay;
-    $scope.pay = function (id) {
+    $scope.pay = function (id,status) {
         console.log(id);
         $http.post(window.API.BUYER.PAY_ORDER, {id: id}).success(function (data) {
             console.log(data);
@@ -267,11 +269,11 @@ myController.controller('orderController', ['$scope', '$http', '$cookieStore', f
                     document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
                 }
             } else {
-                onBridgeReady();
+                onBridgeReady(status);
             }
         });
     };
-    function onBridgeReady() {
+    function onBridgeReady(status) {
         WeixinJSBridge.invoke(
             'getBrandWCPayRequest', {
                 "appId": wx_pay.appId,     //公众号名称，由商户传入
@@ -283,7 +285,7 @@ myController.controller('orderController', ['$scope', '$http', '$cookieStore', f
             },
             function (res) {
                 if (res.err_msg == "get_brand_wcpay_request：ok") {
-
+                    get_orderInfo_by_state(status);
                 }     // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
             }
         );
@@ -318,12 +320,12 @@ myController.controller('order_confirmController', ['$scope', '$http', '$cookieS
     $scope.goods_num = function (tag) {
         if (tag == 1) {
             $scope.num++;
-            $scope.goods.price = $scope.goods.price + onePrice;
+            $scope.goods.price = plus($scope.goods.price,onePrice);
         }
         if ($scope.num > 1) {
             if (tag == 0) {
                 $scope.num--;
-                $scope.goods.price = $scope.goods.price - onePrice;
+                $scope.goods.price = minus($scope.goods.price,onePrice);
             }
         }
     };
@@ -376,7 +378,7 @@ myController.controller('order_confirmController', ['$scope', '$http', '$cookieS
 
             function (res) {
                 if (res.err_msg == "get_brand_wcpay_request：ok") {
-
+                    location.href = '#/order';
                 }     // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
             }
         );
@@ -389,9 +391,8 @@ myController.controller('order_confirmController', ['$scope', '$http', '$cookieS
 
 myController.controller('order_detailsController', ['$scope', '$http', '$cookieStore', function ($scope, $http, $cookieStore) {
     var id = get_param(location.href, 'id');
-    ;
     $(document).ready(function () {
-        $('.logo_panel>div').css({'height': $('.logo_panel>div').width()})
+        $('.logo_panel>div').css({'height': $('.logo_panel>div').width()});
 
         $('.line_panel').css('margin-top', $('.logo_panel>div').width() / 2)
     });
@@ -458,6 +459,7 @@ myController.controller('new_addressController', ['$scope', '$http', '$rootScope
     //新建地址
     else {
         $scope.submit = function (data) {
+            console.log(openId);
             var data_ = angular.copy(data);
             data_.openId = openId;
             data_.isDef = isDef;

@@ -33,12 +33,12 @@
                 <span ng-show="v.status == 'OT04'">配送中</span>
                 <span ng-show="v.status == 'OT05'">已完成</span>
                 <div style="display: inline-block" class="pull-right" ng-show="v.status == 'OT01'">
-                    <div class="btn-self" style="color: #e42121" ng-click="pay(v.id)">去支付</div>
-                    <div class="btn-self" style="color: #fff;background-color: #e42121" ng-click="order_cancel(v.id)">取消订单</div>
+                    <div class="btn-self" style="color: #e42121" ng-click="pay(v.id,'OT01')">去支付</div>
+                    <div class="btn-self" style="color: #fff;background-color: #e42121" ng-click="order_cancel(v.id,'OT01')">取消订单</div>
                 </div>
                 <div style="display: inline-block" class="pull-right" ng-show="v.status == 'OT02'">
                     <div class="btn-self" style="color: #e42121" ng-click="surf_orderDetails(v.id)">订单详情</div>
-                    <div class="btn-self" style="color: #fff;background-color: #e42121" ng-click="order_refund(v.id,v.wxOrderId,v.wxRefuseId,v.totalAmount)">取消订单</div>
+                    <div class="btn-self" style="color: #fff;background-color: #e42121" ng-click="order_refund(v.id,v.wxOrderId,v.wxRefuseId,v.totalAmount,'OT02')">取消订单</div>
                 </div>
                 <div style="display: inline-block" class="pull-right" ng-show="v.status == 'OT03'">
                     <div class="btn-self" style="color: #e42121" ng-click="surf_orderDetails(v.id)">订单详情</div>
@@ -46,7 +46,7 @@
                 </div>
                 <div style="display: inline-block" class="pull-right" ng-show="v.status == 'OT04'">
                     <div class="btn-self" style="color: #e42121" ng-click="surf_orderDetails(v.id)">订单详情</div>
-                    <div class="btn-self" style="color: #fff;background-color: #e42121" ng-click="order_update(v.id,'OT05')">确认收货</div>
+                    <div class="btn-self" style="color: #fff;background-color: #e42121" ng-click="order_update(v.id,'OT04')">确认收货</div>
                 </div>
                 <div style="display: inline-block" class="pull-right" ng-show="v.status == 'OT05' || v.status == 'OT00'">
                     <div class="btn-self" style="color: #e42121" ng-click="surf_orderDetails(v.id)">订单详情</div>

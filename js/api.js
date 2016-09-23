@@ -1,8 +1,8 @@
 /**
  * Created by YCC on 2016/9/1.
  */
-window.HOST = "http://192.168.1.92:8080/";
-// window.HOST = "http://hq.nongjiaotx.cn/";
+// window.HOST = "http://192.168.1.92:8080/";
+window.HOST = "http://hq.nongjiaotx.cn/";
 
 window.API = {
     "BUSINESS":{
@@ -43,7 +43,9 @@ window.API = {
 
         "ORDER_CANCEL":[window.HOST,'order/cancel'].join(""),      //取消订单
 
-        "ORDER_UPDATE":[window.HOST,'order/update'].join(""),      //更新订单状态
+        "ORDER_UPDATE":[window.HOST,'order/update'].join(""),      //卖家更新订单状态
+
+        "ORDER_GET_CONFIRM":[window.HOST,'order/confirm'].join(""),      //买家确认收货
 
         "PAY_ORDER":[window.HOST,'order/pay'].join(""),        //订单支付
 
@@ -76,5 +78,35 @@ var get_param = function (href, paraName) {
 
     return result;
 };
+
+function plus(n,m){
+    n=typeof n =="string"? n: n.toString();
+    m=typeof m =="string"? m: m.toString();
+    var F= n.indexOf(".")!=-1?this.handleNum(n):[n,0,0],
+        S= m.indexOf(".")!=-1?this.handleNum(m):[m,0,0],
+        l1=F[2],
+        l2=S[2],
+        L=l1>l2?l1:l2,
+        T=Math.pow(10,L);
+    return (F[0]*T+F[1]*T/Math.pow(10,l1)+S[0]*T+S[1]*T/Math.pow(10,l2))/T
+}
+//减法
+function minus(n,m){
+    n=typeof n =="string"? n: n.toString();
+    m=typeof m =="string"? m: m.toString();
+    var F= n.indexOf(".")!=-1?this.handleNum(n):[n,0,0],
+        S= m.indexOf(".")!=-1?this.handleNum(m):[m,0,0],
+        l1=F[2],
+        l2=S[2],
+        L=l1>l2?l1:l2,
+        T=Math.pow(10,L);
+    return (F[0]*T+F[1]*T/Math.pow(10,l1)-S[0]*T-S[1]*T/Math.pow(10,l2))/T
+}
+function handleNum(n){
+    n=typeof n !=="string"?n+"":n;
+    var temp= n.split(".");
+    temp.push(temp[1].length);
+    return temp
+}
 
 var my_openId = 'orjMgxOka1VtwtVleqI51lFr9-K0';

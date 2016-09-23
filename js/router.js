@@ -5,7 +5,6 @@ var myApp = angular.module('myApp',['ui.router','ngCookies','myController','myFi
 
 myApp.config(function ($stateProvider,$urlRouterProvider) {
 
-
     $urlRouterProvider.when('','/main');
 
     $stateProvider
@@ -89,6 +88,4 @@ myApp.config(function ($stateProvider,$urlRouterProvider) {
             templateUrl:'template/business/business_order.html',
             controller:'business_orderController'
         });
-
-
 });

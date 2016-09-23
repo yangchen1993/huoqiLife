@@ -32,12 +32,12 @@
                 <span ng-show="v.status == 'OT04'">配送中</span>
                 <span ng-show="v.status == 'OT05'">已完成</span>
                 <div style="display: inline-block" class="pull-right" ng-show="v.status == 'OT02'">
-                    <div class="btn-self" style="color: #e42121">拒绝接单</div>
-                    <div class="btn-self" style="color: #fff;background-color: #e42121" ng-click="order_update(v.id,'OT03')">确认接单</div>
+                    <div class="btn-self" style="color: #e42121" ng-click="order_update(v.id,'OT06','OT02')">拒绝接单</div>
+                    <div class="btn-self" style="color: #fff;background-color: #e42121" ng-click="order_update(v.id,'OT03','OT02')">确认接单</div>
                 </div>
                 <div style="display: inline-block" class="pull-right" ng-show="v.status == 'OT03'">
                     <div class="btn-self" style="color: #e42121">查看订单</div>
-                    <div class="btn-self" style="color: #fff;background-color: #e42121" ng-click="order_update(v.id,'OT04')">去配送</div>
+                    <div class="btn-self" style="color: #fff;background-color: #e42121" ng-click="order_update(v.id,'OT04','OT03')">去配送</div>
                 </div>
                 <div style="display: inline-block" class="pull-right" ng-show="v.status == 'OT04'">
                     <div class="btn-self" style="color: #e42121">查看订单</div>

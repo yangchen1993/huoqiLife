@@ -3,8 +3,10 @@
  */
 myController.controller('business_joinController',['$scope','$http','$cookieStore','$interval',function($scope,$http,$cookieStore,$interval){
     var url = location.href;
-    var openId = get_param(url,"openId");
-    $cookieStore.put('openId',openId);
+    var openId = get_param(url, "openId");
+    if(openId != ""){
+        $cookieStore.put('openId', openId);
+    }
 
     $scope.Vcode = "获取验证码";
     $scope.get_sms = function(){
@@ -178,9 +180,9 @@ myController.controller('business_infoController',['$scope','$http','$cookieStor
                         console.log(data);
                         if(data.status == 200){
                             alert("入驻成功");
-                            location.href = "#/business_user";
+                            location.href = "#/business_user?openId="+data.message;
                         }
-                    })
+                    });
                 }
                 else{
                     alert('请上传营业执照');
@@ -191,7 +193,7 @@ myController.controller('business_infoController',['$scope','$http','$cookieStor
                     console.log(data);
                     if(data.status == 200){
                         alert("入驻成功");
-                        location.href = "#/business_user";
+                        location.href = "#/business_user?openId="+data.message;
                     }
                 })
             }
@@ -271,8 +273,9 @@ myController.controller('business_uploadController',['$scope','$http','$cookieSt
 }]);
 
 myController.controller('business_userController',['$scope','$http','$cookieStore',function($scope,$http,$cookieStore){
-    var openId = get_param(location.href,"openId");
-    $cookieStore.put('openId',openId);
+    var url = location.href;
+    var openId = get_param(url, "openId");
+    $cookieStore.put('openId', openId);
     $http.post(window.API.BUYER.GET_SHOP_DETAILS,{'openId':openId}).success(function(data){
         console.log(data);
         $scope.userInfo = data;
@@ -293,7 +296,7 @@ myController.controller('business_orderController',['$scope','$http','$cookieSto
         var data_ = {
             opt: state,
             openId:openId,
-            role:'ORDERS_INITIATOR_ID'
+            role:'ORDERS_ACCEPTER_ID'
         };
         $http.post(window.API.BUYER.ORDER_LIST,data_).success(function (data) {
             _.map(data,function(v){
@@ -307,7 +310,7 @@ myController.controller('business_orderController',['$scope','$http','$cookieSto
 
     get_orderInfo_by_state('OT02');
 
-    $scope.order_update = function(id,status){
+    $scope.order_update = function(id,status,status1){
         var data_ = {
             id:id,
             status:status
@@ -315,6 +318,7 @@ myController.controller('business_orderController',['$scope','$http','$cookieSto
         $http.post(window.API.BUYER.ORDER_UPDATE,data_).success(function(data){
             console.log(data);
             alert(data.message);
+            get_orderInfo_by_state(status1);
         })
     }
 }]);
