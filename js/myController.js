@@ -4,6 +4,7 @@
 var myController = angular.module('myController', []);
 
 myController.controller('mainController', ['$scope', '$http', '$cookieStore', function ($scope, $http, $cookieStore) {
+    $('title').text('火气生活');
     var url = location.href;
     var openId = get_param(url, "openId");
     if(openId != ""){
@@ -13,6 +14,7 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
     $('#myCarousel').carousel({
         interval: 3000
     });
+
     $('.circle_logo').click(function () {
         $('#circle_logo1').css('color', '#e3c820');
         $('#circle_logo2').css('color', '#36bcf4');
@@ -53,6 +55,8 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
             lat = position.coords.latitude;
             lng = position.coords.longitude;
             var data_ = {
+                // 'lng': lng,
+                // 'lat': lat,
                 'lng': 104.0635,
                 'lat': 30.5488,
                 'type': type
@@ -64,7 +68,6 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
                 $scope.results = data;
                 for (var i = 0; i < data.length; i++) {
                     var s = Math.floor(Math.random() * 3) + 1;
-                    console.log(s);
                     $scope.results[i].shopImg = img_index + '-' + s + '.jpg';
                 }
             });
@@ -78,6 +81,7 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
                         'lat': 30.5488,
                         'type': type
                     };
+
                     /*请求附近商家*/
                     $http.post(window.API.BUYER.NEAR_BY, data_).success(function (data) {
                         console.log(data);
@@ -132,11 +136,17 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
 }]);
 
 myController.controller('shopController', ['$scope', '$http', function ($scope, $http) {
+    $('title').text('店铺详情');
     var openId = get_param(location.href, "openId");
     $http.post(window.API.BUYER.GET_SHOP_DETAILS, {'openId': openId}).success(function (data) {
         console.log(data);
-        $scope.goods = data.goods;
-        console.log($scope.goods);
+        var saleGoods = [];
+            _.map(data.goods,function (v) {
+            if(v.isMarketable){
+                saleGoods.push(v)
+            }
+        });
+        $scope.goods = saleGoods;
         $scope.shop = data;
     });
 
@@ -146,9 +156,15 @@ myController.controller('shopController', ['$scope', '$http', function ($scope, 
 
     $scope.surf_orderConfirm = function (id) {
         location.href = '#/order_confirm?id=' + id
-    }
+    };
+
+         var img_width = window.width/2-20;
+         var goodsImg_height = img_width*(2/3);
+         $('.goods_panel img').css('height', goodsImg_height);
+
 }]);
 myController.controller('shop_detailsController', ['$scope', '$http', function ($scope, $http) {
+    $('title').text('商品详情');
     var id = get_param(location.href, "id");
 
     $http.post(window.API.BUYER.GET_GOODS_DETAILS, {id: id}).success(function (data) {
@@ -163,29 +179,26 @@ myController.controller('shop_detailsController', ['$scope', '$http', function (
 
     $scope.surf_orderConfirm = function () {
         location.href = '#/order_confirm?id=' + id
-    }
-}]);
+    };
 
-myController.controller('riderController', ['$scope', function ($scope) {
-    $('.top_nav div').click(function () {
-        $(this).css({'color': '#e42121'}).siblings().css({'color': '#fff'})
-    });
-
-    $scope.nav_self = function (index) {
-        if (index == 1) {
-            $('.hk_div').animate({'margin-left': '0'})
-        }
-        else if (index == 2) {
-            $('.hk_div').animate({'margin-left': '33.33%'})
-        }
-        else if (index == 3) {
-            $('.hk_div').animate({'margin-left': '66.66%'})
-        }
-    }
+    var goodsImg_height = $('.img_panel>img').width()*(2/3);
+    $('.img_panel>img').css('height',goodsImg_height);
 }]);
 
 myController.controller('orderController', ['$scope', '$http', '$cookieStore', function ($scope, $http, $cookieStore) {
+    $('title').text('订单状态');
     var openId = $cookieStore.get('openId');
+    var tag = location.href.indexOf('formOrder_confirm');
+    if(tag != -1){
+        get_orderInfo_by_state('OT02');
+        $('.nav_self div:nth-child(2)').css('color','#e42121');
+        $('.div_hk').animate({'margin-left': '22%'});
+    }
+    else{
+        get_orderInfo_by_state('OT01');
+    }
+
+
     console.log(openId);
     $('.nav_self div').click(function () {
         $(this).css({'color': '#e42121'}).siblings().css({'color': '#222'})
@@ -211,8 +224,6 @@ myController.controller('orderController', ['$scope', '$http', '$cookieStore', f
             console.log(data);
         })
     }
-
-    get_orderInfo_by_state('OT01');
 
     $scope.order_update = function (id,status) {
         $http.post(window.API.BUYER.ORDER_GET_CONFIRM, {id:id}).success(function (data) {
@@ -284,29 +295,49 @@ myController.controller('orderController', ['$scope', '$http', '$cookieStore', f
                 "paySign": wx_pay.paySign //微信签名
             },
             function (res) {
-                if (res.err_msg == "get_brand_wcpay_request：ok") {
+                if (res.err_msg == "get_brand_wcpay_request:ok") {
                     get_orderInfo_by_state(status);
-                }     // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
+                }
             }
         );
     }
 }]);
 
 myController.controller('order_confirmController', ['$scope', '$http', '$cookieStore', '$rootScope', function ($scope, $http, $cookieStore, $rootScope) {
+    $('title').text('订单确认');
     var id = get_param(location.href, "id");
     var openId = $cookieStore.get('openId');
     var tag = location.href.indexOf('form_addressManage');
-    console.log(openId);
+
+    var surfUrl = "";
 
     if (tag == -1) {
         $http.post(window.API.BUYER.GET_ADDRESS_LIST, {openId: openId}).success(function (data) {
-            console.log(data);
-            $scope.default_address = _.where(data, {isDef: true})[0];
-            console.log($scope.default_address)
+            if(data.length == 0){
+                $('.show1').css('display','block');
+                surfUrl = "#/new_address?formOrder_confirm&id=";
+            }
+            else{
+                $('.show2').css('display','block');
+                var k=0;
+                for(var i=0;i<data.length;i++){
+                    if(data[i].isDef){
+                        $scope.default_address = data[i];
+                        k++;
+                    }
+                }
+                if(k == 0){
+                    $scope.default_address = data[0];
+                }
+                surfUrl = "#/address_manage?id=";
+            }
         });
     }
     else {
+        console.log($rootScope.select_address);
+        $('.show2').css('display','block');
         $scope.default_address = $rootScope.select_address;
+        surfUrl = "#/address_manage?id=";
     }
 
     var onePrice = 0;
@@ -314,7 +345,6 @@ myController.controller('order_confirmController', ['$scope', '$http', '$cookieS
         console.log(data);
         $scope.goods = data;
         onePrice = $scope.goods.price;
-        console.log($scope.goods);
     });
     $scope.num = 1;
     $scope.goods_num = function (tag) {
@@ -347,7 +377,9 @@ myController.controller('order_confirmController', ['$scope', '$http', '$cookieS
             goodId: $scope.goods.id
         };
         $http.post(window.API.BUYER.ADD_ORDER, data_).success(function (data) {
-            alert(data.message);
+            if(data.status == 500){
+                alert(data.message)
+            }
             wx_pay = JSON.parse(data.result);
             console.log(wx_pay);
             if (typeof WeixinJSBridge == "undefined") {
@@ -377,26 +409,21 @@ myController.controller('order_confirmController', ['$scope', '$http', '$cookieS
             },
 
             function (res) {
-                if (res.err_msg == "get_brand_wcpay_request：ok") {
-                    location.href = '#/order';
-                }     // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
+                if (res.err_msg == "get_brand_wcpay_request:ok") {
+                    location.href = '#/order?formOrder_confirm';
+                }
             }
         );
     }
 
     $scope.surf_addressManage = function () {
-        location.href = '#/address_manage?id=' + id;
+        location.href = surfUrl + id;
     }
 }]);
 
 myController.controller('order_detailsController', ['$scope', '$http', '$cookieStore', function ($scope, $http, $cookieStore) {
+    $('title').text('订单详情');
     var id = get_param(location.href, 'id');
-    $(document).ready(function () {
-        $('.logo_panel>div').css({'height': $('.logo_panel>div').width()});
-
-        $('.line_panel').css('margin-top', $('.logo_panel>div').width() / 2)
-    });
-
     $http.post(window.API.BUYER.ORDER_DETAILS, {id: id}).success(function (data) {
         console.log(data);
         $scope.results = data;
@@ -404,23 +431,35 @@ myController.controller('order_detailsController', ['$scope', '$http', '$cookieS
 }]);
 
 myController.controller('personalController', ['$scope', '$http', '$cookieStore', function ($scope, $http, $cookieStore) {
+    $('title').text('我的');
     var openId = $cookieStore.get('openId');
     $http.post(window.API.BUYER.GET_USER_INFO, {openId: openId}).success(function (data) {
         console.log(data);
         $scope.user = data;
     });
-
 }]);
 
-
 myController.controller('new_addressController', ['$scope', '$http', '$rootScope', '$cookieStore', function ($scope, $http, $rootScope, $cookieStore) {
+    // 兼容苹果下拉
+    $('.arrow_down').click(function () {
+        if($(this).parent('div').hasClass('open')){
+            $(this).parent('div').addClass('open')
+        }
+        else{
+            $(this).parent('div').removeClass('open')
+        }
+    });
+    var id = get_param(location.href,'id');
     var openId = $cookieStore.get('openId');
     $scope.$on('$destroy', function () {
         $rootScope.myAddress = "";
     });
 
+    var tag = location.href.indexOf('formOrder_confirm');
+
     //修改地址
     if ($rootScope.myAddress) {
+        $('title').text('修改地址');
         var address_id = $rootScope.myAddress.id;
         $scope.address = $rootScope.myAddress;
         $scope.myProvince = $rootScope.myAddress.proName;
@@ -447,7 +486,7 @@ myController.controller('new_addressController', ['$scope', '$http', '$rootScope
                 $http.post(window.API.BUYER.UPDATE_ADDRESS, data_).success(function (data) {
                     console.log(data);
                     alert(data.message);
-                    location.href = '#/address_manage';
+                    location.href = '#/address_manage?formOrder_confirm';
                 })
             }
             else {
@@ -458,6 +497,7 @@ myController.controller('new_addressController', ['$scope', '$http', '$rootScope
 
     //新建地址
     else {
+        $('title').text('新增地址');
         $scope.submit = function (data) {
             console.log(openId);
             var data_ = angular.copy(data);
@@ -471,7 +511,14 @@ myController.controller('new_addressController', ['$scope', '$http', '$rootScope
                 $http.post(window.API.BUYER.NEW_ADDRESS, data_).success(function (data) {
                     console.log(data);
                     alert(data.message);
-                    location.href = '#/address_manage';
+                    if(tag != -1){
+                        $rootScope.select_address = data_;
+                        $rootScope.select_address.id = data.result;
+                        location.href = '#/order_confirm?form_addressManage&id=' + id;
+                    }
+                    else{
+                        location.href = '#/address_manage?id='+id;
+                    }
                 })
             }
             else {
@@ -519,28 +566,39 @@ myController.controller('new_addressController', ['$scope', '$http', '$rootScope
 }]);
 
 myController.controller('address_manageController', ['$scope', '$http', '$rootScope', '$cookieStore', function ($scope, $http, $rootScope, $cookieStore) {
+    $('title').text('地址管理');
     var openId = $cookieStore.get('openId');
     var index = location.href.indexOf('id');
     var id = location.href.substring(index + 3);
     $http.post(window.API.BUYER.GET_ADDRESS_LIST, {openId: openId}).success(function (data) {
+        console.log(data.length);
         $scope.results = data;
+        if(data.length == 0){
+            $('#no_addr').css('display','block')
+        }
     });
 
     $scope.surf_orderConfirm = function (data) {
-        if (index == -1) {
-
-        }
-        else {
-            location.href = '#/order_confirm?form_addressManage&id=' + id;
+        if (index != -1) {
             $rootScope.select_address = data;
+            location.href = '#/order_confirm?form_addressManage&id=' + id;
         }
     };
 
     $scope.serf_newAddress = function () {
-        location.href = '#/new_address';
-        $scope.$on('$destroy', function () {
+        if (index == -1) {
+            location.href = '#/new_address';
+            $scope.$on('$destroy', function () {
 
-        })
+            })
+        }
+        else{
+            location.href = '#/new_address?id=' + id;
+            $scope.$on('$destroy', function () {
+
+            })
+        }
+
     };
 
     $scope.serf_updateAddress = function (data) {

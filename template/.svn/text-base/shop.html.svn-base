@@ -1,0 +1,49 @@
+<link rel="stylesheet" href="./css/shop.css">
+<div class="content">
+    <div class="top">
+        <div class="top_content">
+            <div class="head_img">
+                <img src="./img/test1.jpg" ng-src="{{shop.member.img}}">
+                <img src="./img/shop_backImg1.png">
+            </div>
+            <div class="head_desc">
+                <p class="head_desc_title">{{shop.name}}</p>
+                <p class="head_desc_address"><i class="iconfont adderss_min" style="color:#635c5c">&#xe601;</i>{{shop.address}}</p>
+                <div class="tel_panel">
+                    <i class="iconfont tel_logo_min" style="font-size: 16px;margin-right: 3px">&#xe625;</i><a ng-href="tel:{{shop.phone}}">联系卖家</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row goods_panel" style="margin: 0">
+        <div class="col-xs-6" ng-repeat="v in goods">
+            <div>
+                <img width="100%" ng-src="{{v.img}}">
+                <p>{{v.name}}</p>
+                <div class="price_panel"><span>¥{{v.price}}</span><button class="btn btn-danger pull-right btn-self" disabled="disabled">立即购买</button></div>
+            </div>
+        </div>
+        <!--<div class="col-xs-6">-->
+            <!--<div>-->
+                <!--<img src="./img/test1.jpg" width="100%">-->
+                <!--<p>桶装水55g</p>-->
+                <!--<div class="price_panel"><span>¥99.00</span><button class="btn btn-danger pull-right btn-self">立即购买</button></div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="col-xs-6">-->
+            <!--<div>-->
+                <!--<img src="./img/test1.jpg" width="100%">-->
+                <!--<p>桶装水55g</p>-->
+                <!--<div class="price_panel"><span>¥99.00</span><button class="btn btn-danger pull-right btn-self">立即购买</button></div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="col-xs-6">-->
+            <!--<div>-->
+                <!--<img src="./img/test1.jpg" width="100%">-->
+                <!--<p>桶装水55g</p>-->
+                <!--<div class="price_panel"><span>¥99.00</span><button class="btn btn-danger pull-right btn-self">立即购买</button></div>-->
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+</div>

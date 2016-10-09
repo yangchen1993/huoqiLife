@@ -1,9 +1,12 @@
-@media screen and (max-width: 330px){
+@media screen and (max-width: 341px){
     .desc_panel{
         margin: 30px 25px !important;
     }
     .bottom_block{
         height:40px !important;
+    }
+    .info_panel input{
+        width:140px !important;
     }
 }
 .content{

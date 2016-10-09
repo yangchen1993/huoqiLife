@@ -1,0 +1,223 @@
+@media screen and (max-width: 341px) {
+    .logo_panel i {
+        font-size: 14px !important;
+        margin-top: -10px !important;
+        margin-left: -7px !important;
+    }
+
+    .goods_info > .goods_name {
+        width: 150px !important;
+    }
+
+    .status_tag {
+        width: 270px !important;
+    }
+
+    .line_panel {
+        width: 36.6px !important;
+    }
+}
+
+.content {
+    font-family: 微软雅黑;
+}
+
+.content-footer {
+    display: none;
+}
+
+.top_status {
+    padding: 10px;
+    height: auto;
+}
+
+.status_tag {
+    display: flex;
+    width: 340px;
+    margin: 0 auto;
+}
+
+.logo_panel {
+    width: 40px;
+    float: left;
+    text-align: center;
+}
+
+.logo_panel > div {
+    width: 32px;
+    height: 32px;
+    text-align: center;
+    background-color: #cdcdcd;
+    position: relative;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.logo_panel i {
+    color: #fff;
+    position: absolute;
+    top: 50%;
+    margin-top: -11px;
+    left: 50%;
+    margin-left: -8px;
+}
+
+.line_panel {
+    width: 60px;
+    float: left;
+    margin-top: 16px;
+}
+
+.line_panel > div {
+    border-top: 1px dashed #cdcdcd;
+}
+
+.logo_panel p {
+    font-size: 12px;
+    margin: 5px 0;
+}
+
+.time_panel, .pay_panel, .remarks_panel {
+    position: relative;
+    padding: 10px;
+    border-top: 1px solid #e4e1e1;
+}
+
+.address_panel {
+    position: relative;
+    padding: 0 10px;
+    vertical-align: top;
+}
+
+.cut_line {
+    height: 10px;
+    background-color: #e4e1e1;
+}
+
+.arrow_right {
+    position: absolute;
+    top: 50%;
+    margin-top: -11px;
+    right: 10px;
+    color: #cccbcb
+}
+
+.time_select {
+    display: inline-block;
+}
+
+.time_select span {
+    color: #e42121;
+    font-size: 14px;
+}
+
+i {
+    vertical-align: middle;
+}
+
+.pay_panel i {
+    font-size: 24px;
+    line-height: 1;
+    margin-top: -2px;
+    color: #e42121;
+}
+
+.remarks_panel input {
+    width: 200px;
+    color: #cccbcb;
+    border: 0;
+    margin-left: 10px;
+    font-family: 微软雅黑;
+}
+
+.shop_name {
+    padding: 10px 10px 0;
+}
+
+.goods_info_panel {
+    padding: 10px;
+    line-height: 1;
+    /*border-bottom: 1px solid #e4e1e1;*/
+    border-top: 1px solid #e4e1e1;
+}
+
+.goods_img {
+    height: 100px;
+    max-width: 120px;
+}
+
+.goods_info {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: top;
+}
+
+.goods_info > .goods_name {
+    width: 200px;
+    color: #222;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-bottom: 12px;
+}
+
+.goods_price {
+    color: #e42121;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.num_panel div {
+    text-align: center;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    border: 1px solid #cccbcb;
+    margin-bottom: 10px;
+    color: #cccbcb
+}
+
+.num_panel div:nth-child(2) {
+    width: 40px;
+    margin: 0 -5px;
+}
+
+.amount_panel {
+    margin: 10px 10px 0 0;
+    text-align: right;
+}
+
+.freight_panel {
+    padding: 10px;
+    border-bottom: 1px solid #cccbcb;
+}
+
+.submit_btn {
+    width: 100%;
+    margin-top: 50px;
+    padding: 15px;
+    border-top: 1px solid #e4e1e1;
+}
+
+.submit_btn button {
+    font-size: 16px;
+    border-color: #e42121;
+    background-color: #e42121;
+}
+
+.remarks_panel {
+    border-bottom: 1px solid #e4e1e1;
+}
+
+.status {
+    background-color: #e42121 !important;
+}
+
+.status_p {
+    color: #e42121 !important;
+}
+
+.status_l {
+    border-top: 1px dashed #e42121 !important;
+}

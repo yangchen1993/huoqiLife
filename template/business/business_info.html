@@ -10,7 +10,7 @@
         <div class="row" style="padding: 15px 10px">
             <span class="col-xs-3">联系电话</span>
             <div class="col-xs-7">
-               <input type="text" ng-model="shop.phone" maxlength="11">
+               <span type="text" ng-bind="shop.phone"></span>
             </div>
         </div>
         <div class="row" style="padding: 15px 10px">
@@ -40,7 +40,6 @@
                     <i class="iconfont" name="BS04">&#xe615;</i>
                     <span>其他</span>
                 </div>
-
             </div>
         </div>
         <div class="row" id="license_img" style="display: none">
@@ -73,16 +72,18 @@
 
 
 <!-- Modal -->
-<!--<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
-    <!--<div class="modal-dialog">-->
-        <!--<div class="modal-content">-->
-            <!--<div class="modal-header">-->
-                <!--<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>-->
-                <!--<h4 class="modal-title" id="myModalLabel">火气生活商家协议</h4>-->
-            <!--</div>-->
-            <!--<br class="modal-body">-->
-<!--...-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</div>-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel" ng-bind="protocol_title" style="font-family: 微软雅黑"></h4>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="overlay">
+</div>

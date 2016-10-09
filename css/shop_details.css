@@ -1,3 +1,19 @@
+@media screen and (max-width: 341px){
+    .call{
+        font-size: 12px !important;
+        padding: 5px 5px 3px !important;
+    }
+    .call i{
+        font-size: 18px !important;
+    }
+    .run_shop{
+        font-size: 12px !important;
+        padding: 5px 5px 3px !important;
+    }
+    .run_shop i{
+        font-size: 18px !important;
+    }
+}
 .content{
     font-family: 微软雅黑;
 }
@@ -16,8 +32,15 @@
     background-color: #e4e1e1;
 }
 .goods_name,.shop_name{
+    width: 65%;
     font-size: 16px;
-    color:#222
+    color:#222;
+    text-overflow: ellipsis;
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 .goods_price{
     color:#e42121;
@@ -46,7 +69,6 @@
 }
 .goods_info1 i{
     color:#cccbcb;
-    vertical-align: middle;
     margin-right: 2px;
 }
 .run_shop{

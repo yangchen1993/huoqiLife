@@ -5,22 +5,26 @@
         <ol class="carousel-indicators">
             <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
             <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
         </ol>
         <!-- 轮播（Carousel）项目 -->
         <div class="carousel-inner">
             <div class="item active">
-                <img src="./img/banner.png">
+                <img src="./img/carousel-1.png">
             </div>
             <div class="item">
-                <img src="./img/banner.png">
+                <img src="./img/carousel-2.jpg">
+            </div>
+            <div class="item">
+                <img src="./img/carousel-3.jpg">
             </div>
         </div>
     </div>
 
     <div class="banner row">
         <div class="col-xs-3 text-center">
-            <div class="circle_logo">
-                <i class="iconfont" style="color: #e3c820" id="circle_logo1">&#xe605;</i>
+            <div class="circle_logo" style="border: 1px solid #e22220">
+                <i class="iconfont" style="color: #e42220" id="circle_logo1">&#xe605;</i>
             </div>
             <span style="display: none">BS01</span>
             <p>液化气</p>
@@ -37,7 +41,7 @@
                 <i class="iconfont" style="color: #f5672a" id="circle_logo3">&#xe608;</i>
             </div>
             <span style="display: none">BS03</span>
-            <p>炊具</p>
+            <p>灶具</p>
         </div>
         <div class="col-xs-3 text-center">
             <div class="circle_logo">
@@ -59,7 +63,7 @@
             <div class="words_panel">
                 <div class="tag_info">
                     <p>{{v.name}}</p>
-                    <p>{{v.phone}}</p>
+                    <p style="color: #fff">{{v.phone}}</p>
                     <p class="show_addr_panel">{{v.address}}</p>
                 </div>
             </div>

@@ -1,3 +1,8 @@
+@media screen and (max-width: 341px){
+    .isDefaultAddress{
+        border: 0 !important;
+    }
+}
 .content{
     font-family: 微软雅黑;
 }

@@ -1,0 +1,47 @@
+<link rel="stylesheet" href="./css/business/goods.css">
+<div class="content">
+    <div class="top">
+        <div class="sale">
+            出售中
+        </div>
+        <div class="off_sale">
+            已下架
+        </div>
+    </div>
+
+    <div class="goods_panel row" ng-repeat="v in results">
+        <!--<div class="col-xs-2 text-center" style="padding-right:0">-->
+            <!--<div class="circle"></div>-->
+            <!--&lt;!&ndash;<div class="circle1"><i class="iconfont">&#xe62b;</i></div>&ndash;&gt;-->
+        <!--</div>-->
+        <div class="col-xs-12" style="padding-left:10px;">
+            <img class="goods_img" ng-src="http://io.huoqilife.com/img/{{v.img}}">
+            <div class="goods_info">
+                <p class="title" ng-bind="v.name">vfdbdfbf</p>
+                <!--<p class="num">销量：<span>55</span>件</p>-->
+                <p class="price">¥<span ng-bind="v.price"></span></p>
+            </div>
+        </div>
+        <div class="col-xs-12" style="border-top: 1px solid #e3e3e3;height: 1px"></div>
+        <div class="operation col-xs-12">
+            <div class="row">
+                <div class="col-xs-6">
+                    <span ng-click="self_uploadGoods(v)">
+                        <i class="iconfont">&#xe620;</i>编辑
+                    </span>
+                </div>
+                <div class="col-xs-6">
+                    <span ng-click="self_offGoods(v.id)" ng-show="v.isMarketable == true">
+                        <i class="iconfont">&#xe628;</i>下架
+                    </span>
+                    <span ng-click="self_upGoods(v.id)" ng-show="v.isMarketable == false">
+                        <i class="iconfont">&#xe624;</i>上架
+                    </span>
+                </div>
+            </div>
+
+        </div>
+        <div class="cut_line col-xs-12"></div>
+    </div>
+
+</div>

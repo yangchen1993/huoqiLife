@@ -1,0 +1,93 @@
+<link rel="stylesheet" href="./css/business/business_order_details.css">
+<div class="content">
+    <div class="top_status">
+        <p>订单状态：<span ng-bind="results.STATUS | status_name"></span></p>
+        <div class="status_tag">
+            <div class="logo_panel">
+                <div ng-class="{'status':results.STATUS=='OT02'||results.STATUS=='OT03'||results.STATUS=='OT04'||results.STATUS=='OT05'}">
+                    <i class="iconfont">&#xe626;</i>
+                </div>
+                <p ng-class="{'status_p':results.STATUS=='OT02'||results.STATUS=='OT03'||results.STATUS=='OT04'||results.STATUS=='OT05'}">已付款</p>
+                <p ng-bind="results.untime | status_date"></p>
+            </div>
+            <div class="line_panel">
+                <div ng-class="{'status_l':results.STATUS=='OT03'||results.STATUS=='OT04'||results.STATUS=='OT05'}"></div>
+            </div>
+            <div class="logo_panel">
+                <div ng-class="{'status':results.STATUS=='OT03'||results.STATUS=='OT04'||results.STATUS=='OT05'}">
+                    <i class="iconfont">&#xe62a;</i>
+                </div>
+                <p ng-class="{'status_p':results.STATUS=='OT03'||results.STATUS=='OT04'||results.STATUS=='OT05'}">已接单</p>
+                <p ng-bind="results.protime | status_date"></p>
+            </div>
+            <div class="line_panel">
+                <div ng-class="{'status_l':results.STATUS=='OT04'||results.STATUS=='OT05'}"></div>
+            </div>
+            <div class="logo_panel">
+                <div ng-class="{'status':results.STATUS=='OT04'||results.STATUS=='OT05'}">
+                    <i class="iconfont">&#xe61c;</i>
+                </div>
+                <p ng-class="{'status_p':results.STATUS=='OT04'||results.STATUS=='OT05'}">配送中</p>
+                <p ng-bind="results.distime | status_date"></p>
+            </div>
+            <div class="line_panel">
+                <div ng-class="{'status_l':results.STATUS=='OT05'}"></div>
+            </div>
+            <div class="logo_panel">
+                <div ng-class="{'status':results.STATUS=='OT05'}">
+                    <i class="iconfont">&#xe62b;</i>
+                </div>
+                <p ng-class="{'status_p':results.STATUS=='OT05'}">已结束</p>
+                <p ng-bind="results.sutime | status_date"></p>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="cut_line"></div>
+    <img src="./img/personal/address_line.png" style="vertical-align:top;width: 100%">
+    <div class="address_panel" ng-click="surf_addressManage()">
+
+        <p style="color: #222;font-size: 16px"><span ng-bind="results.name"></span><span
+                ng-bind="results.phone" style="margin-left: 10px"></span></p>
+        <p style="color: #222">
+            {{results.address}}</p>
+    </div>
+    <div class="cut_line"></div>
+    <div>
+        <p class="shop_name"><i class="iconfont" style="margin-right: 5px">&#xe602;</i>{{results.bussnessname}}<i style="color: #cccbcb" class="iconfont pull-right">&#xe611;</i></p>
+        <div class="goods_info_panel">
+            <img class="goods_img" ng-src="http://io.huoqilife.com/img/{{results.img}}">
+            <div class="goods_info">
+                <p style="color: #222" class="goods_name">{{results.goodname}}</p>
+                <p style="color: #888">商品规格{{results.weight+results.unit}}</p>
+                <p style="color: #888">购买数量{{results.quantity}}</p>
+                <p class="goods_price">¥{{results.price}}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="time_panel">
+        <div>
+            <span>送达时间</span>
+            <div class="time_select pull-right">
+                <span>{{results.time}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="pay_panel">
+        <div><span>微信支付</span></div>
+    </div>
+    <div class="remarks_panel">
+        <span>备注<span style="margin-left: 10px">{{results.remark}}</span></span>
+    </div>
+    <div class="amount_panel">
+        <span style="color: #222">共{{results.quantity}}件商品</span><span
+            style="margin-left: 10px;color:#222">合计：</span><span style="color: #e42121">¥{{results.amount}}</span>
+    </div>
+    <!--<div class="submit_btn">-->
+    <!--<button class="btn btn-danger btn-block" ng-click="confirm_order()">确认下单</button>-->
+    <!--</div>-->
+
+    <div style="height: 40px"></div>
+</div>

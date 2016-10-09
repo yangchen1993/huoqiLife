@@ -29,3 +29,33 @@ myFilter.filter('status_name',function () {
         }
     }
 });
+
+myFilter.filter('business_type',function () {
+    return function (input) {
+        var newData = input.split(',');
+        var types = [];
+        angular.forEach(newData,function (v,k) {
+            if(v == 'BS01'){
+                types.push('液化气') ;
+            }
+            else if(v == 'BS02'){
+                types.push ('桶装水')
+            }
+            else if(v == 'BS03'){
+                types.push ('灶具')
+            }
+            else{
+                types.push ('其他')
+            }
+        });
+        return types
+    }
+});
+
+myFilter.filter('undefinedFilter',function () {
+    return function (input) {
+        if(input == undefined){
+            console.log('1')
+        }
+    }
+});

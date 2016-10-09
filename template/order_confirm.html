@@ -1,10 +1,11 @@
 <link rel="stylesheet" href="./css/order_confirm.css">
 <div class="content">
     <img src="./img/personal/address_line.png" style="vertical-align: top;width: 100%">
-    <div class="address_panel" ng-click="surf_addressManage()">
-        <p style="color: #222;font-size: 16px"><span ng-bind="default_address.contactName"></span><span ng-bind="default_address.mobile" style="margin-left: 10px"></span></p>
-        <p style="color: #222"><i class="iconfont" style="color: #e42121">&#xe601;</i>{{default_address.proName+default_address.cityName+default_address.countyName+default_address.address}}</p>
-        <p style="color: #e42121">(请仔细确认收货信息是否有误，保证收货成功)</p>
+    <div class="address_panel" ng-click="surf_addressManage()" style="margin-top: -14px">
+        <div class="show1"><i class="iconfont">&#xe601;</i>请添加地址</div>
+        <p style="font-size: 16px" class="show2"><span ng-bind="default_address.contactName"></span><span ng-bind="default_address.mobile" style="margin-left: 10px"></span></p>
+        <p class="show2"><i class="iconfont" style="color: #e42121">&#xe601;</i>{{default_address.proName+default_address.cityName+default_address.countyName+default_address.address}}</p>
+        <p style="color: #e42121;margin: 0">(请仔细确认收货信息是否有误，保证收货成功)</p>
         <i><i class="iconfont arrow_right">&#xe611;</i></i>
     </div>
     <div class="cut_line"></div>
@@ -31,12 +32,12 @@
     </div>
     <div class="cut_line"></div>
     <div>
-        <p class="shop_name"><i class="iconfont" style="margin-right: 5px">&#xe602;</i>{{goods.business.name}}</p>
+        <p class="shop_name"><i class="iconfont" style="margin-right: 5px">&#xe602;</i>{{goods.business.name}}<i style="color: #cccbcb" class="iconfont pull-right">&#xe611;</i></p>
         <div class="goods_info_panel">
-            <img class="goods_img" ng-src="http://139.196.238.215:9900/img/goods/{{goods.img}}">
+            <img class="goods_img" ng-src="http://io.huoqilife.com/img/{{goods.img}}">
             <div class="goods_info">
-                <p style="color: #222">{{goods.name}}</p>
-                <p style="color: #888">商品规格{{goods.weight+goods.weightUnit}}</p>
+                <p class="goods_name">{{goods.name}}</p>
+                <p style="color: #888;margin-bottom: 12px">商品规格{{goods.weight+goods.weightUnit}}</p>
                 <div class="num_panel">
                     <div ng-click="goods_num(0)" style="border-right: 0;">-</div>
                     <div>{{num}}</div>
@@ -54,7 +55,7 @@
         <span style="color: #222">共{{num}}件商品</span><span style="margin-left: 10px;color:#222">合计：</span><span style="color: #e42121">¥{{goods.price}}</span>
     </div>
 
-    <div class="submit_btn">
-        <button class="btn btn-danger btn-block" ng-click="confirm_order()">确认下单</button>
+    <div class="submit_btn_static">
+        <button class="btn btn-danger btn-block" style="background-color: #e42121;border-color:#e42121" ng-click="confirm_order()">确认下单</button>
     </div>
 </div>

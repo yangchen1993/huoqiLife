@@ -16,12 +16,12 @@
                 <span>订单编号：{{v.no}}</span>
                 <span class="pull-right">{{v.createTime}}</span>
             </div>
-            <div class="order_info">
-                <img height="100%" ng-src="http://139.196.238.215:9900/img/goods/{{v.orderList[0].orderImg}}">
+            <div class="order_info" ng-click="surf_orderDetails(v.id)">
+                <img height="100%" ng-src="http://io.huoqilife.com/img/{{v.orderList[0].orderImg}}">
                 <div class="shop_words">
                     <p>{{v.orderList[0].name}}</p>
                     <p>购买数量：{{v.orderList[0].quantity}}</p>
-                    <p>¥{{v.orderList[0].price}}</p>
+                    <p>¥{{v.totalAmount}}</p>
                 </div>
                 <i class="iconfont pull-right" style="margin-top: 32px">&#xe611;</i>
             </div>

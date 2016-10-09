@@ -1,9 +1,12 @@
-@media screen and (max-width:370px){
+@media screen and (max-width:341px){
     .license_words{
         margin-top: 24px !important;
     }
     .submit_btn{
         padding:10px !important;
+    }
+    .business_info input{
+        width:150px !important;
     }
 }
 .content{

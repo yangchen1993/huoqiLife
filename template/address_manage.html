@@ -2,10 +2,16 @@
 <div class="content">
     <img src="./img/personal/address_line.png" style="vertical-align: top;width: 100%">
 
+    <div id="no_addr" style="text-align: center;margin-top: 150px;color: #B7B7B7;display: none">
+        <i class="iconfont" style="font-size: 36px">&#xe62d;</i></br>
+        <i style="font-size: 16px">没有地址</i>
+    </div>
     <div class="address_panel">
-        <div ng-repeat="v in results" ng-click="surf_orderConfirm(v)">
-            <p><span>{{v.contactName}}</span><span style="margin-left: 20px">{{v.mobile}}</span></p>
-            <p class="address_words"><span style="color:#e42121;margin-right: 5px;font-weight: bold" ng-show="v.isDef">[默认]</span><span ng-bind="v.proName+v.cityName+v.countyName+v.address"></span></p>
+        <div ng-repeat="v in results" style="display: flex">
+            <div style="float:left;width: 80%" ng-click="surf_orderConfirm(v)">
+                <p><span>{{v.contactName}}</span><span style="margin-left: 20px">{{v.mobile}}</span></p>
+                <p class="address_words"><span style="color:#e42121;margin-right: 5px;font-weight: bold" ng-show="v.isDef">[默认]</span><span ng-bind="v.proName+v.cityName+v.countyName+v.address"></span></p>
+            </div>
             <div class="operation">
                 <i class="iconfont" ng-click="serf_updateAddress(v)">&#xe62f;</i>
                 <i class="iconfont" ng-click="delete_address(v.id)">&#xe62e;</i>

@@ -13,8 +13,8 @@
             </div>
         </div>
 
-        <p style="font-size: 18px">{{userInfo.name}}</p>
-        <p style="font-size: 16px;margin: 0"><i class="iconfont">&#xe601;</i>{{userInfo.address}}</p>
+        <p style="font-size: 18px" ng-bind="userInfo.name"></p>
+        <p style="font-size: 16px;margin: 0"><i class="iconfont">&#xe601;</i><span ng-bind="userInfo.address"></span></p>
     </div>
 
     <div class="content1_operation">
@@ -38,29 +38,29 @@
             <i class="iconfont" style="color: #f4a500">&#xe617;</i>
             <p>上传商品</p>
         </div>
-        <div class="col-xs-4">
+        <div class="col-xs-4" ng-click="surf_goods(userInfo.id)">
             <!--<img src="./img/personal/address.png">-->
             <i class="iconfont" style="color: #fd8701">&#xe61b;</i>
             <p>商品管理</p>
         </div>
         <div class="col-xs-4">
             <!--<img src="./img/personal/about.png">-->
-            <i class="iconfont" style="color: #a3d128">&#xe629;</i>
+            <i class="iconfont" style="color: #ccc">&#xe629;</i>
             <p>骑手管理</p>
         </div>
         <div class="col-xs-4">
             <!--<img src="./img/personal/off.png">-->
-            <i class="iconfont" style="color: #eb4f39">&#xe618;</i>
+            <i class="iconfont" style="color: #ccc">&#xe618;</i>
             <p>账户管理</p>
         </div>
         <div class="col-xs-4" style="border-right: 0">
             <!--<img src="./img/personal/off.png">-->
-            <i class="iconfont" style="color: #35b68f">&#xe61f;</i>
+            <i class="iconfont" style="color: #ccc">&#xe61f;</i>
             <p>设置</p>
         </div>
-        <div class="col-xs-4" style="border-bottom: 0">
+        <div class="col-xs-4">
             <!--<img src="./img/personal/off.png">-->
-            <i class="iconfont" style="color: #f4c600">&#xe622;</i>
+            <i class="iconfont" style="color: #ccc">&#xe622;</i>
             <p>关于我们</p>
         </div>
     </div>

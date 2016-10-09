@@ -1,0 +1,67 @@
+<link rel="stylesheet" href="./css/business/user.css">
+<div class="content">
+    <div class="top" style="background: url('./img/business/business_user_backImg.png');background-size: 100%;216px">
+        <div>
+            <div class="head_img">
+                <div>
+                    <img src="./img/test1.jpg">
+                </div>
+
+                <div class="head_logo">
+                    <i class="iconfont" style="font-size: 14px;color: #e42121">&#xe619;</i>
+                </div>
+            </div>
+        </div>
+
+        <p style="font-size: 18px">{{userInfo.name}}</p>
+        <p style="font-size: 16px;margin: 0"><i class="iconfont">&#xe601;</i>{{userInfo.address}}</p>
+    </div>
+
+    <div class="content1_operation">
+        <div class="col-xs-4">
+            <!--<img src="./img/personal/dingdan.png">-->
+            <i class="iconfont" style="color: #00bb9c">&#xe612;</i>
+            <p>订单管理</p>
+        </div>
+        <!--<div class="col-xs-4">-->
+            <!--&lt;!&ndash;<img src="./img/personal/daifahuo.png">&ndash;&gt;-->
+            <!--<i class="iconfont" style="color: #f5c700">&#xe61a;</i>-->
+            <!--<p>去配送</p>-->
+        <!--</div>-->
+        <!--<div class="col-xs-4" style="border-right: 0">-->
+            <!--&lt;!&ndash;<img src="./img/personal/yifahuo.png">&ndash;&gt;-->
+            <!--<i class="iconfont" style="color: #ff9f31">&#xe61e;</i>-->
+            <!--<p>已结束</p>-->
+        <!--</div>-->
+        <div class="col-xs-4" ui-sref="business_upload">
+            <!--<img src="./img/personal/ok.png">-->
+            <i class="iconfont" style="color: #f4a500">&#xe617;</i>
+            <p>上传商品</p>
+        </div>
+        <div class="col-xs-4">
+            <!--<img src="./img/personal/address.png">-->
+            <i class="iconfont" style="color: #fd8701">&#xe61b;</i>
+            <p>商品管理</p>
+        </div>
+        <div class="col-xs-4">
+            <!--<img src="./img/personal/about.png">-->
+            <i class="iconfont" style="color: #a3d128">&#xe629;</i>
+            <p>骑手管理</p>
+        </div>
+        <div class="col-xs-4">
+            <!--<img src="./img/personal/off.png">-->
+            <i class="iconfont" style="color: #eb4f39">&#xe618;</i>
+            <p>账户管理</p>
+        </div>
+        <div class="col-xs-4" style="border-right: 0">
+            <!--<img src="./img/personal/off.png">-->
+            <i class="iconfont" style="color: #35b68f">&#xe61f;</i>
+            <p>设置</p>
+        </div>
+        <div class="col-xs-4" style="border-bottom: 0">
+            <!--<img src="./img/personal/off.png">-->
+            <i class="iconfont" style="color: #f4c600">&#xe622;</i>
+            <p>关于我们</p>
+        </div>
+    </div>
+</div>

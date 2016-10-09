@@ -2,7 +2,7 @@
  * Created by YCC on 2016/9/1.
  */
 // window.HOST = "http://192.168.1.92:8080/";
-window.HOST = "http://hq.nongjiaotx.cn/";
+window.HOST = "http://m.huoqilife.com/";
 
 window.API = {
     "BUSINESS":{
@@ -15,7 +15,18 @@ window.API = {
         
         "INFO":[window.HOST,"business/merchants/in"].join(""),    //商家信息
 
-        "UPLOAD":[window.HOST,"goods/upload"].join("")      //商家上传商品详情
+        "UPLOAD":[window.HOST,"goods/upload"].join(""),      //商家上传商品详情
+
+        "GET_PROTOCOL":[window.HOST,'business/certificate'].join(""),    //得到协议
+
+        "GET_BUSINESS_SCOPE":[window.HOST,'business/status'].join(""),     //得到经营范围
+
+        "GET_SALE_GOODS":[window.HOST,'goods/isMarketable'].join(""),     //获取上下架商品
+
+        "OFF_SALE_GOODS":[window.HOST,'goods/unIsMarketable'].join(""),     //下架商品
+
+        "UP_SALE_GOODS":[window.HOST,'goods/marketable'].join("")     //上架商品
+
     },
 
     "BUYER":{
@@ -56,6 +67,8 @@ window.API = {
         "ORDER_REFUND":[window.HOST,'order/refund'].join("")            //退款
     }
 };
+
+var my_openId = 'orjMgxOka1VtwtVleqI51lFr9-K0';
 
 var get_param = function (href, paraName) {
     var index = href.indexOf("?");
@@ -108,5 +121,3 @@ function handleNum(n){
     temp.push(temp[1].length);
     return temp
 }
-
-var my_openId = 'orjMgxOka1VtwtVleqI51lFr9-K0';

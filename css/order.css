@@ -92,6 +92,7 @@ html{
     color: #999;
 }
 .btn-self{
+    width:75px;
     padding: 8px;
     line-height: 1;
     border: 1px solid #e42121;
