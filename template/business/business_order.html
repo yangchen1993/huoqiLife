@@ -16,7 +16,7 @@
                 <span class="pull-right">{{v.createTime}}</span>
             </div>
             <div class="order_info" ng-click="surf_businessOrderDetails(v.id)">
-                <img height="100%" ng-src="http://io.huoqilife.com/img/{{v.orderList[0].orderImg}}">
+                <img height="100%" ng-src="{{v.orderList[0].orderImg}}">
                 <div class="shop_words">
                     <p>{{v.orderList[0].name}}</p>
                     <p>购买数量：{{v.orderList[0].quantity}}</p>

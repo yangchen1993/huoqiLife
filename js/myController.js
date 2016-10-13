@@ -56,10 +56,10 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
             lng = position.coords.longitude;
             console.log(lat + '-' + lng);
             var data_ = {
-                'lng': lng,
-                'lat': lat,
-                // 'lng': 104.0635,
-                // 'lat': 30.5488,
+                // 'lng': lng,
+                // 'lat': lat,
+                'lng': 104.0635,
+                'lat': 30.5488,
                 'type': type
             };
 
@@ -77,11 +77,41 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
         function showError(error) {
             switch (error.code) {
                 case error.PERMISSION_DENIED: {
-                    alert("用户拒绝对获取地理位置的请求");
+                    var data_ = {
+                        'lng': 104.0635,
+                        'lat': 30.5488,
+                        'type': type
+                    };
+
+                    /*请求附近商家*/
+                    $http.post(window.API.BUYER.NEAR_BY, data_).success(function (data) {
+                        console.log(data);
+                        $scope.results = data;
+                        for (var i = 0; i < data.length; i++) {
+                            var s = Math.floor(Math.random() * 3) + 1;
+                            $scope.results[i].shopImg = img_index + '-' + s + '.jpg';
+                        }
+                    });
+                    // alert("用户拒绝对获取地理位置的请求");
                     break;
                 }
                 case error.POSITION_UNAVAILABLE: {
-                    alert("位置信息是不可用的");
+                    var data_ = {
+                        'lng': 104.0635,
+                        'lat': 30.5488,
+                        'type': type
+                    };
+
+                    /*请求附近商家*/
+                    $http.post(window.API.BUYER.NEAR_BY, data_).success(function (data) {
+                        console.log(data);
+                        $scope.results = data;
+                        for (var i = 0; i < data.length; i++) {
+                            var s = Math.floor(Math.random() * 3) + 1;
+                            $scope.results[i].shopImg = img_index + '-' + s + '.jpg';
+                        }
+                    });
+                    // alert("位置信息是不可用的");
                     break;
                 }
                 case error.TIMEOUT: {
@@ -99,14 +129,136 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
     get_shopList("BS01");
 
     $scope.surf_shop = function (openId) {
-        location.href = "#/shop?openId=" + openId;
-    }
+        window.location.href = "http://web.huoqilife.com/#/shop?opensId=" + openId;
+    };
+
+    $http.post(window.API.BUYER.SHARE,{url:window.location.href}).success(function (data) {
+        console.log(data);
+        wx.config({
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: data.appId, // 必填，公众号的唯一标识
+            timestamp: data.timestamp, // 必填，生成签名的时间戳
+            nonceStr: data.noncestr, // 必填，生成签名的随机串
+            signature: data.signature, // 必填，签名
+            jsApiList: ['onMenuShareTimeline',
+                'onMenuShareAppMessage',
+                'onMenuShareQQ',
+                'onMenuShareWeibo',
+                'onMenuShareQZone'
+            ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        });
+        wx.ready(function() {
+            // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
+
+            wx.checkJsApi({
+                jsApiList: [
+                    'onMenuShareTimeline',
+                    'onMenuShareAppMessage',
+                    'onMenuShareQQ',
+                    'onMenuShareWeibo',
+                    'onMenuShareQZone'
+                ]
+            });
+
+            wx.onMenuShareTimeline({
+                title: '火气生活', // 分享标题
+                desc: '火气生活分享测试', // 分享描述
+                link: window.location.href, // 分享链接
+                imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
+                success: function() {
+                    alert('分享成功');
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function() {
+                    alert('分享失败');
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+            wx.onMenuShareAppMessage({
+                title: '火气生活', // 分享标题
+                desc: '火气生活分享测试', // 分享描述
+                link: window.location.href, // 分享链接
+                imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
+                success: function() {
+                    alert('分享成功');
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function() {
+                    alert('分享失败');
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+            wx.onMenuShareQQ({
+                title: '火气生活', // 分享标题
+                desc: '火气生活分享测试', // 分享描述
+                link: window.location.href, // 分享链接
+                imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
+                success: function() {
+                    alert('分享成功');
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function() {
+                    alert('分享失败');
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+            wx.onMenuShareWeibo({
+                title: '火气生活', // 分享标题
+                desc: '火气生活分享测试', // 分享描述
+                link: window.location.href, // 分享链接
+                imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
+                success: function() {
+                    alert('分享成功');
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function() {
+                    alert('分享失败');
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+            wx.onMenuShareQZone({
+                title: '火气生活', // 分享标题
+                desc: '火气生活分享测试', // 分享描述
+                link: window.location.href, // 分享链接
+                imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
+                success: function() {
+                    alert('分享成功');
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function() {
+                    alert('分享失败');
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+            wx.error(function(res) {
+
+                // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+
+            });
+        });
+    });
+
 }]);
 
-myController.controller('shopController', ['$scope', '$http', function ($scope, $http) {
+myController.controller('shopController', ['$scope', '$http','$cookieStore', function ($scope, $http,$cookieStore) {
+    var url = window.location.href;
+    //判断是否从分享链接跳转进来
+    if(url.indexOf('?from') != -1){
+        var my_url = url.split('#');
+        var my_urls = my_url[1].substring(my_url[1].indexOf('openId=')+7);
+        console.log(my_urls);
+        location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx662afd2f4b80d490&redirect_uri=http%3a%2f%2fm.huoqilife.com%2fwx%2fuser&response_type=code&scope=snsapi_userinfo&state=shop?"+my_urls+"#wechat_redirect"
+    }
+    //分享链接进来获取地址栏openId
+    if(url.indexOf('openId') != -1){
+        var openId = get_param(location.href, "openId");
+        $cookieStore.put('openId',openId);
+        console.log($cookieStore.get('openId'))
+    }
+
     $('title').text('店铺详情');
-    var openId = get_param(location.href, "openId");
-    $http.post(window.API.BUYER.GET_SHOP_DETAILS, {'openId': openId}).success(function (data) {
+    var opensId = get_param(location.href, "opensId");
+    $http.post(window.API.BUYER.GET_SHOP_DETAILS, {'openId': opensId}).success(function (data) {
         console.log(data);
         var saleGoods = [];
         _.map(data.goods, function (v) {
@@ -130,8 +282,128 @@ myController.controller('shopController', ['$scope', '$http', function ($scope, 
     var goodsImg_height = img_width * (2 / 3);
     $('.goods_panel img').css('height', goodsImg_height);
 
+
+    $http.post(window.API.BUYER.SHARE,{url:window.location.href}).success(function (data) {
+        console.log(data);
+        wx.config({
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: data.appId, // 必填，公众号的唯一标识
+            timestamp: data.timestamp, // 必填，生成签名的时间戳
+            nonceStr: data.noncestr, // 必填，生成签名的随机串
+            signature: data.signature, // 必填，签名
+            jsApiList: ['onMenuShareTimeline',
+                'onMenuShareAppMessage',
+                'onMenuShareQQ',
+                'onMenuShareWeibo',
+                'onMenuShareQZone'
+            ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        });
+        wx.ready(function() {
+            // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
+
+            wx.checkJsApi({
+                jsApiList: [
+                    'onMenuShareTimeline',
+                    'onMenuShareAppMessage',
+                    'onMenuShareQQ',
+                    'onMenuShareWeibo',
+                    'onMenuShareQZone'
+                ]
+            });
+
+            wx.onMenuShareTimeline({
+                title: '店铺详情', // 分享标题
+                desc: '火气生活分享测试', // 分享描述
+                link: window.location.href, // 分享链接
+                imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
+                success: function() {
+                    alert('分享成功');
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function() {
+                    alert('分享失败');
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+            wx.onMenuShareAppMessage({
+                title: '店铺详情', // 分享标题
+                desc: '火气生活分享测试', // 分享描述
+                link: window.location.href, // 分享链接
+                imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
+                success: function() {
+                    alert('分享成功');
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function() {
+                    alert('分享失败');
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+            wx.onMenuShareQQ({
+                title: '店铺详情', // 分享标题
+                desc: '火气生活分享测试', // 分享描述
+                link: window.location.href, // 分享链接
+                imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
+                success: function() {
+                    alert('分享成功');
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function() {
+                    alert('分享失败');
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+            wx.onMenuShareWeibo({
+                title: '店铺详情', // 分享标题
+                desc: '火气生活分享测试', // 分享描述
+                link: window.location.href, // 分享链接
+                imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
+                success: function() {
+                    alert('分享成功');
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function() {
+                    alert('分享失败');
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+            wx.onMenuShareQZone({
+                title: '店铺详情', // 分享标题
+                desc: '火气生活分享测试', // 分享描述
+                link: window.location.href, // 分享链接
+                imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
+                success: function() {
+                    alert('分享成功');
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function() {
+                    alert('分享失败');
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+            wx.error(function(res) {
+
+                // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+
+            });
+        });
+    });
+
 }]);
-myController.controller('shop_detailsController', ['$scope', '$http', function ($scope, $http) {
+myController.controller('shop_detailsController', ['$scope', '$http','$cookieStore', function ($scope, $http,$cookieStore) {
+    var url = window.location.href;
+    //判断是否从分享链接跳转进来
+    if(url.indexOf('?from') != -1){
+        var my_url = url.split('#');
+        location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx662afd2f4b80d490&redirect_uri=http%3a%2f%2fm.huoqilife.com%2fwx%2fuser&response_type=code&scope=snsapi_userinfo&state="+my_url[1].replace("/","")+"#wechat_redirect"
+    }
+    //分享链接进来获取地址栏openId
+    if(url.indexOf('openId') != -1){
+        var openId = get_param(location.href, "openId");
+        $cookieStore.put('openId',openId);
+        console.log($cookieStore.get('openId'))
+    }
+
     $('title').text('商品详情');
     var id = get_param(location.href, "id");
 
@@ -142,7 +414,7 @@ myController.controller('shop_detailsController', ['$scope', '$http', function (
     console.log($scope.results);
 
     $scope.run_shop = function (openId) {
-        location.href = '#/shop?openId=' + openId
+        location.href = '#/shop?opensId=' + openId
     };
 
     $scope.surf_orderConfirm = function () {
@@ -151,6 +423,113 @@ myController.controller('shop_detailsController', ['$scope', '$http', function (
 
     var goodsImg_height = $('.img_panel>img').width() * (2 / 3);
     $('.img_panel>img').css('height', goodsImg_height);
+
+
+    $http.post(window.API.BUYER.SHARE,{url:window.location.href}).success(function (data) {
+        console.log(data);
+        wx.config({
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: data.appId, // 必填，公众号的唯一标识
+            timestamp: data.timestamp, // 必填，生成签名的时间戳
+            nonceStr: data.noncestr, // 必填，生成签名的随机串
+            signature: data.signature, // 必填，签名
+            jsApiList: ['onMenuShareTimeline',
+                'onMenuShareAppMessage',
+                'onMenuShareQQ',
+                'onMenuShareWeibo',
+                'onMenuShareQZone'
+            ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        });
+        wx.ready(function() {
+            // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
+
+            wx.checkJsApi({
+                jsApiList: [
+                    'onMenuShareTimeline',
+                    'onMenuShareAppMessage',
+                    'onMenuShareQQ',
+                    'onMenuShareWeibo',
+                    'onMenuShareQZone'
+                ]
+            });
+
+            wx.onMenuShareTimeline({
+                title: '商品详情', // 分享标题
+                desc: '火气生活分享测试', // 分享描述
+                link: window.location.href, // 分享链接
+                imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
+                success: function() {
+                    alert('分享成功');
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function() {
+                    alert('分享失败');
+                    // 用户取消分享后执行的回调函数
+                }
+        });
+            wx.onMenuShareAppMessage({
+                title: '商品详情', // 分享标题
+                desc: '火气生活分享测试', // 分享描述
+                link: window.location.href, // 分享链接
+                imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
+                success: function() {
+                    alert('分享成功');
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function() {
+                    alert('分享失败');
+                    // 用户取消分享后执行的回调函数
+                }
+        });
+            wx.onMenuShareQQ({
+                title: '商品详情', // 分享标题
+                desc: '火气生活分享测试', // 分享描述
+                link: window.location.href, // 分享链接
+                imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
+                success: function() {
+                    alert('分享成功');
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function() {
+                    alert('分享失败');
+                    // 用户取消分享后执行的回调函数
+                }
+        });
+            wx.onMenuShareWeibo({
+                title: '商品详情', // 分享标题
+                desc: '火气生活分享测试', // 分享描述
+                link: window.location.href, // 分享链接
+                imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
+                success: function() {
+                    alert('分享成功');
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function() {
+                    alert('分享失败');
+                    // 用户取消分享后执行的回调函数
+                }
+        });
+            wx.onMenuShareQZone({
+                title: '商品详情', // 分享标题
+                desc: '火气生活分享测试', // 分享描述
+                link: window.location.href, // 分享链接
+                imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
+                success: function() {
+                    alert('分享成功');
+                    // 用户确认分享后执行的回调函数
+                },
+                cancel: function() {
+                    alert('分享失败');
+                    // 用户取消分享后执行的回调函数
+                }
+        });
+            wx.error(function(res) {
+
+                // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+
+            });
+        });
+    });
 }]);
 
 myController.controller('orderController', ['$scope', '$http', '$cookieStore', function ($scope, $http, $cookieStore) {

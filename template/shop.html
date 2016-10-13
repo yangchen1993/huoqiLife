@@ -19,7 +19,7 @@
     <div class="row goods_panel" style="margin: 0">
         <div class="col-xs-6" ng-repeat="v in goods">
             <div>
-                <img width="100%" height="110px" ng-src="http://io.huoqilife.com/img/{{v.img}}" ng-click="surf_shopDetails(v.id)">
+                <img width="100%" height="110px" ng-src="{{v.img}}" ng-click="surf_shopDetails(v.id)">
                 <p>{{v.name}}</p>
                 <div class="price_panel"><span>¥{{v.price}}</span><button class="btn btn-danger pull-right btn-self" ng-click="surf_orderConfirm(v.id)">立即购买</button></div>
             </div>

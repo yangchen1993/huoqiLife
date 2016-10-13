@@ -1,12 +1,11 @@
 /**
  * Created by YCC on 2016/9/1.
  */
-// window.HOST = "http://192.168.1.92:8080/";
-window.HOST = "http://m.huoqilife.com/";
+window.HOST = "http://192.168.1.92:8080/";
+// window.HOST = "http://m.huoqilife.com/";
 
 window.API = {
     "BUSINESS":{
-
         "GET_SMS":[window.HOST,"business/sms"].join(""),  //获取验证码
 
         "RUN_OPENID":[window.HOST,"wx/userDetail"].join(""),    //执行openID的链接
@@ -64,7 +63,9 @@ window.API = {
 
         "ORDERINFO_BY_ID":[window.HOST,'order/with/id'].join(""),      //获取已购买订单详情
 
-        "ORDER_REFUND":[window.HOST,'order/refund'].join("")            //退款
+        "ORDER_REFUND":[window.HOST,'order/refund'].join(""),            //退款
+
+        "SHARE":[window.HOST,'wx/share'].join("")     //微信分享
     }
 };
 
