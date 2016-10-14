@@ -48,6 +48,21 @@ myApp.config(function ($stateProvider,$urlRouterProvider) {
             templateUrl:'template/personal.html',
             controller:'personalController'
         })
+        .state('bang_phone',{
+            url:'/bang_phone',
+            templateUrl:'template/bang_phone.html',
+            controller:'bang_phoneController'
+        })
+        .state('suggestions',{
+            url:'/suggestions',
+            templateUrl:'template/suggestions.html',
+            controller:'suggestionsController'
+        })
+        .state('aboutUs',{
+            url:'/aboutUs',
+            templateUrl:'template/aboutUs.html',
+            controller:'aboutUsController'
+        })
         .state('new_address',{
             url:'/new_address',
             templateUrl:'template/new_address.html',

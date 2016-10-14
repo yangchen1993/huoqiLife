@@ -162,7 +162,7 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
 
             wx.onMenuShareTimeline({
                 title: '火气生活', // 分享标题
-                desc: '火气生活分享测试', // 分享描述
+                desc: '【火气生活】做您的生活管家！桶装水、液化气等日常用品随叫随到。赶紧来逛逛吧~', // 分享描述
                 link: window.location.href, // 分享链接
                 imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
                 success: function() {
@@ -176,7 +176,7 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
             });
             wx.onMenuShareAppMessage({
                 title: '火气生活', // 分享标题
-                desc: '火气生活分享测试', // 分享描述
+                desc: '【火气生活】做您的生活管家！桶装水、液化气等日常用品随叫随到。赶紧来逛逛吧~', // 分享描述
                 link: window.location.href, // 分享链接
                 imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
                 success: function() {
@@ -190,7 +190,7 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
             });
             wx.onMenuShareQQ({
                 title: '火气生活', // 分享标题
-                desc: '火气生活分享测试', // 分享描述
+                desc: '【火气生活】做您的生活管家！桶装水、液化气等日常用品随叫随到。赶紧来逛逛吧~', // 分享描述
                 link: window.location.href, // 分享链接
                 imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
                 success: function() {
@@ -204,7 +204,7 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
             });
             wx.onMenuShareWeibo({
                 title: '火气生活', // 分享标题
-                desc: '火气生活分享测试', // 分享描述
+                desc: '【火气生活】做您的生活管家！桶装水、液化气等日常用品随叫随到。赶紧来逛逛吧~', // 分享描述
                 link: window.location.href, // 分享链接
                 imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
                 success: function() {
@@ -218,7 +218,7 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
             });
             wx.onMenuShareQZone({
                 title: '火气生活', // 分享标题
-                desc: '火气生活分享测试', // 分享描述
+                desc: '【火气生活】做您的生活管家！桶装水、液化气等日常用品随叫随到。赶紧来逛逛吧~', // 分享描述
                 link: window.location.href, // 分享链接
                 imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
                 success: function() {
@@ -312,10 +312,10 @@ myController.controller('shopController', ['$scope', '$http','$cookieStore', fun
             });
 
             wx.onMenuShareTimeline({
-                title: '店铺详情', // 分享标题
-                desc: '火气生活分享测试', // 分享描述
+                title: $scope.shop.name, // 分享标题
+                desc: '【火气生活】这家店铺很赞，价格实惠，快来逛逛吧~', // 分享描述
                 link: window.location.href, // 分享链接
-                imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
+                imgUrl: $scope.shop.member.img, // 分享图标
                 success: function() {
                     alert('分享成功');
                     // 用户确认分享后执行的回调函数
@@ -326,10 +326,10 @@ myController.controller('shopController', ['$scope', '$http','$cookieStore', fun
                 }
             });
             wx.onMenuShareAppMessage({
-                title: '店铺详情', // 分享标题
-                desc: '火气生活分享测试', // 分享描述
+                title: $scope.shop.name, // 分享标题
+                desc: '【火气生活】这家店铺很赞，价格实惠，快来逛逛吧~', // 分享描述
                 link: window.location.href, // 分享链接
-                imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
+                imgUrl: $scope.shop.member.img, // 分享图标
                 success: function() {
                     alert('分享成功');
                     // 用户确认分享后执行的回调函数
@@ -340,10 +340,10 @@ myController.controller('shopController', ['$scope', '$http','$cookieStore', fun
                 }
             });
             wx.onMenuShareQQ({
-                title: '店铺详情', // 分享标题
-                desc: '火气生活分享测试', // 分享描述
+                title: $scope.shop.name, // 分享标题
+                desc: '【火气生活】这家店铺很赞，价格实惠，快来逛逛吧~', // 分享描述
                 link: window.location.href, // 分享链接
-                imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
+                imgUrl: $scope.shop.member.img, // 分享图标
                 success: function() {
                     alert('分享成功');
                     // 用户确认分享后执行的回调函数
@@ -354,10 +354,10 @@ myController.controller('shopController', ['$scope', '$http','$cookieStore', fun
                 }
             });
             wx.onMenuShareWeibo({
-                title: '店铺详情', // 分享标题
-                desc: '火气生活分享测试', // 分享描述
+                title: $scope.shop.name, // 分享标题
+                desc: '【火气生活】这家店铺很赞，价格实惠，快来逛逛吧~', // 分享描述
                 link: window.location.href, // 分享链接
-                imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
+                imgUrl: $scope.shop.member.img, // 分享图标
                 success: function() {
                     alert('分享成功');
                     // 用户确认分享后执行的回调函数
@@ -368,10 +368,10 @@ myController.controller('shopController', ['$scope', '$http','$cookieStore', fun
                 }
             });
             wx.onMenuShareQZone({
-                title: '店铺详情', // 分享标题
-                desc: '火气生活分享测试', // 分享描述
+                title: $scope.shop.name, // 分享标题
+                desc: '【火气生活】这家店铺很赞，价格实惠，快来逛逛吧~', // 分享描述
                 link: window.location.href, // 分享链接
-                imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
+                imgUrl: $scope.shop.member.img, // 分享图标
                 success: function() {
                     alert('分享成功');
                     // 用户确认分享后执行的回调函数
@@ -454,10 +454,10 @@ myController.controller('shop_detailsController', ['$scope', '$http','$cookieSto
             });
 
             wx.onMenuShareTimeline({
-                title: '商品详情', // 分享标题
-                desc: '火气生活分享测试', // 分享描述
+                title: $scope.results.name+'、'+$scope.results.price, // 分享标题
+                desc: '【火气生活】'+$scope.results.describe, // 分享描述
                 link: window.location.href, // 分享链接
-                imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
+                imgUrl: $scope.results.img, // 分享图标
                 success: function() {
                     alert('分享成功');
                     // 用户确认分享后执行的回调函数
@@ -468,10 +468,10 @@ myController.controller('shop_detailsController', ['$scope', '$http','$cookieSto
                 }
         });
             wx.onMenuShareAppMessage({
-                title: '商品详情', // 分享标题
-                desc: '火气生活分享测试', // 分享描述
+                title: $scope.results.name+'、'+$scope.results.price, // 分享标题
+                desc: '【火气生活】'+$scope.results.describe, // 分享描述
                 link: window.location.href, // 分享链接
-                imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
+                imgUrl: $scope.results.img, // 分享图标
                 success: function() {
                     alert('分享成功');
                     // 用户确认分享后执行的回调函数
@@ -482,10 +482,10 @@ myController.controller('shop_detailsController', ['$scope', '$http','$cookieSto
                 }
         });
             wx.onMenuShareQQ({
-                title: '商品详情', // 分享标题
-                desc: '火气生活分享测试', // 分享描述
+                title: $scope.results.name+'、'+$scope.results.price, // 分享标题
+                desc: '【火气生活】'+$scope.results.describe, // 分享描述
                 link: window.location.href, // 分享链接
-                imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
+                imgUrl: $scope.results.img, // 分享图标
                 success: function() {
                     alert('分享成功');
                     // 用户确认分享后执行的回调函数
@@ -496,10 +496,10 @@ myController.controller('shop_detailsController', ['$scope', '$http','$cookieSto
                 }
         });
             wx.onMenuShareWeibo({
-                title: '商品详情', // 分享标题
-                desc: '火气生活分享测试', // 分享描述
+                title: $scope.results.name+'、'+$scope.results.price, // 分享标题
+                desc: '【火气生活】'+$scope.results.describe, // 分享描述
                 link: window.location.href, // 分享链接
-                imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
+                imgUrl: $scope.results.img, // 分享图标
                 success: function() {
                     alert('分享成功');
                     // 用户确认分享后执行的回调函数
@@ -510,10 +510,10 @@ myController.controller('shop_detailsController', ['$scope', '$http','$cookieSto
                 }
         });
             wx.onMenuShareQZone({
-                title: '商品详情', // 分享标题
-                desc: '火气生活分享测试', // 分享描述
+                title: $scope.results.name+'、'+$scope.results.price, // 分享标题
+                desc: '【火气生活】'+$scope.results.describe, // 分享描述
                 link: window.location.href, // 分享链接
-                imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
+                imgUrl: $scope.results.img, // 分享图标
                 success: function() {
                     alert('分享成功');
                     // 用户确认分享后执行的回调函数
@@ -784,6 +784,82 @@ myController.controller('personalController', ['$scope', '$http', '$cookieStore'
         console.log(data);
         $scope.user = data;
     });
+}]);
+
+myController.controller('bang_phoneController', ['$scope', '$http', '$cookieStore', function ($scope, $http, $cookieStore) {
+    $scope.Vcode = "获取验证码";
+    $scope.get_sms = function(){
+        if(!$scope.tel){
+            alert("请输入手机号")
+        }
+        else if($scope.tel.length != 11){
+            alert('手机号码格式不正确！');
+        }
+        else{
+            $http.post(window.API.BUYER.GET_SMS,{'cellPhone':$scope.tel}).success(function(data){
+                console.log(data);
+                if(data.status == 200){
+                    var s = 90;
+                    var timer = $interval(function(){
+                        $scope.Vcode_disabled = true;
+                        $scope.Vcode = s+"s后可重发";
+                        console.log(s);
+                        if(s == 0){
+                            $interval.cancel(timer);
+                            $scope.Vcode_disabled = false;
+                            $scope.Vcode = "获取验证码";
+                        }
+                        s--;
+                    },1000);
+                }
+                if(data.status == 500){
+                    alert(data.message)
+                }
+            })
+                .error(function (data) {
+                    alert(data.message)
+                })
+        }
+    };
+
+    $scope.bang_submit = function(){
+        if($scope.tel && $scope.sms){
+            var data_ = {
+                'cellPhone': $scope.tel,
+                'code':$scope.sms,
+                'openId':$cookieStore.get('openId')
+            };
+            $http.post(window.API.BUYER.BANG_PHONE,data_).success(function(data){
+                console.log(data);
+                if(data.status == 200){
+                    alert(data.message);
+                    console.log(data);
+                }
+                if(data.status == 500){
+                    alert(data.message);
+                }
+            })
+                .error(function(data){
+                    console.log(data);
+                })
+        }
+        else {
+            alert('请完善填写信息')
+        }
+    }
+}]);
+
+myController.controller('suggestionsController', ['$scope', '$http', '$cookieStore', function ($scope, $http, $cookieStore) {
+    $scope.btn_suggestions = function (suggestion) {
+        var data_ = {
+            content:suggestion.text,
+            phone:suggestion.tel
+        };
+        $http.post(window.API.BUYER.SUGGESTIONS,data_).success(function (data) {
+            console.log(data);
+            alert(data.message)
+        })
+    }
 }]);
 
 myController.controller('new_addressController', ['$scope', '$http', '$rootScope', '$cookieStore', function ($scope, $http, $rootScope, $cookieStore) {

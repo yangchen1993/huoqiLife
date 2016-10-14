@@ -1,0 +1,24 @@
+<link rel="stylesheet" href="./css/bang_phone.css">
+<div class="content">
+    <img src="./img/personal/bang_phone_backImg.png" width="100%">
+    <div class="info_panel">
+        <input type="text" placeholder="请输入手机号码" ng-model="tel" maxlength="11">
+        <hr>
+        <div>
+            <input type="text" placeholder="请输入手机短信验证码" ng-model="sms">
+            <button class="btn btn-danger message_btn pull-right" ng-click="get_sms()" ng-disabled="Vcode_disabled">{{Vcode}}</button>
+        </div>
+    </div>
+
+    <div class="submit_btn">
+        <button class="btn btn-danger btn-block" ng-click="bang_submit()">确认</button>
+    </div>
+
+    <div class="desc_panel">
+        <p>绑定手机号码：</p>
+        <p>1.输入手机号，获取验证码，点击确认即刻绑定手机号。</p>
+        <p>2.绑定手机号，获得更多新人奖励。</p>
+        <p>3.还有更多其他特权等着你哦！</p>
+    </div>
+
+</div>

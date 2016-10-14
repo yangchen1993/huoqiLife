@@ -1,8 +1,8 @@
 /**
  * Created by YCC on 2016/9/1.
  */
-window.HOST = "http://192.168.1.92:8080/";
-// window.HOST = "http://m.huoqilife.com/";
+// window.HOST = "http://192.168.1.92:8080/";
+window.HOST = "http://m.huoqilife.com/";
 
 window.API = {
     "BUSINESS":{
@@ -65,7 +65,13 @@ window.API = {
 
         "ORDER_REFUND":[window.HOST,'order/refund'].join(""),            //退款
 
-        "SHARE":[window.HOST,'wx/share'].join("")     //微信分享
+        "SHARE":[window.HOST,'wx/share'].join(""),     //微信分享
+
+        "GET_SMS":[window.HOST,"memb/code"].join(""),  //获取验证码
+
+        "BANG_PHONE":[window.HOST,'memb/binding'].join(""),    //绑定手机
+
+        "SUGGESTIONS":[window.HOST,'memb/feedBack'].join("")    //提交意见
     }
 };
 

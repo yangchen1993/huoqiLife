@@ -1,0 +1,60 @@
+@media screen and (max-width: 341px){
+    .desc_panel{
+        margin: 30px 25px !important;
+    }
+    .bottom_block{
+        height:40px !important;
+    }
+    .info_panel input{
+        width:140px !important;
+    }
+}
+.content{
+    font-family: 微软雅黑;
+}
+.info_panel{
+    margin-top: 50px;
+    border-top: 1px solid #e4e1e1;
+    border-bottom: 1px solid #e4e1e1;
+}
+.info_panel input{
+    width:200px;
+    margin: 15px 0 15px 20px;
+    border: 0;
+}
+.info_panel hr{
+    margin: 0;
+    border-top: 1px solid #e4e1e1;
+}
+.message_btn{
+    /*display: inline-block;*/
+    /*padding: 7px 10px;*/
+    background-color: #e42121;
+    /*border-radius: 5px;*/
+    border-color: #e42121;
+    color:#fff;
+    margin: 8px 20px 8px 0 ;
+}
+.submit_btn{
+    margin: 30px 10px;
+}
+.submit_btn button{
+    background-color: #e42121;
+    border-color: #e42121;
+    font-size: 16px;
+}
+.desc_panel{
+    margin: 65px 25px;
+    color: #888;
+}
+.content-footer{
+    display: none;
+}
+.bottom_block{
+    height: 50px;
+    background-color: #f54b4b;
+}
+.desc_panel p{
+    margin-bottom: 5px;
+    font-size: 12px;
+}

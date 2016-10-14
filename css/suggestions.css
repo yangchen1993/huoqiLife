@@ -1,0 +1,44 @@
+.content{
+    font-family: 微软雅黑;
+}
+.content-footer{
+    display: none;
+}
+.content_text{
+    position: absolute;
+    width: 100%;
+    height: 60%;
+    background:url('../img/personal/suggesstions.png') no-repeat;
+    background-position: center;
+    border:0
+}
+.cut-line{
+    position: absolute;
+    top: 60%;
+    width: 100%;
+    height: 1%;
+    background-color: #e5e1e0;
+}
+.tel{
+    width:100%;
+    position: absolute;
+    top:61%;
+    padding: 15px;
+    border-bottom: 1px solid #e3e2e0;
+}
+.content input{
+    width: 100%;
+    border: 0;
+}
+.btn-submit{
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    padding:15px;
+    border-top:1px solid #e4e1e1;
+}
+.btn-submit button{
+    font-size: 16px;
+    border-color: #e42121;
+    background-color: #e42121;
+}

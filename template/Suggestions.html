@@ -1,0 +1,11 @@
+<link rel="stylesheet" href="./css/suggestions.css">
+<div class="content">
+    <textarea class="content_text" ng-model="suggestion.text"></textarea>
+    <div class="cut-line"></div>
+    <div class="tel">
+        <input placeholder="请输入您的联系电话（必填）" ng-model="suggestion.tel">
+    </div>
+    <div class="btn-submit">
+        <button class="btn btn-danger btn-block" ng-click="btn_suggestions(suggestion)">提交</button>
+    </div>
+</div>
