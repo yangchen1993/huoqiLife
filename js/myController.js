@@ -3,14 +3,16 @@
  */
 var myController = angular.module('myController', []);
 
-myController.controller('mainController', ['$scope', '$http', '$cookieStore', function ($scope, $http, $cookieStore) {
-    $('title').text('火气生活');
+myController.controller('indexController', ['$scope', '$http', '$cookieStore', function ($scope, $http, $cookieStore) {
     var url = location.href;
     var openId = get_param(url, "openId");
-    if (openId != "") {
+    if (openId) {
         $cookieStore.put('openId', openId);
     }
+}]);
 
+myController.controller('mainController', ['$scope', '$http', '$cookieStore', function ($scope, $http) {
+    $('title').text('火气生活');
     $('#myCarousel').carousel({
         interval: 3000
     });
@@ -24,23 +26,22 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
         $(this).find('i').css('color', '#e42220');
         $(this).css('border', '1px solid #e22220');
         var type = $(this).siblings('span')[0].innerText;
-        console.log(type);
         get_shopList(type);
     });
 
     function get_shopList(type) {
         var img_index = 1;
         if (type == 'BS01') {
-            img_index = 1
+            img_index = 1;
         }
         else if (type == 'BS02') {
-            img_index = 2
+            img_index = 2;
         }
         else if (type == 'BS03') {
-            img_index = 3
+            img_index = 3;
         }
         else {
-            img_index = 4
+            img_index = 4;
         }
 
         /*获取当前地理位置*/
@@ -54,7 +55,6 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
         function showPosition(position) {
             lat = position.coords.latitude;
             lng = position.coords.longitude;
-            console.log(lat + '-' + lng);
             var data_ = {
                 // 'lng': lng,
                 // 'lat': lat,
@@ -63,13 +63,24 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
                 'type': type
             };
 
+            /*请求推荐商家*/
+            $http.post(window.API.BUYER.NEAR_BY, {
+                'lng': 104.0635,
+                'lat': 30.5488,
+                'type': 'BS02'
+            }).success(function (data) {
+                console.log(data);
+                $scope.default_shop = _.where(data, {'name': '连沁桶装水经营部'})
+            });
+
             /*请求附近商家*/
             $http.post(window.API.BUYER.NEAR_BY, data_).success(function (data) {
                 console.log(data);
                 $scope.results = data;
                 for (var i = 0; i < data.length; i++) {
-                    var s = Math.floor(Math.random() * 3) + 1;
+                    var s = Math.floor(Math.random() * 6) + 1;
                     $scope.results[i].shopImg = img_index + '-' + s + '.jpg';
+                    $scope.results[i].backImg = 'url("./img/banner' + img_index + '-panel.png") no-repeat';
                 }
             });
         }
@@ -83,13 +94,24 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
                         'type': type
                     };
 
+                    /*请求推荐商家*/
+                    $http.post(window.API.BUYER.NEAR_BY, {
+                        'lng': 104.0635,
+                        'lat': 30.5488,
+                        'type': 'BS02'
+                    }).success(function (data) {
+                        console.log(data);
+                        $scope.default_shop = _.where(data, {'name': '连沁桶装水经营部'})
+                    });
+
                     /*请求附近商家*/
                     $http.post(window.API.BUYER.NEAR_BY, data_).success(function (data) {
                         console.log(data);
                         $scope.results = data;
                         for (var i = 0; i < data.length; i++) {
-                            var s = Math.floor(Math.random() * 3) + 1;
+                            var s = Math.floor(Math.random() * 6) + 1;
                             $scope.results[i].shopImg = img_index + '-' + s + '.jpg';
+                            $scope.results[i].backImg = 'url("./img/banner' + img_index + '-panel.png") no-repeat';
                         }
                     });
                     // alert("用户拒绝对获取地理位置的请求");
@@ -102,13 +124,24 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
                         'type': type
                     };
 
+                    /*请求推荐商家*/
+                    $http.post(window.API.BUYER.NEAR_BY, {
+                        'lng': 104.0635,
+                        'lat': 30.5488,
+                        'type': 'BS02'
+                    }).success(function (data) {
+                        console.log(data);
+                        $scope.default_shop = _.where(data, {'name': '连沁桶装水经营部'})
+                    });
+
                     /*请求附近商家*/
                     $http.post(window.API.BUYER.NEAR_BY, data_).success(function (data) {
                         console.log(data);
                         $scope.results = data;
                         for (var i = 0; i < data.length; i++) {
-                            var s = Math.floor(Math.random() * 3) + 1;
+                            var s = Math.floor(Math.random() * 6) + 1;
                             $scope.results[i].shopImg = img_index + '-' + s + '.jpg';
+                            $scope.results[i].backImg = 'url("./img/banner' + img_index + '-panel.png") no-repeat';
                         }
                     });
                     // alert("位置信息是不可用的");
@@ -129,10 +162,11 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
     get_shopList("BS01");
 
     $scope.surf_shop = function (openId) {
-        window.location.href = "http://web.huoqilife.com/#/shop?opensId=" + openId;
+        // window.location.href = "http://web.huoqilife.com/#/shop?opensId=" + openId;
+        window.location.href = "#/shop?opensId=" + openId;
     };
 
-    $http.post(window.API.BUYER.SHARE,{url:window.location.href}).success(function (data) {
+    $http.post(window.API.BUYER.SHARE, {url: window.location.href}).success(function (data) {
         console.log(data);
         wx.config({
             debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -147,7 +181,7 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
                 'onMenuShareQZone'
             ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
         });
-        wx.ready(function() {
+        wx.ready(function () {
             // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
 
             wx.checkJsApi({
@@ -165,11 +199,11 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
                 desc: '【火气生活】做您的生活管家！桶装水、液化气等日常用品随叫随到。赶紧来逛逛吧~', // 分享描述
                 link: window.location.href, // 分享链接
                 imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
-                success: function() {
+                success: function () {
                     alert('分享成功');
                     // 用户确认分享后执行的回调函数
                 },
-                cancel: function() {
+                cancel: function () {
                     alert('分享失败');
                     // 用户取消分享后执行的回调函数
                 }
@@ -179,11 +213,11 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
                 desc: '【火气生活】做您的生活管家！桶装水、液化气等日常用品随叫随到。赶紧来逛逛吧~', // 分享描述
                 link: window.location.href, // 分享链接
                 imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
-                success: function() {
+                success: function () {
                     alert('分享成功');
                     // 用户确认分享后执行的回调函数
                 },
-                cancel: function() {
+                cancel: function () {
                     alert('分享失败');
                     // 用户取消分享后执行的回调函数
                 }
@@ -193,11 +227,11 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
                 desc: '【火气生活】做您的生活管家！桶装水、液化气等日常用品随叫随到。赶紧来逛逛吧~', // 分享描述
                 link: window.location.href, // 分享链接
                 imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
-                success: function() {
+                success: function () {
                     alert('分享成功');
                     // 用户确认分享后执行的回调函数
                 },
-                cancel: function() {
+                cancel: function () {
                     alert('分享失败');
                     // 用户取消分享后执行的回调函数
                 }
@@ -207,11 +241,11 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
                 desc: '【火气生活】做您的生活管家！桶装水、液化气等日常用品随叫随到。赶紧来逛逛吧~', // 分享描述
                 link: window.location.href, // 分享链接
                 imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
-                success: function() {
+                success: function () {
                     alert('分享成功');
                     // 用户确认分享后执行的回调函数
                 },
-                cancel: function() {
+                cancel: function () {
                     alert('分享失败');
                     // 用户取消分享后执行的回调函数
                 }
@@ -221,16 +255,16 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
                 desc: '【火气生活】做您的生活管家！桶装水、液化气等日常用品随叫随到。赶紧来逛逛吧~', // 分享描述
                 link: window.location.href, // 分享链接
                 imgUrl: 'http://hqsh.oss-cn-shanghai.aliyuncs.com/goods/0cb041ad-da52-42e8-9118-941036d3cbeb.jpg', // 分享图标
-                success: function() {
+                success: function () {
                     alert('分享成功');
                     // 用户确认分享后执行的回调函数
                 },
-                cancel: function() {
+                cancel: function () {
                     alert('分享失败');
                     // 用户取消分享后执行的回调函数
                 }
             });
-            wx.error(function(res) {
+            wx.error(function (res) {
 
                 // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
 
@@ -240,24 +274,24 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
 
 }]);
 
-myController.controller('shopController', ['$scope', '$http','$cookieStore', function ($scope, $http,$cookieStore) {
+myController.controller('shopController', ['$scope', '$http', '$cookieStore', function ($scope, $http, $cookieStore) {
     var url = window.location.href;
     //判断是否从分享链接跳转进来
-    if(url.indexOf('?from') != -1){
+    if (url.indexOf('?from') != -1) {
         var my_url = url.split('#');
-        var my_urls = my_url[1].substring(my_url[1].indexOf('openId=')+7);
+        var my_urls = my_url[1].substring(my_url[1].indexOf('openId=') + 7);
         console.log(my_urls);
-        location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx662afd2f4b80d490&redirect_uri=http%3a%2f%2fm.huoqilife.com%2fwx%2fuser&response_type=code&scope=snsapi_userinfo&state=shop?"+my_urls+"#wechat_redirect"
+        location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx662afd2f4b80d490&redirect_uri=http%3a%2f%2fm.huoqilife.com%2fwx%2fuser&response_type=code&scope=snsapi_userinfo&state=shop?" + my_urls + "#wechat_redirect"
     }
     //分享链接进来获取地址栏openId
-    if(url.indexOf('openId') != -1){
-        var openId = get_param(location.href, "openId");
-        $cookieStore.put('openId',openId);
-        console.log($cookieStore.get('openId'))
-    }
+    // if(url.indexOf('openId') != -1){
+    //     var openId = get_param(location.href, "openId");
+    //     $cookieStore.put('openId',openId);
+    //     console.log($cookieStore.get('openId'))
+    // }
 
     $('title').text('店铺详情');
-    var opensId = get_param(location.href, "opensId");
+    var opensId = get_param(url, "opensId");
     $http.post(window.API.BUYER.GET_SHOP_DETAILS, {'openId': opensId}).success(function (data) {
         console.log(data);
         var saleGoods = [];
@@ -282,8 +316,7 @@ myController.controller('shopController', ['$scope', '$http','$cookieStore', fun
     var goodsImg_height = img_width * (2 / 3);
     $('.goods_panel img').css('height', goodsImg_height);
 
-
-    $http.post(window.API.BUYER.SHARE,{url:window.location.href}).success(function (data) {
+    $http.post(window.API.BUYER.SHARE, {url: window.location.href}).success(function (data) {
         console.log(data);
         wx.config({
             debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -298,7 +331,7 @@ myController.controller('shopController', ['$scope', '$http','$cookieStore', fun
                 'onMenuShareQZone'
             ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
         });
-        wx.ready(function() {
+        wx.ready(function () {
             // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
 
             wx.checkJsApi({
@@ -316,11 +349,11 @@ myController.controller('shopController', ['$scope', '$http','$cookieStore', fun
                 desc: '【火气生活】这家店铺很赞，价格实惠，快来逛逛吧~', // 分享描述
                 link: window.location.href, // 分享链接
                 imgUrl: $scope.shop.member.img, // 分享图标
-                success: function() {
+                success: function () {
                     alert('分享成功');
                     // 用户确认分享后执行的回调函数
                 },
-                cancel: function() {
+                cancel: function () {
                     alert('分享失败');
                     // 用户取消分享后执行的回调函数
                 }
@@ -330,11 +363,11 @@ myController.controller('shopController', ['$scope', '$http','$cookieStore', fun
                 desc: '【火气生活】这家店铺很赞，价格实惠，快来逛逛吧~', // 分享描述
                 link: window.location.href, // 分享链接
                 imgUrl: $scope.shop.member.img, // 分享图标
-                success: function() {
+                success: function () {
                     alert('分享成功');
                     // 用户确认分享后执行的回调函数
                 },
-                cancel: function() {
+                cancel: function () {
                     alert('分享失败');
                     // 用户取消分享后执行的回调函数
                 }
@@ -344,11 +377,11 @@ myController.controller('shopController', ['$scope', '$http','$cookieStore', fun
                 desc: '【火气生活】这家店铺很赞，价格实惠，快来逛逛吧~', // 分享描述
                 link: window.location.href, // 分享链接
                 imgUrl: $scope.shop.member.img, // 分享图标
-                success: function() {
+                success: function () {
                     alert('分享成功');
                     // 用户确认分享后执行的回调函数
                 },
-                cancel: function() {
+                cancel: function () {
                     alert('分享失败');
                     // 用户取消分享后执行的回调函数
                 }
@@ -358,11 +391,11 @@ myController.controller('shopController', ['$scope', '$http','$cookieStore', fun
                 desc: '【火气生活】这家店铺很赞，价格实惠，快来逛逛吧~', // 分享描述
                 link: window.location.href, // 分享链接
                 imgUrl: $scope.shop.member.img, // 分享图标
-                success: function() {
+                success: function () {
                     alert('分享成功');
                     // 用户确认分享后执行的回调函数
                 },
-                cancel: function() {
+                cancel: function () {
                     alert('分享失败');
                     // 用户取消分享后执行的回调函数
                 }
@@ -372,16 +405,16 @@ myController.controller('shopController', ['$scope', '$http','$cookieStore', fun
                 desc: '【火气生活】这家店铺很赞，价格实惠，快来逛逛吧~', // 分享描述
                 link: window.location.href, // 分享链接
                 imgUrl: $scope.shop.member.img, // 分享图标
-                success: function() {
+                success: function () {
                     alert('分享成功');
                     // 用户确认分享后执行的回调函数
                 },
-                cancel: function() {
+                cancel: function () {
                     alert('分享失败');
                     // 用户取消分享后执行的回调函数
                 }
             });
-            wx.error(function(res) {
+            wx.error(function (res) {
 
                 // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
 
@@ -390,19 +423,19 @@ myController.controller('shopController', ['$scope', '$http','$cookieStore', fun
     });
 
 }]);
-myController.controller('shop_detailsController', ['$scope', '$http','$cookieStore', function ($scope, $http,$cookieStore) {
+myController.controller('shop_detailsController', ['$scope', '$http', '$cookieStore', function ($scope, $http, $cookieStore) {
     var url = window.location.href;
     //判断是否从分享链接跳转进来
-    if(url.indexOf('?from') != -1){
+    if (url.indexOf('?from') != -1) {
         var my_url = url.split('#');
-        location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx662afd2f4b80d490&redirect_uri=http%3a%2f%2fm.huoqilife.com%2fwx%2fuser&response_type=code&scope=snsapi_userinfo&state="+my_url[1].replace("/","")+"#wechat_redirect"
+        location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx662afd2f4b80d490&redirect_uri=http%3a%2f%2fm.huoqilife.com%2fwx%2fuser&response_type=code&scope=snsapi_userinfo&state=" + my_url[1].replace("/", "") + "#wechat_redirect"
     }
     //分享链接进来获取地址栏openId
-    if(url.indexOf('openId') != -1){
-        var openId = get_param(location.href, "openId");
-        $cookieStore.put('openId',openId);
-        console.log($cookieStore.get('openId'))
-    }
+    // if(url.indexOf('openId') != -1){
+    //     var openId = get_param(location.href, "openId");
+    //     $cookieStore.put('openId',openId);
+    //     console.log($cookieStore.get('openId'))
+    // }
 
     $('title').text('商品详情');
     var id = get_param(location.href, "id");
@@ -411,7 +444,6 @@ myController.controller('shop_detailsController', ['$scope', '$http','$cookieSto
         console.log(data);
         $scope.results = data;
     });
-    console.log($scope.results);
 
     $scope.run_shop = function (openId) {
         location.href = '#/shop?opensId=' + openId
@@ -424,8 +456,7 @@ myController.controller('shop_detailsController', ['$scope', '$http','$cookieSto
     var goodsImg_height = $('.img_panel>img').width() * (2 / 3);
     $('.img_panel>img').css('height', goodsImg_height);
 
-
-    $http.post(window.API.BUYER.SHARE,{url:window.location.href}).success(function (data) {
+    $http.post(window.API.BUYER.SHARE, {url: window.location.href}).success(function (data) {
         console.log(data);
         wx.config({
             debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -440,7 +471,7 @@ myController.controller('shop_detailsController', ['$scope', '$http','$cookieSto
                 'onMenuShareQZone'
             ] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
         });
-        wx.ready(function() {
+        wx.ready(function () {
             // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
 
             wx.checkJsApi({
@@ -454,76 +485,76 @@ myController.controller('shop_detailsController', ['$scope', '$http','$cookieSto
             });
 
             wx.onMenuShareTimeline({
-                title: $scope.results.name+'、'+$scope.results.price, // 分享标题
-                desc: '【火气生活】'+$scope.results.describe, // 分享描述
+                title: $scope.results.name + '、' + $scope.results.price, // 分享标题
+                desc: '【火气生活】' + $scope.results.describe, // 分享描述
                 link: window.location.href, // 分享链接
                 imgUrl: $scope.results.img, // 分享图标
-                success: function() {
+                success: function () {
                     alert('分享成功');
                     // 用户确认分享后执行的回调函数
                 },
-                cancel: function() {
+                cancel: function () {
                     alert('分享失败');
                     // 用户取消分享后执行的回调函数
                 }
-        });
+            });
             wx.onMenuShareAppMessage({
-                title: $scope.results.name+'、'+$scope.results.price, // 分享标题
-                desc: '【火气生活】'+$scope.results.describe, // 分享描述
+                title: $scope.results.name + '、' + $scope.results.price, // 分享标题
+                desc: '【火气生活】' + $scope.results.describe, // 分享描述
                 link: window.location.href, // 分享链接
                 imgUrl: $scope.results.img, // 分享图标
-                success: function() {
+                success: function () {
                     alert('分享成功');
                     // 用户确认分享后执行的回调函数
                 },
-                cancel: function() {
+                cancel: function () {
                     alert('分享失败');
                     // 用户取消分享后执行的回调函数
                 }
-        });
+            });
             wx.onMenuShareQQ({
-                title: $scope.results.name+'、'+$scope.results.price, // 分享标题
-                desc: '【火气生活】'+$scope.results.describe, // 分享描述
+                title: $scope.results.name + '、' + $scope.results.price, // 分享标题
+                desc: '【火气生活】' + $scope.results.describe, // 分享描述
                 link: window.location.href, // 分享链接
                 imgUrl: $scope.results.img, // 分享图标
-                success: function() {
+                success: function () {
                     alert('分享成功');
                     // 用户确认分享后执行的回调函数
                 },
-                cancel: function() {
+                cancel: function () {
                     alert('分享失败');
                     // 用户取消分享后执行的回调函数
                 }
-        });
+            });
             wx.onMenuShareWeibo({
-                title: $scope.results.name+'、'+$scope.results.price, // 分享标题
-                desc: '【火气生活】'+$scope.results.describe, // 分享描述
+                title: $scope.results.name + '、' + $scope.results.price, // 分享标题
+                desc: '【火气生活】' + $scope.results.describe, // 分享描述
                 link: window.location.href, // 分享链接
                 imgUrl: $scope.results.img, // 分享图标
-                success: function() {
+                success: function () {
                     alert('分享成功');
                     // 用户确认分享后执行的回调函数
                 },
-                cancel: function() {
+                cancel: function () {
                     alert('分享失败');
                     // 用户取消分享后执行的回调函数
                 }
-        });
+            });
             wx.onMenuShareQZone({
-                title: $scope.results.name+'、'+$scope.results.price, // 分享标题
-                desc: '【火气生活】'+$scope.results.describe, // 分享描述
+                title: $scope.results.name + '、' + $scope.results.price, // 分享标题
+                desc: '【火气生活】' + $scope.results.describe, // 分享描述
                 link: window.location.href, // 分享链接
                 imgUrl: $scope.results.img, // 分享图标
-                success: function() {
+                success: function () {
                     alert('分享成功');
                     // 用户确认分享后执行的回调函数
                 },
-                cancel: function() {
+                cancel: function () {
                     alert('分享失败');
                     // 用户取消分享后执行的回调函数
                 }
-        });
-            wx.error(function(res) {
+            });
+            wx.error(function (res) {
 
                 // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
 
@@ -545,8 +576,6 @@ myController.controller('orderController', ['$scope', '$http', '$cookieStore', f
         get_orderInfo_by_state('OT01');
     }
 
-
-    console.log(openId);
     $('.nav_self div').click(function () {
         $(this).css({'color': '#e42121'}).siblings().css({'color': '#222'})
     });
@@ -614,11 +643,9 @@ myController.controller('orderController', ['$scope', '$http', '$cookieStore', f
 
     var wx_pay;
     $scope.pay = function (id, status) {
-        console.log(id);
         $http.post(window.API.BUYER.PAY_ORDER, {id: id}).success(function (data) {
             console.log(data);
             wx_pay = JSON.parse(data.result);
-            console.log(wx_pay);
             if (typeof WeixinJSBridge == "undefined") {
                 if (document.addEventListener) {
                     document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
@@ -648,6 +675,11 @@ myController.controller('orderController', ['$scope', '$http', '$cookieStore', f
             }
         );
     }
+
+    $('html').css('background-color', '#e4e1e1');
+    $scope.$on('$destroy', function () {
+        $('html').css('background-color', '#fff')
+    })
 }]);
 
 myController.controller('order_confirmController', ['$scope', '$http', '$cookieStore', '$rootScope', function ($scope, $http, $cookieStore, $rootScope) {
@@ -682,9 +714,15 @@ myController.controller('order_confirmController', ['$scope', '$http', '$cookieS
     }
     else {
         console.log($rootScope.select_address);
-        $('.show2').css('display', 'block');
-        $scope.default_address = $rootScope.select_address;
-        surfUrl = "#/address_manage?id=";
+        if ($rootScope.select_address) {
+            $('.show2').css('display', 'block');
+            $scope.default_address = $rootScope.select_address;
+            surfUrl = "#/address_manage?id=";
+        }
+        else {
+            $('.show1').css('display', 'block');
+            surfUrl = "#/new_address?formOrder_confirm&id=";
+        }
     }
 
     var onePrice = 0;
@@ -786,33 +824,48 @@ myController.controller('personalController', ['$scope', '$http', '$cookieStore'
     });
 }]);
 
-myController.controller('bang_phoneController', ['$scope', '$http', '$cookieStore', function ($scope, $http, $cookieStore) {
+myController.controller('bang_phoneController', ['$scope', '$http', '$cookieStore', '$interval', function ($scope, $http, $cookieStore, $interval) {
+    $http.post(window.API.BUYER.GET_IS_BANG, {openId: $cookieStore.get('openId')}).success(function (data) {
+        console.log(data);
+        $scope.phone = data.result;
+        if (data.message == "yes") {
+            $scope.isBing = 1;
+            $('title').text('手机解绑');
+        }
+        else {
+            $scope.isBing = 0;
+            $('title').text('绑定手机');
+        }
+    });
+    //绑定
     $scope.Vcode = "获取验证码";
-    $scope.get_sms = function(){
-        if(!$scope.tel){
+    $scope.get_sms = function () {
+        if (!$scope.tel) {
             alert("请输入手机号")
         }
-        else if($scope.tel.length != 11){
+        else if ($scope.tel.length != 11) {
             alert('手机号码格式不正确！');
         }
-        else{
-            $http.post(window.API.BUYER.GET_SMS,{'cellPhone':$scope.tel}).success(function(data){
+        else {
+            $http.post(window.API.BUYER.GET_SMS, {'cellPhone': $scope.tel}).success(function (data) {
                 console.log(data);
-                if(data.status == 200){
+                if (data.status == 200) {
                     var s = 90;
-                    var timer = $interval(function(){
+                    var timer = $interval(function () {
                         $scope.Vcode_disabled = true;
-                        $scope.Vcode = s+"s后可重发";
+                        $scope.sms_disabled = false;
+                        $scope.Vcode = s + "s后可重发";
                         console.log(s);
-                        if(s == 0){
+                        if (s == 0) {
                             $interval.cancel(timer);
                             $scope.Vcode_disabled = false;
+                            $scope.sms_disabled = true;
                             $scope.Vcode = "获取验证码";
                         }
                         s--;
-                    },1000);
+                    }, 1000);
                 }
-                if(data.status == 500){
+                if (data.status == 500) {
                     alert(data.message)
                 }
             })
@@ -822,44 +875,68 @@ myController.controller('bang_phoneController', ['$scope', '$http', '$cookieStor
         }
     };
 
-    $scope.bang_submit = function(){
-        if($scope.tel && $scope.sms){
+    $scope.bang_submit = function () {
+        if ($scope.tel && $scope.sms) {
             var data_ = {
                 'cellPhone': $scope.tel,
-                'code':$scope.sms,
-                'openId':$cookieStore.get('openId')
+                'code': $scope.sms,
+                'openId': $cookieStore.get('openId')
             };
-            $http.post(window.API.BUYER.BANG_PHONE,data_).success(function(data){
+            $http.post(window.API.BUYER.BANG_PHONE, data_).success(function (data) {
                 console.log(data);
-                if(data.status == 200){
+                if (data.status == 200) {
                     alert(data.message);
-                    console.log(data);
+                    location.reload();
                 }
-                if(data.status == 500){
+                if (data.status == 500) {
                     alert(data.message);
                 }
             })
-                .error(function(data){
+                .error(function (data) {
                     console.log(data);
                 })
         }
         else {
             alert('请完善填写信息')
         }
+    };
+
+    //解绑
+    $scope.btn_unBing = function () {
+        $http.post(window.API.BUYER.UN_BANG_PHONE, {openId: $cookieStore.get('openId')}).success(function (data) {
+            alert(data.message);
+            location.reload();
+        })
     }
 }]);
 
 myController.controller('suggestionsController', ['$scope', '$http', '$cookieStore', function ($scope, $http, $cookieStore) {
+    $('title').text('意见反馈');
     $scope.btn_suggestions = function (suggestion) {
-        var data_ = {
-            content:suggestion.text,
-            phone:suggestion.tel
-        };
-        $http.post(window.API.BUYER.SUGGESTIONS,data_).success(function (data) {
-            console.log(data);
-            alert(data.message)
-        })
-    }
+        if (suggestion.text && suggestion.tel) {
+            var data_ = {
+                content: suggestion.text,
+                phone: suggestion.tel
+            };
+            $http.post(window.API.BUYER.SUGGESTIONS, data_).success(function (data) {
+                console.log(data);
+                alert(data.message)
+            })
+        }
+        else {
+            alert('请完善必填信息！')
+        }
+    };
+
+    $('html').css('background-color', '#e4e1e1');
+    $scope.$on('$destroy', function () {
+        $('html').css('background-color', '#fff')
+    })
+
+}]);
+
+myController.controller('aboutUsController', ['$scope', '$http', '$cookieStore', function ($scope, $http, $cookieStore) {
+    $('title').text('关于我们');
 }]);
 
 myController.controller('new_addressController', ['$scope', '$http', '$rootScope', '$cookieStore', function ($scope, $http, $rootScope, $cookieStore) {
@@ -986,6 +1063,11 @@ myController.controller('new_addressController', ['$scope', '$http', '$rootScope
         }
     });
 
+    $('html').css('background-color', '#e4e1e1');
+    $scope.$on('$destroy', function () {
+        $('html').css('background-color', '#fff')
+    })
+
 }]);
 
 myController.controller('address_manageController', ['$scope', '$http', '$rootScope', '$cookieStore', function ($scope, $http, $rootScope, $cookieStore) {
@@ -994,7 +1076,7 @@ myController.controller('address_manageController', ['$scope', '$http', '$rootSc
     var index = location.href.indexOf('id');
     var id = location.href.substring(index + 3);
     $http.post(window.API.BUYER.GET_ADDRESS_LIST, {openId: openId}).success(function (data) {
-        console.log(data.length);
+        console.log(data);
         $scope.results = data;
         if (data.length == 0) {
             $('#no_addr').css('display', 'block')
@@ -1011,17 +1093,10 @@ myController.controller('address_manageController', ['$scope', '$http', '$rootSc
     $scope.serf_newAddress = function () {
         if (index == -1) {
             location.href = '#/new_address';
-            $scope.$on('$destroy', function () {
-
-            })
         }
         else {
             location.href = '#/new_address?id=' + id;
-            $scope.$on('$destroy', function () {
-
-            })
         }
-
     };
 
     $scope.serf_updateAddress = function (data) {

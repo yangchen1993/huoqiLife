@@ -55,15 +55,26 @@
     <div class="lines"></div>
 
     <div class="content1">
-        <p><i class="iconfont" style="color:#e42220;margin-top: -5px">&#xe601;</i>距离您最近</p>
+        <p><i class="iconfont">&#xe634;</i>为您推荐</p>
+        <div class="content1_top">
+            <img ng-src="./img/main/2-6.jpg">
+            <div class="default_shop">
+                <div id="triangle-left"></div>
+                <p ng-bind="default_shop[0].name"></p>
+                <p ng-bind="default_shop[0].cellPhone"></p>
+                <p ng-bind="default_shop[0].address"></p>
+            </div>
+        </div>
+
+        <p><i class="iconfont" style="margin-left: -2px">&#xe601;</i>距离您最近</p>
 
         <div class="content1_panel" ng-repeat="v in results" ng-click="surf_shop(v.openId)">
             <img ng-src="./img/main/{{v.shopImg}}">
             <div class="shadow_panel"></div>
-            <div class="words_panel">
+            <div class="words_panel" my-url="{{v.backImg}}">
                 <div class="tag_info">
                     <p>{{v.name}}</p>
-                    <p style="color: #fff">{{v.phone}}</p>
+                    <p style="color: #fff">{{v.cellPhone}}</p>
                     <p class="show_addr_panel">{{v.address}}</p>
                 </div>
             </div>

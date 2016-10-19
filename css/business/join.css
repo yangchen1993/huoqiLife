@@ -1,6 +1,6 @@
 @media screen and (max-width: 341px){
     .desc_panel{
-        margin: 30px 25px !important;
+        margin: 30px 25px 0 !important;
     }
     .bottom_block{
         height:40px !important;
@@ -19,7 +19,7 @@
 }
 .info_panel input{
     width:200px;
-    margin: 15px 0 15px 20px;
+    margin: 15px 0 15px 10px;
     border: 0;
 }
 .info_panel hr{
@@ -33,7 +33,7 @@
     /*border-radius: 5px;*/
     border-color: #e42121;
     color:#fff;
-    margin: 8px 20px 8px 0 ;
+    margin: 8px 10px 8px 0 ;
 }
 .submit_btn{
     margin: 30px 10px;
@@ -44,7 +44,7 @@
     font-size: 16px;
 }
 .desc_panel{
-    margin: 65px 25px;
+    margin: 65px 25px 0;
     color: #888;
 }
 .content-footer{

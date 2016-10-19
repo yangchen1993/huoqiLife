@@ -71,7 +71,11 @@ window.API = {
 
         "BANG_PHONE":[window.HOST,'memb/binding'].join(""),    //绑定手机
 
-        "SUGGESTIONS":[window.HOST,'memb/feedBack'].join("")    //提交意见
+        "UN_BANG_PHONE":[window.HOST,'memb/unbunding'].join(""),     //解绑手机
+
+        "SUGGESTIONS":[window.HOST,'memb/feedBack'].join(""),    //提交意见
+
+        "GET_IS_BANG":[window.HOST,'memb/isBinding'].join("")    //查询手机是否绑定
     }
 };
 
@@ -98,6 +102,20 @@ var get_param = function (href, paraName) {
 
     return result;
 };
+
+function convertBase64UrlToBlob(urlData) {
+
+    var bytes = window.atob(urlData.split(',')[1]);        //去掉url的头，并转换为byte
+
+    //处理异常,将ascii码小于0的转换为大于0
+    var ab = new ArrayBuffer(bytes.length);
+    var ia = new Uint8Array(ab);
+    for (var i = 0; i < bytes.length; i++) {
+        ia[i] = bytes.charCodeAt(i);
+    }
+
+    return new Blob([ab], {type: 'image/png'});
+}
 
 function plus(n,m){
     n=typeof n =="string"? n: n.toString();

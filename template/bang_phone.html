@@ -1,11 +1,11 @@
 <link rel="stylesheet" href="./css/bang_phone.css">
-<div class="content">
+<div class="content" ng-show="isBing == 0">
     <img src="./img/personal/bang_phone_backImg.png" width="100%">
     <div class="info_panel">
         <input type="text" placeholder="请输入手机号码" ng-model="tel" maxlength="11">
         <hr>
         <div>
-            <input type="text" placeholder="请输入手机短信验证码" ng-model="sms">
+            <input type="text" placeholder="请输入手机短信验证码" ng-model="sms" ng-disabled="sms_disabled">
             <button class="btn btn-danger message_btn pull-right" ng-click="get_sms()" ng-disabled="Vcode_disabled">{{Vcode}}</button>
         </div>
     </div>
@@ -21,4 +21,16 @@
         <p>3.还有更多其他特权等着你哦！</p>
     </div>
 
+</div>
+
+<div class="content text-center" ng-show="isBing == 1">
+    <i class="iconfont phone_logo">&#xe631;
+            <i class="iconfont">&#xe630;</i>
+    </i>
+    <p class="phone">你绑定的手机号为：<span ng-bind="phone"></span></p>
+    <p class="desc">已绑定手机账号，可在其他浏览器使用手机号码登录</p>
+
+    <div class="submit_btn1">
+        <button class="btn btn-danger btn-block" ng-click="btn_unBing()">手机解绑</button>
+    </div>
 </div>

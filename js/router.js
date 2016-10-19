@@ -1,7 +1,7 @@
 /**
  * Created by YCC on 2016/8/19.
  */
-var myApp = angular.module('myApp',['ui.router','ngCookies','myController','myFilter']);
+var myApp = angular.module('myApp',['ui.router','ngCookies','myController','myFilter','myDirective']);
 
 myApp.config(function ($stateProvider,$urlRouterProvider) {
 
@@ -22,11 +22,6 @@ myApp.config(function ($stateProvider,$urlRouterProvider) {
             url:'/shop_details',
             templateUrl:'template/shop_details.html',
             controller:'shop_detailsController'
-        })
-        .state('rider',{
-            url:'/rider',
-            templateUrl:'template/rider.html',
-            controller:'riderController'
         })
         .state('order',{
             url:'/order',
@@ -112,5 +107,11 @@ myApp.config(function ($stateProvider,$urlRouterProvider) {
             url:'/business_order_details',
             templateUrl:'template/business/business_order_details.html',
             controller:'business_order_detailsController'
+        })
+        .state('business_account_manage',{
+            url:'/business_account_manage',
+            templateUrl:'template/business/business_account_manage.html',
+            controller:'business_account_manageController'
         });
+
 });

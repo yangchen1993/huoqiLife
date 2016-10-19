@@ -5,6 +5,7 @@
 }
 .content {
     font-family: 微软雅黑;
+    margin-bottom: 65px;
 }
 
 .content-footer {
@@ -17,7 +18,7 @@
 }
 
 .cut_line {
-    height: 10px;
+    height: 6px;
     background-color: #e4e1e1;
 }
 
@@ -123,9 +124,11 @@ i {
 
 .submit_btn_static {
     width: 100%;
-    margin-top: 50px;
     padding: 15px;
     border-top: 1px solid #e4e1e1;
+    position: fixed;
+    background-color: #fff;
+    bottom: 0;
 }
 
 .submit_btn_float {
@@ -149,6 +152,6 @@ i {
 }
 .show2{
     display: none;
-    color:#222
-
+    color:#222;
+    margin-bottom: 0;
 }

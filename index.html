@@ -5,14 +5,15 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
     <title>火气生活</title>
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/cropper/dist/cropper.min.css">
     <style>
         @font-face {
             font-family: 'iconfont';
-            src: url('//at.alicdn.com/t/font_1474967738_5776544.eot'); /* IE9*/
-            src: url('//at.alicdn.com/t/font_1474967738_5776544.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-            url('//at.alicdn.com/t/font_1474967738_5776544.woff') format('woff'), /* chrome、firefox */
-            url('//at.alicdn.com/t/font_1474967738_5776544.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
-            url('//at.alicdn.com/t/font_1474967738_5776544.svg#iconfont') format('svg'); /* iOS 4.1- */
+            src: url('//at.alicdn.com/t/font_1476422564_6722178.eot'); /* IE9*/
+            src: url('//at.alicdn.com/t/font_1476422564_6722178.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+            url('//at.alicdn.com/t/font_1476422564_6722178.woff') format('woff'), /* chrome、firefox */
+            url('//at.alicdn.com/t/font_1476422564_6722178.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+            url('//at.alicdn.com/t/font_1476422564_6722178.svg#iconfont') format('svg'); /* iOS 4.1- */
         }
 
         .iconfont {
@@ -46,7 +47,7 @@
         }
     </style>
 </head>
-<body>
+<body ng-controller="indexController">
 
 <div ui-view="" class="router"></div>
 
@@ -61,10 +62,12 @@
 <script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
 <script src="bower_components/crypto-js/crypto-js.js"></script>
 <script src="bower_components/underscore/underscore-min.js"></script>
+<script src="bower_components/cropper/dist/cropper.min.js"></script>
 <script src="js/api.js"></script>
 <script src="js/router.js"></script>
 <script src="js/myController.js"></script>
 <script src="js/businessController.js"></script>
 <script src="js/filter.js"></script>
+<script src="js/directive.js"></script>
 </body>
 </html>

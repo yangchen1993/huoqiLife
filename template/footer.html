@@ -4,7 +4,7 @@
         <i class="iconfont">&#xe600;</i>
         <p>首页</p>
     </div>
-    <div class="col-xs-3 text-center" ui-sref="rider">
+    <div class="col-xs-3 text-center" id="surf_njl">
         <i class="iconfont">&#xe623;</i>
         <p>农家乐</p>
     </div>
@@ -21,7 +21,6 @@
     $(document).ready(function(){
         var index = _.indexOf(location.href,'#');
         var tag = location.href.substring(index+2);
-        console.log(tag);
         if(!tag.indexOf('main')){
             $('.content-footer>div:nth-child(1)').children().css('color','#e42121');
         }
@@ -37,6 +36,10 @@
         $('.content-footer>div').click(function(){
             $(this).siblings().children().css('color','#6e6d6d');
             $(this).children().css('color','#e42121');
-        })
+        });
+        $('#surf_njl').click(function () {
+            location.href = "http://wx.globalhexi.cn/weixin/auth/nearby.do";
+        });
+
     });
 </script>

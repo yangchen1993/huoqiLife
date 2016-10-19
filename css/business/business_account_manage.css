@@ -1,0 +1,60 @@
+.content-footer{
+    display: none;
+}
+.content{
+    font-family: 微软雅黑;
+}
+.top_panel{
+    height: 200px;
+    background-color: #e42121;
+    text-align: center;
+    padding-top: 73.5px;
+}
+.amount p{
+    color: #fff;
+    margin-bottom: 5px;
+    font-size: 16px;
+    margin: 0;
+}
+.amount p:nth-child(2){
+    font-size: 18px;
+    font-weight: bold;
+    font-size: 22px;
+}
+.center_panel{
+
+}
+.unContent{
+    margin-top: 150px;
+    text-align: center;
+    display: none;
+}
+.unContent .iconfont{
+    font-size: 50px;
+    color: #ccc;
+}
+.unContent i:nth-child(3){
+    font-size: 16px;
+    color: #b7b7b7;
+}
+.contents{
+    /*display: none;*/
+}
+.contents>div{
+    border-bottom:1px solid #e4e1e1;
+    padding: 10px;
+}
+.contents p{
+    margin: 0;
+    color: #5d5d5d;
+}
+.contents p:nth-child(2){
+    margin-bottom: 5px;
+    color: #000;
+}
+.money{
+    margin-top: 10px;
+    color:#e42121;
+    font-weight: bold;
+    font-size: 16px;
+}
