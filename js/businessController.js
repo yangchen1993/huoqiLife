@@ -3,13 +3,14 @@
  */
 myController.controller('business_joinController', ['$scope', '$http', '$cookieStore', '$interval', function ($scope, $http, $cookieStore, $interval) {
     $('title').text('商家入驻');
-    // var url = location.href;
-    // var openId = get_param(url, "openId");
+    var url = window.location.href;
+    var openId = get_param(url, "openId");
     // if (openId != "") {
     //     $cookieStore.put('openId', openId);
     // }
 
     $scope.Vcode = "获取验证码";
+    $scope.sms_disabled = true;
     $scope.get_sms = function () {
         if (!$scope.tel) {
             alert("请输入手机号")
@@ -28,12 +29,14 @@ myController.controller('business_joinController', ['$scope', '$http', '$cookieS
                     var s = 90;
                     var timer = $interval(function () {
                         $scope.Vcode_disabled = true;
-                        $scope.Vcode = s + "s后可重发";
+                        $scope.sms_disabled = false;
+                        $scope.Vcode = s + "s";
                         console.log(s);
                         if (s == 0) {
                             $interval.cancel(timer);
                             $scope.Vcode_disabled = false;
-                            $scope.Vcode = "获取验证码";
+                            $scope.sms_disabled = true;
+                            $scope.Vcode = "再次获取验证码";
                         }
                         s--;
                     }, 1000);
@@ -244,8 +247,10 @@ myController.controller('business_uploadController', ['$scope', '$http', '$cooki
     $scope.$on('$destroy', function () {     //离开页面$rootScope对象制空;
         $rootScope.goods1 = ""
     });
+
     setTimeout(function () {
         if ($rootScope.goods1) {
+            console.log($rootScope.goods1.img.split('#'))
             $('title').text('商品编辑');
             $scope.goods = $rootScope.goods1;
             $scope.myBtn = 1;
@@ -253,9 +258,13 @@ myController.controller('business_uploadController', ['$scope', '$http', '$cooki
             $scope.goods.desc = $rootScope.goods1.describe;
             $scope.goods.spec = $rootScope.goods1.weightUnit;
             $scope.goods.id = $rootScope.goods1.id;
-            $scope.goods.img = $rootScope.goods1.img;
+            // $scope.goods.img = $rootScope.goods1.img;
             $scope.goods.createTime = $rootScope.goods1.createTime;
-            $('#preview0').attr('src', 'http://io.huoqilife.com/img/' + $rootScope.goods1.img);
+            var imgList = $rootScope.goods1.img.split('#');
+            for(var i=0;i<imgList.length;i++){
+                $('#preview'+(i+1)).parent('div').css('display','inline');
+                $('#preview'+i).attr('src', imgList[i]);
+            }
             if ($rootScope.goods1.category = 'GC01') {
                 $scope.goods.type = '液化气';
                 $scope.spec1 = true;   //显示单位
@@ -347,7 +356,7 @@ myController.controller('business_uploadController', ['$scope', '$http', '$cooki
         //编辑商品
         if ($rootScope.goods1) {
             console.log(goods);
-            if ((goods.name && goods.type && goods.spec && goods.price) || goods == undefined) {
+            if (goods.name && goods.type && goods.specNum && goods.spec && goods.price) {
                 data_.append('name', goods.name);
                 if (goods.type == '液化气') {
                     data_.append('category', 'GC01');
@@ -385,7 +394,7 @@ myController.controller('business_uploadController', ['$scope', '$http', '$cooki
                     console.log(data);
                     $('#overlay').css('display', 'none');
                     alert("商品上传成功");
-                    location.href = "#/business_user?openId=" + $cookieStore.get('openId');
+                    window.location.href = "#/business_user?openId=" + $cookieStore.get('openId');
                 })
                     .error(function (data) {
                         console.log(data);
@@ -397,7 +406,7 @@ myController.controller('business_uploadController', ['$scope', '$http', '$cooki
         }
         //上传商品
         else {
-            if ((goods.name && goods.type && goods.spec && goods.price && file0) || goods == undefined) {
+            if (goods.name && goods.type && goods.specNum && goods.spec && goods.price && file0) {
                 data_.append('name', goods.name);
                 if (goods.type == '液化气') {
                     data_.append('category', 'GC01');
@@ -428,8 +437,8 @@ myController.controller('business_uploadController', ['$scope', '$http', '$cooki
                 $http.post(window.API.BUSINESS.UPLOAD, data_, {"headers": {"Content-Type": undefined}}).success(function (data) {
                     console.log(data);
                     $('#overlay').css('display', 'none');
-                    alert("商品上传成功");
-                    location.href = "#/business_user?openId=" + $cookieStore.get('openId');
+                    alert(data.message);
+                    window.location.href = "#/business_user?openId=" + $cookieStore.get('openId');
                 })
                     .error(function (data) {
                         console.log(data);
@@ -444,13 +453,12 @@ myController.controller('business_uploadController', ['$scope', '$http', '$cooki
 
 myController.controller('business_userController', ['$scope', '$http', '$cookieStore', function ($scope, $http, $cookieStore) {
     $('title').text('商家中心');
-    // var url = location.href;
-    // var openId = get_param(url, "openId");
-    // $cookieStore.put('openId', openId);
+    var url = window.location.href;
+    var openId = get_param(url, "openId");
     $http.post(window.API.BUYER.GET_SHOP_DETAILS, {'openId': openId}).success(function (data) {
         console.log(data);
         $scope.userInfo = data;
-    })
+    });
 
     $scope.surf_goods = function (id) {
         location.href = '#/business_goods?id=' + id;
@@ -498,18 +506,32 @@ myController.controller('business_orderController', ['$scope', '$http', '$cookie
         })
     };
 
-    $scope.surf_businessOrderDetails = function (id) {
-        location.href = "#/business_order_details?id=" + id;
+    $scope.surf_businessOrderDetails = function (id,status) {
+        location.href = "#/business_order_details?id=" + id + "&status=" + status;
     }
 }]);
 
 myController.controller('business_order_detailsController', ['$scope', '$http', '$cookieStore', function ($scope, $http, $cookieStore) {
     $('title').text('订单详情');
-    var id = get_param(location.href, 'id');
+    var url = window.location.href;
+    var id = get_param(url, 'id');
+    $scope.status = get_param(url,'status');
     $http.post(window.API.BUYER.ORDER_DETAILS, {id: id}).success(function (data) {
         console.log(data);
         $scope.results = data;
-    })
+    });
+
+    $scope.order_update = function (status) {
+        var data_ = {
+            id: id,
+            status: status
+        };
+        $http.post(window.API.BUYER.ORDER_UPDATE, data_).success(function (data) {
+            console.log(data);
+            alert(data.message);
+            $('.submit_btn button').attr('disabled','disabled')
+        });
+    };
 }]);
 
 
@@ -521,7 +543,7 @@ myController.controller('business_goodsController', ['$scope', '$http', '$cookie
         $(this).css({'color': '#e42121', 'background-color': '#fff'}).siblings().css({
             'color': '#fff',
             'background-color': '#e42121'
-        })
+        });
         get_goods(false)
     });
     $('.sale').click(function () {
@@ -564,3 +586,19 @@ myController.controller('business_goodsController', ['$scope', '$http', '$cookie
         })
     }
 }]);
+
+
+myController.controller('business_account_manageController', ['$scope', '$http', '$cookieStore', '$rootScope', function ($scope, $http, $cookieStore, $rootScope) {
+    var openId = $cookieStore.get('openId');
+    $http.post(window.API.BUSINESS.GET_ACCOUNT_INFO,{openId:openId}).success(function (data) {
+        console.log(data);
+        if(data.amount == 0){
+            $scope.account_panel = 0;
+        }
+        else{
+            $scope.account_panel = 1;
+        }
+        $scope.results = data;
+    })
+}]);
+

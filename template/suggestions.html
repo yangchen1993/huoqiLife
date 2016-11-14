@@ -4,7 +4,7 @@
     <textarea class="content_text" ng-model="suggestion.text" placeholder="您的宝贵意见，就是我们进步的源泉"></textarea>
     <div class="cut-line"></div>
     <div class="tel">
-        <input placeholder="请输入您的联系电话（必填）" ng-model="suggestion.tel">
+        <input placeholder="请输入您的联系电话（必填）" ng-model="suggestion.tel" maxlength="11">
     </div>
     <div class="btn-submit">
         <button class="btn btn-danger btn-block" ng-click="btn_suggestions(suggestion)">提交</button>

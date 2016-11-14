@@ -2,13 +2,13 @@
 <div class="content">
     <div class="info_panel">
         <div class="info_panel1">
-            <span>商品名称</span>
+            <span>商品名称<span style="color:#e42121">*</span></span>
             <input type="text" ng-model="goods.name">
         </div>
         <div class="info_panel1">
             <div class="dropdown">
                 <div class="dropdown-toggle" data-toggle="dropdown" id="goods_type">
-                    <span>商品分类</span>
+                    <span>商品分类<span style="color:#e42121">*</span></span>
                     <span style="margin-left: 15px;color:#555" ng-bind="goods.type"></span>
                     <i class="iconfont arrow_down pull-right">&#xe621;</i>
                 </div>
@@ -29,7 +29,7 @@
             </div>
         </div>
         <div class="info_panel1">
-            <span>商品规格</span>
+            <span>商品规格<span style="color:#e42121">*</span></span>
             <input type="text" ng-model="goods.specNum" style="width: 200px;">
             <div class="pull-right dropdown">
                 <span ng-show="spec1" ng-bind="goods.spec"></span>
@@ -42,11 +42,11 @@
             </div>
         </div>
         <div class="info_panel1" ng-show="spec_self == 2">
-            <span>请输入商品规格单位</span>
+            <span>请输入商品规格单位<span style="color:#e42121">*</span></span>
             <input type="text" style="width: 100px" ng-model="goods.spec">
         </div>
         <div class="info_panel1">
-            <span>商品现价</span>
+            <span>商品现价<span style="color:#e42121">*</span></span>
             <input type="text" ng-model="goods.price">
         </div>
         <!--<div class="cut_line"></div>-->
@@ -64,7 +64,7 @@
         <!--</div>-->
         <div class="cut_line"></div>
         <div class="info_panel1 img_panel" style="border: 0">
-            <p style="color: #555">上传商品展示图片</p>
+            <p style="color: #555">上传商品展示图片<span style="color:#e42121">*</span></p>
             <div class="row" id="aaa" style="margin: 0 -10px;">
                 <div class="col-xs-4">
                     <img src="./img/business/goods_default_img.png" id="preview0" class="previews"

@@ -23,6 +23,14 @@
         <div>
             <span>微信支付</span>
             <!--<i class="iconfont pull-right">&#xe615;</i>-->
+            <input type="radio" name="pay_way" class="pull-right" checked="checked" value="PT02">
+        </div>
+    </div>
+    <div class="pay_panel">
+        <div>
+            <span>货到付款</span>
+            <!--<i class="iconfont pull-right">&#xe615;</i>-->
+            <input type="radio" name="pay_way" class="pull-right" value="PT03">
         </div>
     </div>
     <div class="cut_line"></div>
@@ -32,7 +40,7 @@
     </div>
     <div class="cut_line"></div>
     <div>
-        <p class="shop_name"><i class="iconfont" style="margin-right: 5px">&#xe602;</i>{{goods.business.name}}<i style="color: #cccbcb" class="iconfont pull-right">&#xe611;</i></p>
+        <p class="shop_name" ng-click="run_shop(goods.business.openId)"><i class="iconfont" style="margin-right: 5px">&#xe602;</i>{{goods.business.name}}<i style="color: #cccbcb" class="iconfont pull-right">&#xe611;</i></p>
         <div class="goods_info_panel">
             <img class="goods_img" ng-src="{{goods.img}}">
             <div class="goods_info">

@@ -81,12 +81,12 @@
         <div>
             <span>送达时间</span>
             <div class="time_select pull-right">
-                <span>{{results.time}}</span>
+                <span ng-bind="results.time"></span>
             </div>
         </div>
     </div>
     <div class="pay_panel">
-        <div><span>微信支付</span></div>
+        <div><span ng-bind="results.payment | payWay"></span></div>
     </div>
     <div class="remarks_panel">
         <span>备注<span style="margin-left: 10px">{{results.remark}}</span></span>
@@ -99,5 +99,11 @@
     <!--<button class="btn btn-danger btn-block" ng-click="confirm_order()">确认下单</button>-->
     <!--</div>-->
 
-    <div style="height: 40px"></div>
+    <div class="submit_btn">
+        <button class="btn btn-danger btn-block" ng-click="pay()" ng-show="status == 'OT01'">去支付</button>
+        <button class="btn btn-danger btn-block" ng-click="order_refund()" ng-show="status == 'OT02'">取消订单</button>
+        <button class="btn btn-danger btn-block" ng-click="surf_orderConfirm()" ng-show="status == 'OT03'">再次购买</button>
+        <button class="btn btn-danger btn-block" ng-click="order_update()" ng-show="status == 'OT04'">确认收货</button>
+        <button class="btn btn-danger btn-block" ng-click="surf_orderConfirm()" ng-show="status == 'OT05'">再次购买</button>
+    </div>
 </div>

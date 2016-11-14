@@ -195,15 +195,18 @@ i {
 
 .submit_btn {
     width: 100%;
-    margin-top: 50px;
     padding: 15px;
     border-top: 1px solid #e4e1e1;
+    margin: 50px 0 0;
 }
 
 .submit_btn button {
     font-size: 16px;
     border-color: #e42121;
     background-color: #e42121;
+}
+
+.submit_btn button:nth-child(1),.submit_btn button:nth-child(2) {
 }
 
 .remarks_panel {

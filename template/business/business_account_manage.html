@@ -3,31 +3,20 @@
     <div class="top_panel">
         <div class="amount">
             <p>收益金额</p>
-            <p>20000</p>
+            <p ng-bind="results.amount"></p>
         </div>
     </div>
     <div class="center_panel">
-        <div class="unContent">
+        <div class="unContent" ng-show="account_panel == 0">
             <i class="iconfont">&#xe632;</i><br>
             <i>暂无收益</i>
         </div>
 
-        <div class="contents">
-            <div>
-                <span class="money pull-right">+300</span>
-                <p>订单编号：<span>125445656</span></p>
-                <p>2016-10-10 12:08:26</p>
-
-            </div>
-            <div>
-                <span class="money pull-right">+300</span>
-                <p>订单编号：<span>125445656</span></p>
-                <p>2016-10-10 12:08:26</p>
-            </div>
-            <div>
-                <span class="money pull-right">+300</span>
-                <p>订单编号：<span>125445656</span></p>
-                <p>2016-10-10 12:08:26</p>
+        <div class="contents" ng-show="account_panel == 1">
+            <div ng-repeat="v in results.orders">
+                <span class="money pull-right">+<span ng-bind="v.totalAmount"></span></span>
+                <p>订单编号：<span ng-bind="v.no">125445656</span></p>
+                <p ng-bind="v.obligationTime"></p>
             </div>
         </div>
     </div>

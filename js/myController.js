@@ -4,7 +4,7 @@
 var myController = angular.module('myController', []);
 
 myController.controller('indexController', ['$scope', '$http', '$cookieStore', function ($scope, $http, $cookieStore) {
-    var url = location.href;
+    var url = window.location.href;
     var openId = get_param(url, "openId");
     if (openId) {
         $cookieStore.put('openId', openId);
@@ -15,6 +15,11 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
     $('title').text('火气生活');
     $('#myCarousel').carousel({
         interval: 3000
+    });
+
+    $http.get(window.API.BUYER.GET_CAROUSELS).success(function (data) {
+        console.log(data);
+        $scope.carousels = JSON.parse(data.message);
     });
 
     $('.circle_logo').click(function () {
@@ -56,21 +61,26 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
             lat = position.coords.latitude;
             lng = position.coords.longitude;
             var data_ = {
-                // 'lng': lng,
-                // 'lat': lat,
-                'lng': 104.0635,
-                'lat': 30.5488,
+                'lng': lng,
+                'lat': lat,
+                // 'lng': 104.0635,
+                // 'lat': 30.5488,
                 'type': type
             };
 
             /*请求推荐商家*/
             $http.post(window.API.BUYER.NEAR_BY, {
-                'lng': 104.0635,
-                'lat': 30.5488,
+                'lng': lng,
+                'lat': lat,
+                // 'lng': 104.0635,
+                // 'lat': 30.5488,
                 'type': 'BS02'
             }).success(function (data) {
+                $scope.default_shop = [];
                 console.log(data);
-                $scope.default_shop = _.where(data, {'name': '连沁桶装水经营部'})
+                $scope.default_shop.push(_.where(data, {'name': '连沁桶装水经营部'})[0]);
+                $scope.default_shop.push(_.where(data, {'name': '高新区桶装水'})[0]);
+                console.log($scope.default_shop)
             });
 
             /*请求附近商家*/
@@ -88,63 +98,63 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
         function showError(error) {
             switch (error.code) {
                 case error.PERMISSION_DENIED: {
-                    var data_ = {
-                        'lng': 104.0635,
-                        'lat': 30.5488,
-                        'type': type
-                    };
-
-                    /*请求推荐商家*/
-                    $http.post(window.API.BUYER.NEAR_BY, {
-                        'lng': 104.0635,
-                        'lat': 30.5488,
-                        'type': 'BS02'
-                    }).success(function (data) {
-                        console.log(data);
-                        $scope.default_shop = _.where(data, {'name': '连沁桶装水经营部'})
-                    });
-
-                    /*请求附近商家*/
-                    $http.post(window.API.BUYER.NEAR_BY, data_).success(function (data) {
-                        console.log(data);
-                        $scope.results = data;
-                        for (var i = 0; i < data.length; i++) {
-                            var s = Math.floor(Math.random() * 6) + 1;
-                            $scope.results[i].shopImg = img_index + '-' + s + '.jpg';
-                            $scope.results[i].backImg = 'url("./img/banner' + img_index + '-panel.png") no-repeat';
-                        }
-                    });
-                    // alert("用户拒绝对获取地理位置的请求");
+                    // var data_ = {
+                    //     'lng': 104.0635,
+                    //     'lat': 30.5488,
+                    //     'type': type
+                    // };
+                    //
+                    // /*请求推荐商家*/
+                    // $http.post(window.API.BUYER.NEAR_BY, {
+                    //     'lng': 104.0635,
+                    //     'lat': 30.5488,
+                    //     'type': 'BS02'
+                    // }).success(function (data) {
+                    //     console.log(data);
+                    //     $scope.default_shop = _.where(data, {'name': '连沁桶装水经营部'})
+                    // });
+                    //
+                    // /*请求附近商家*/
+                    // $http.post(window.API.BUYER.NEAR_BY, data_).success(function (data) {
+                    //     console.log(data);
+                    //     $scope.results = data;
+                    //     for (var i = 0; i < data.length; i++) {
+                    //         var s = Math.floor(Math.random() * 6) + 1;
+                    //         $scope.results[i].shopImg = img_index + '-' + s + '.jpg';
+                    //         $scope.results[i].backImg = 'url("./img/banner' + img_index + '-panel.png") no-repeat';
+                    //     }
+                    // });
+                    alert("用户拒绝对获取地理位置的请求");
                     break;
                 }
                 case error.POSITION_UNAVAILABLE: {
-                    var data_ = {
-                        'lng': 104.0635,
-                        'lat': 30.5488,
-                        'type': type
-                    };
-
-                    /*请求推荐商家*/
-                    $http.post(window.API.BUYER.NEAR_BY, {
-                        'lng': 104.0635,
-                        'lat': 30.5488,
-                        'type': 'BS02'
-                    }).success(function (data) {
-                        console.log(data);
-                        $scope.default_shop = _.where(data, {'name': '连沁桶装水经营部'})
-                    });
-
-                    /*请求附近商家*/
-                    $http.post(window.API.BUYER.NEAR_BY, data_).success(function (data) {
-                        console.log(data);
-                        $scope.results = data;
-                        for (var i = 0; i < data.length; i++) {
-                            var s = Math.floor(Math.random() * 6) + 1;
-                            $scope.results[i].shopImg = img_index + '-' + s + '.jpg';
-                            $scope.results[i].backImg = 'url("./img/banner' + img_index + '-panel.png") no-repeat';
-                        }
-                    });
-                    // alert("位置信息是不可用的");
+                    // var data_ = {
+                    //     'lng': 104.0635,
+                    //     'lat': 30.5488,
+                    //     'type': type
+                    // };
+                    //
+                    // /*请求推荐商家*/
+                    // $http.post(window.API.BUYER.NEAR_BY, {
+                    //     'lng': 104.0635,
+                    //     'lat': 30.5488,
+                    //     'type': 'BS02'
+                    // }).success(function (data) {
+                    //     console.log(data);
+                    //     $scope.default_shop = _.where(data, {'name': '连沁桶装水经营部'})
+                    // });
+                    //
+                    // /*请求附近商家*/
+                    // $http.post(window.API.BUYER.NEAR_BY, data_).success(function (data) {
+                    //     console.log(data);
+                    //     $scope.results = data;
+                    //     for (var i = 0; i < data.length; i++) {
+                    //         var s = Math.floor(Math.random() * 6) + 1;
+                    //         $scope.results[i].shopImg = img_index + '-' + s + '.jpg';
+                    //         $scope.results[i].backImg = 'url("./img/banner' + img_index + '-panel.png") no-repeat';
+                    //     }
+                    // });
+                    alert("位置信息是不可用的");
                     break;
                 }
                 case error.TIMEOUT: {
@@ -161,9 +171,9 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
 
     get_shopList("BS01");
 
-    $scope.surf_shop = function (openId) {
+    $scope.surf_shop = function (opensId) {
         // window.location.href = "http://web.huoqilife.com/#/shop?opensId=" + openId;
-        window.location.href = "#/shop?opensId=" + openId;
+        window.location.href = "#/shop?opensId=" + opensId;
     };
 
     $http.post(window.API.BUYER.SHARE, {url: window.location.href}).success(function (data) {
@@ -265,9 +275,7 @@ myController.controller('mainController', ['$scope', '$http', '$cookieStore', fu
                 }
             });
             wx.error(function (res) {
-
                 // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
-
             });
         });
     });
@@ -312,9 +320,9 @@ myController.controller('shopController', ['$scope', '$http', '$cookieStore', fu
         location.href = '#/order_confirm?id=' + id
     };
 
-    var img_width = window.width / 2 - 20;
-    var goodsImg_height = img_width * (2 / 3);
-    $('.goods_panel img').css('height', goodsImg_height);
+    // var img_width = window.width / 2 - 20;
+    // var goodsImg_height = img_width * (2 / 3);
+    // $('.goods_panel img').css('height', goodsImg_height);
 
     $http.post(window.API.BUYER.SHARE, {url: window.location.href}).success(function (data) {
         console.log(data);
@@ -415,9 +423,7 @@ myController.controller('shopController', ['$scope', '$http', '$cookieStore', fu
                 }
             });
             wx.error(function (res) {
-
                 // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
-
             });
         });
     });
@@ -563,14 +569,14 @@ myController.controller('shop_detailsController', ['$scope', '$http', '$cookieSt
     });
 }]);
 
-myController.controller('orderController', ['$scope', '$http', '$cookieStore', function ($scope, $http, $cookieStore) {
+myController.controller('orderController', ['$scope', '$http', '$cookieStore','$rootScope', function ($scope, $http, $cookieStore,$rootScope) {
     $('title').text('订单状态');
     var openId = $cookieStore.get('openId');
     var tag = location.href.indexOf('formOrder_confirm');
     if (tag != -1) {
         get_orderInfo_by_state('OT02');
         $('.nav_self div:nth-child(2)').css('color', '#e42121');
-        $('.div_hk').animate({'margin-left': '22%'});
+        $('.div_hk').animate({'margin-left': '28%'});
     }
     else {
         get_orderInfo_by_state('OT01');
@@ -580,7 +586,7 @@ myController.controller('orderController', ['$scope', '$http', '$cookieStore', f
         $(this).css({'color': '#e42121'}).siblings().css({'color': '#222'})
     });
     $scope.move_hk = function (i, status) {
-        $('.div_hk').animate({'margin-left': ((i - 1) * 20 + 2) + '%'});
+        $('.div_hk').animate({'margin-left': ((i - 1) * 25 + 3) + '%'});
         get_orderInfo_by_state(status);
     };
 
@@ -637,8 +643,9 @@ myController.controller('orderController', ['$scope', '$http', '$cookieStore', f
         location.href = '#/order_confirm?id=' + id
     };
 
-    $scope.surf_orderDetails = function (id) {
-        location.href = "#/order_details?id=" + id;
+    $scope.surf_orderDetails = function (id,status,data) {
+        $rootScope.orderInfo = data;
+        location.href = "#/order_details?id=" + id + "&status=" + status;
     };
 
     var wx_pay;
@@ -746,6 +753,7 @@ myController.controller('order_confirmController', ['$scope', '$http', '$cookieS
     };
 
     $scope.confirm_order = function () {
+        var pay_way = $('input[name="pay_way"]:checked').val();
         var data_ = {
             totalAmount: $scope.goods.price,
             initiator: openId,   // 用户openId
@@ -759,29 +767,35 @@ myController.controller('order_confirmController', ['$scope', '$http', '$cookieS
                 quantity: $scope.num,
                 orderImg: $scope.goods.img
             },
-            goodId: $scope.goods.id
+            goodId: $scope.goods.id,
+            payment: pay_way
         };
         $http.post(window.API.BUYER.ADD_ORDER, data_).success(function (data) {
+            if(data.status == 200){
+                if(pay_way == 'PT02'){
+                    wx_pay = JSON.parse(data.result);
+                    if (typeof WeixinJSBridge == "undefined") {
+                        if (document.addEventListener) {
+                            document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+                        } else if (document.attachEvent) {
+                            document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+                            document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+                        }
+                    } else {
+                        onBridgeReady();
+                    }
+                }
+                if(pay_way == 'PT03'){
+                    location.href = '#/order?formOrder_confirm';
+                }
+            }
             if (data.status == 500) {
                 alert(data.message)
-            }
-            wx_pay = JSON.parse(data.result);
-            console.log(wx_pay);
-            if (typeof WeixinJSBridge == "undefined") {
-                if (document.addEventListener) {
-                    document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
-                } else if (document.attachEvent) {
-                    document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
-                    document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
-                }
-            } else {
-                onBridgeReady();
             }
         });
     };
 
     var wx_pay;
-
     function onBridgeReady() {
         WeixinJSBridge.invoke(
             'getBrandWCPayRequest', {
@@ -803,16 +817,89 @@ myController.controller('order_confirmController', ['$scope', '$http', '$cookieS
 
     $scope.surf_addressManage = function () {
         location.href = surfUrl + id;
-    }
+    };
+
+    $scope.run_shop = function (openId) {
+        location.href = '#/shop?opensId=' + openId
+    };
 }]);
 
-myController.controller('order_detailsController', ['$scope', '$http', '$cookieStore', function ($scope, $http, $cookieStore) {
+myController.controller('order_detailsController', ['$scope', '$http', '$rootScope', function ($scope, $http, $rootScope) {
     $('title').text('订单详情');
-    var id = get_param(location.href, 'id');
+    var url = window.location.href;
+    var id = get_param(url, 'id');
+    $scope.status = get_param(url,'status');
+    console.log($scope.status);
+
     $http.post(window.API.BUYER.ORDER_DETAILS, {id: id}).success(function (data) {
         console.log(data);
         $scope.results = data;
-    })
+    });
+
+    var wx_pay;
+    $scope.pay = function () {
+        $http.post(window.API.BUYER.PAY_ORDER, {id: id}).success(function (data) {
+            console.log(data);
+            if(data.status == 500){
+                alert(data.message)
+            }
+            wx_pay = JSON.parse(data.result);
+            if (typeof WeixinJSBridge == "undefined") {
+                if (document.addEventListener) {
+                    document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+                } else if (document.attachEvent) {
+                    document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+                    document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+                }
+            } else {
+                onBridgeReady();
+            }
+        });
+    };
+    function onBridgeReady() {
+        WeixinJSBridge.invoke(
+            'getBrandWCPayRequest', {
+                "appId": wx_pay.appId,     //公众号名称，由商户传入
+                "timeStamp": wx_pay.timeStamp,         //时间戳，自1970年以来的秒数
+                "nonceStr": wx_pay.nonceStr, //随机串
+                "package": wx_pay.package,
+                "signType": wx_pay.signType,         //微信签名方式：
+                "paySign": wx_pay.paySign //微信签名
+            },
+            function (res) {
+                if (res.err_msg == "get_brand_wcpay_request:ok") {
+                    $('.submit_btn button').attr('disabled','disabled')
+                }
+            }
+        );
+    }
+
+    $scope.order_refund = function () {
+        var data_ = {
+            id: id,
+            wxOrderId: $rootScope.orderInfo.wxOrderId,
+            wxRefuseId: $rootScope.orderInfo.wxRefuseId,
+            totalAmount: $rootScope.orderInfo.totalAmount
+        };
+        console.log(data_);
+        $http.post(window.API.BUYER.ORDER_REFUND, data_).success(function (data) {
+            console.log(data);
+            alert(data.message);
+            $('.submit_btn button').attr('disabled','disabled')
+        })
+    };
+
+    $scope.surf_orderConfirm = function () {
+        location.href = '#/order_confirm?id=' + $rootScope.orderInfo.productId;
+    };
+
+    $scope.order_update = function () {
+        $http.post(window.API.BUYER.ORDER_GET_CONFIRM, {id: id}).success(function (data) {
+            console.log(data);
+            alert(data.message);
+            $('.submit_btn button').attr('disabled','disabled')
+        })
+    };
 }]);
 
 myController.controller('personalController', ['$scope', '$http', '$cookieStore', function ($scope, $http, $cookieStore) {
@@ -839,12 +926,13 @@ myController.controller('bang_phoneController', ['$scope', '$http', '$cookieStor
     });
     //绑定
     $scope.Vcode = "获取验证码";
+    $scope.sms_disabled = true;
     $scope.get_sms = function () {
         if (!$scope.tel) {
             alert("请输入手机号")
         }
         else if ($scope.tel.length != 11) {
-            alert('手机号码格式不正确！');
+            alert('手机号不正确，请重新输入');
         }
         else {
             $http.post(window.API.BUYER.GET_SMS, {'cellPhone': $scope.tel}).success(function (data) {
@@ -854,13 +942,13 @@ myController.controller('bang_phoneController', ['$scope', '$http', '$cookieStor
                     var timer = $interval(function () {
                         $scope.Vcode_disabled = true;
                         $scope.sms_disabled = false;
-                        $scope.Vcode = s + "s后可重发";
+                        $scope.Vcode = s + "s";
                         console.log(s);
                         if (s == 0) {
                             $interval.cancel(timer);
                             $scope.Vcode_disabled = false;
                             $scope.sms_disabled = true;
-                            $scope.Vcode = "获取验证码";
+                            $scope.Vcode = "再次获取验证码";
                         }
                         s--;
                     }, 1000);
@@ -886,7 +974,7 @@ myController.controller('bang_phoneController', ['$scope', '$http', '$cookieStor
                 console.log(data);
                 if (data.status == 200) {
                     alert(data.message);
-                    location.reload();
+                    window.location.href = '#/personal';
                 }
                 if (data.status == 500) {
                     alert(data.message);
@@ -903,10 +991,11 @@ myController.controller('bang_phoneController', ['$scope', '$http', '$cookieStor
 
     //解绑
     $scope.btn_unBing = function () {
-        $http.post(window.API.BUYER.UN_BANG_PHONE, {openId: $cookieStore.get('openId')}).success(function (data) {
-            alert(data.message);
-            location.reload();
-        })
+        if(confirm("是否解绑已有手机号码？")){
+            $http.post(window.API.BUYER.UN_BANG_PHONE, {openId: $cookieStore.get('openId')}).success(function (data) {
+                window.location.href = '#/personal';
+            })
+        }
     }
 }]);
 
@@ -920,7 +1009,8 @@ myController.controller('suggestionsController', ['$scope', '$http', '$cookieSto
             };
             $http.post(window.API.BUYER.SUGGESTIONS, data_).success(function (data) {
                 console.log(data);
-                alert(data.message)
+                alert(data.message);
+                window.location.href = '#/personal'
             })
         }
         else {
@@ -937,10 +1027,16 @@ myController.controller('suggestionsController', ['$scope', '$http', '$cookieSto
 
 myController.controller('aboutUsController', ['$scope', '$http', '$cookieStore', function ($scope, $http, $cookieStore) {
     $('title').text('关于我们');
+    $http.get(window.API.BUYER.ABOUT_US).success(function (data) {
+        console.log(JSON.parse(data.message));
+        var content = JSON.parse(data.message).content;
+        $('.content').append(content)
+    })
 }]);
 
 myController.controller('new_addressController', ['$scope', '$http', '$rootScope', '$cookieStore', function ($scope, $http, $rootScope, $cookieStore) {
     // 兼容苹果下拉
+    var url = window.location.href;
     $('.arrow_down').click(function () {
         if ($(this).parent('div').hasClass('open')) {
             $(this).parent('div').addClass('open')
@@ -949,13 +1045,13 @@ myController.controller('new_addressController', ['$scope', '$http', '$rootScope
             $(this).parent('div').removeClass('open')
         }
     });
-    var id = get_param(location.href, 'id');
+    var id = get_param(url, 'id');
     var openId = $cookieStore.get('openId');
     $scope.$on('$destroy', function () {
         $rootScope.myAddress = "";
     });
 
-    var tag = location.href.indexOf('formOrder_confirm');
+    var tag = url.indexOf('formOrder_confirm');
 
     //修改地址
     if ($rootScope.myAddress) {
@@ -968,8 +1064,8 @@ myController.controller('new_addressController', ['$scope', '$http', '$rootScope
         if ($rootScope.myAddress.isDef) {
             $('.default').css('color', '#e42121');
         }
-        $scope.submit = function (data) {
 
+        $scope.submit = function (data) {
             var data_ = angular.copy(data);
             data_.id = address_id;
             if ($('.default').css('color') == "rgb(204, 203, 203)") {
@@ -986,7 +1082,12 @@ myController.controller('new_addressController', ['$scope', '$http', '$rootScope
                 $http.post(window.API.BUYER.UPDATE_ADDRESS, data_).success(function (data) {
                     console.log(data);
                     alert(data.message);
-                    location.href = '#/address_manage?formOrder_confirm';
+                    if(id){
+                        location.href = '#/address_manage?id=' + id;
+                    }
+                    else{
+                        location.href = '#/address_manage';
+                    }
                 })
             }
             else {
@@ -1100,8 +1201,15 @@ myController.controller('address_manageController', ['$scope', '$http', '$rootSc
     };
 
     $scope.serf_updateAddress = function (data) {
-        location.href = '#/new_address';
-        $rootScope.myAddress = data;
+        if(index == -1){
+            location.href = '#/new_address';
+            $rootScope.myAddress = data;
+        }
+        else{
+            location.href = '#/new_address?id=' + id;
+            $rootScope.myAddress = data;
+        }
+
     };
 
     $scope.delete_address = function (id) {

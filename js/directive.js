@@ -7,7 +7,6 @@ myDirective.directive('myUrl',function () {
     return{
         restrict:'AE',
         link:function (scope,element,attrs) {
-            console.log(attrs.myUrl);
             element.css({'background':attrs.myUrl,'background-size': '300px 148px'})
         }
     }

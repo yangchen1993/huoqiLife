@@ -24,6 +24,9 @@
     .show_addr_panel{
         padding: 0 10px !important;
     }
+    .default_shop{
+        font-size: 12px !important;
+    }
 }
 
 
@@ -85,37 +88,43 @@
 }
 
 .content1_top{
-    border-top:1px solid #e4e1e1;
-    border-bottom:1px solid #e4e1e1;
-    display: table-cell;
+    display: table;
     position: relative;
 }
-.content1_top>img{
-    width:50% !important;
+.recommend_shop>div{
     float: left;
+    width: 49%;
 }
-
-.default_shop{
-    width: 50%;
-    float: left;
-    font-size: 12px;
-    padding: 5px;
-}
-.default_shop p{
+.recommend_shop p{
+    padding:5px 10px;
     margin: 0;
 }
-#triangle-left {
-    width: 0;
-    height: 0;
-    border-top: 10px solid transparent;
-    border-right: 10px solid #fff;
-    border-bottom: 10px solid transparent;
-    position: absolute;
-    left:50%;
-    margin-left: -10px;
-    top:50%;
-    margin-top: -10px;
+.recommend_shop strong{
+    margin-right: 4px;
 }
+
+
+/*.default_shop{*/
+    /*width: 50%;*/
+    /*float: left;*/
+    /*font-size: 14px;*/
+    /*padding: 5px;*/
+/*}*/
+/*.default_shop p{*/
+    /*margin: 0;*/
+/*}*/
+/*#triangle-left {*/
+    /*width: 0;*/
+    /*height: 0;*/
+    /*border-top: 10px solid transparent;*/
+    /*border-right: 10px solid #fff;*/
+    /*border-bottom: 10px solid transparent;*/
+    /*position: absolute;*/
+    /*left:50%;*/
+    /*margin-left: -10px;*/
+    /*top:50%;*/
+    /*margin-top: -10px;*/
+/*}*/
 
 .content1_panel {
     position: relative;

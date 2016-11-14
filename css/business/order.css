@@ -92,6 +92,9 @@ html{
     padding:0 15px;
     background-color: #eeeded;
 }
+.order_op>div{
+    display: inline-block;
+}
 .order_op span{
     color: #999;
 }
@@ -102,6 +105,14 @@ html{
     display: inline-block;
     border-radius: 5px;
     text-align: center;
+}
+
+.btn-self:nth-child(1){
+    color: #e42121;
+}
+.btn-self:nth-child(2){
+    color: #fff;
+    background-color: #e42121
 }
 .cut_line{
     height:6px;

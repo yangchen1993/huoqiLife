@@ -5,7 +5,7 @@
         <input type="text" placeholder="请输入手机号码" ng-model="tel" maxlength="11">
         <hr>
         <div>
-            <input type="text" placeholder="请输入手机短信验证码" ng-model="sms" ng-disabled="sms_disabled">
+            <input type="text" placeholder="请输入手机短信验证码" ng-model="sms" ng-readonly="sms_disabled">
             <button class="btn btn-danger message_btn pull-right" ng-click="get_sms()" ng-disabled="Vcode_disabled">{{Vcode}}</button>
         </div>
     </div>

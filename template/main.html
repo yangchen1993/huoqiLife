@@ -3,20 +3,12 @@
     <div id="myCarousel" class="carousel slide">
         <!-- 轮播（Carousel）指标 -->
         <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1"></li>
-            <li data-target="#myCarousel" data-slide-to="2"></li>
+            <li data-target="#myCarousel" data-slide-to="{{$index}}" ng-repeat="v in carousels" ng-class="{'active':$index == 0}"></li>
         </ol>
         <!-- 轮播（Carousel）项目 -->
         <div class="carousel-inner">
-            <div class="item active">
-                <img src="./img/carousel-1.png">
-            </div>
-            <div class="item">
-                <img src="./img/carousel-2.jpg">
-            </div>
-            <div class="item">
-                <img src="./img/carousel-3.jpg">
+            <div class="item" ng-repeat="v in carousels" ng-class="{'active':$index == 0}">
+                <img src="./img/carousel-1.png" ng-src="{{v.url}}">
             </div>
         </div>
     </div>
@@ -57,16 +49,29 @@
     <div class="content1">
         <p><i class="iconfont">&#xe634;</i>为您推荐</p>
         <div class="content1_top">
-            <img ng-src="./img/main/2-6.jpg">
-            <div class="default_shop">
-                <div id="triangle-left"></div>
-                <p ng-bind="default_shop[0].name"></p>
-                <p ng-bind="default_shop[0].cellPhone"></p>
-                <p ng-bind="default_shop[0].address"></p>
+            <!--<img ng-src="./img/main/2-6.jpg">-->
+            <!--<div class="default_shop">-->
+                <!--<div id="triangle-left"></div>-->
+                <!--<p ng-bind="default_shop[0].name"></p>-->
+                <!--<p ng-bind="default_shop[0].cellPhone"></p>-->
+                <!--<p ng-bind="default_shop[0].address"></p>-->
+            <!--</div>-->
+
+            <div class="recommend_shop">
+                <div ng-click="surf_shop(default_shop[0].openId)">
+                    <img ng-src="./img/main/2-6.jpg">
+                    <p><strong>·</strong><span ng-bind="default_shop[0].name"></span></p>
+                </div>
+                <div ng-click="surf_shop(default_shop[1].openId)" style="margin-left: 2%">
+                    <img ng-src="./img/main/2-5.jpg">
+                    <p><strong>·</strong><span ng-bind="default_shop[1].name"></span></p>
+                </div>
             </div>
         </div>
 
-        <p><i class="iconfont" style="margin-left: -2px">&#xe601;</i>距离您最近</p>
+        <div class="lines"></div>
+
+        <p><i class="iconfont" style="margin-left: -2px">&#xe601;</i>附近店铺</p>
 
         <div class="content1_panel" ng-repeat="v in results" ng-click="surf_shop(v.openId)">
             <img ng-src="./img/main/{{v.shopImg}}">
